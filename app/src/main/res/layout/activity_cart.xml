@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginHorizontal="30dp"
+    tools:context=".CartActivity">
+
+    <RelativeLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:minHeight="670dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp">
+
+        <TextView
+            android:id="@+id/cartText"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Cart"
+            android:textAlignment="center"
+            android:textSize="40sp"
+            />
+
+        <RelativeLayout
+            android:id="@+id/cartEmptyLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/cartText"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="80dp">
+
+            <ImageView
+                android:id="@+id/cartImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                app:srcCompat="@drawable/shopping_cart" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/cart_empty"
+                android:layout_below="@id/cartImage"
+                android:textAlignment="center"
+                android:textSize="30sp"
+                android:lineSpacingExtra="10dp"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/checkoutLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginHorizontal="15dp">
+
+            <RelativeLayout
+                android:id="@+id/totalLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp">
+
+                <TextView
+                    android:id="@+id/cartTotal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="$000.00 NZD" 
+                    android:textSize="20sp"
+                    android:layout_alignParentEnd="true"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" 
+                    android:text="Total"
+                    android:textSize="20sp"
+                    android:textAlignment="viewEnd"/>
+
+            </RelativeLayout>
+            
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/totalLayout"
+                android:text="Checkout"
+                android:textAllCaps="false"
+                android:padding="15dp"
+                />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+
+</ScrollView>

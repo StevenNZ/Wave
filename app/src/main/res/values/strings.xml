@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Initial</string>
+    <string name="wishlist_empty">Looking empty here... \n Go favourite some albums!</string>
+    <string name="cart_empty">Looking empty here... \n Go add some albums!</string>
 </resources>
