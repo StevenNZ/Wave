@@ -10,50 +10,69 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class CategoryAdapter extends ArrayAdapter {
+public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHolder> {
 
     int mLayoutID;
     List<Category> mCategories;
     Context mContext;
 
-
-    public CategoryAdapter(@NonNull Context context, int resource, @NonNull List objects) {
-        super(context, resource, objects);
+    public CategoryAdapter(Context context, int resource, @NonNull List objects){
         mLayoutID = resource;
         mCategories = objects;
         mContext  = context;
     }
 
-
     @NonNull
     @Override
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        //Get a reference to the current ListView item
-        View currentListViewItem = convertView;
+    //inflates each individual layout
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        // Check if the existing view is being reused, otherwise inflate the view
-        if (currentListViewItem == null) {
-            currentListViewItem = LayoutInflater.from(getContext()).inflate(mLayoutID, parent, false);
-        }
-        //Get the category object for the current position
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.category_list_item, parent, false);
+        return new ViewHolder(view);
+    }
+
+    //binding of all the data to each widget
+    @Override
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        // Get the data for the current position
+
         Category currentCategory = mCategories.get(position);
 
-        //Set the attributed of list_view_number_item views
-        ImageView categoryImageView = (ImageView) currentListViewItem.findViewById(R.id.category_image);
-        int i = mContext.getResources().getIdentifier(
-                currentCategory.getCategoryImage(), "drawable",
-                mContext.getPackageName());
+        String categoryName = currentCategory.getCategoryName();
+        String categoryImageName = currentCategory.getCategoryImage();
 
-        //Setting the category Image
-        categoryImageView.setImageResource(i);
+        // Set the category name
+        holder.categoryTextView.setText(categoryName);
 
-        TextView categoryTextView = (TextView) currentListViewItem.findViewById(R.id.category_text);
-        categoryTextView.setText(currentCategory.getCategoryName());
+        // Get the resource ID of the category image
+        int imageResourceID = mContext.getResources().getIdentifier(
+                categoryImageName, "drawable", mContext.getPackageName());
 
-
-        return currentListViewItem;
+        // Set the category image
+        holder.categoryImageView.setImageResource(imageResourceID);
     }
+
+
+    @Override
+    public int getItemCount() {
+        return mCategories.size();
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
+        ImageView categoryImageView;
+        TextView categoryTextView;
+
+        public ViewHolder(View itemView) {
+            super(itemView);
+            categoryImageView = itemView.findViewById(R.id.category_image);
+            categoryTextView = itemView.findViewById(R.id.category_text);
+        }
+    }
+
+
 }

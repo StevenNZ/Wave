@@ -20,9 +20,15 @@ public class MainActivity extends AppCompatActivity {
 
 
         List<Category> categoryList = DataProvider.getCategories();
-        CategoryAdapter itemsAdapter = new CategoryAdapter (this, R.layout.category_list_item, categoryList);
-        ListView recyclerView = findViewById(R.id.category_recycler_view);
+        RecyclerView recyclerView = findViewById(R.id.category_recycler_view);
+        // Set up the RecyclerView with a LinearLayoutManager
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        recyclerView.setLayoutManager(layoutManager);
+        CategoryAdapter itemsAdapter = new CategoryAdapter(this, R.layout.category_list_item, categoryList);
+
+        // Set the adapter for the RecyclerView
         recyclerView.setAdapter(itemsAdapter);
+        layoutManager.scrollToPositionWithOffset(1, recyclerView.getHeight() / 2);
 
 
 
