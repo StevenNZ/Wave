@@ -106,6 +106,8 @@ public class RegisterActivity extends AppCompatActivity {
                     Toast.makeText(getBaseContext(), task.getException().getMessage(), Toast.LENGTH_LONG).show();
                 }
                 mAuth.signOut();
+                Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                startActivity(intent);
             }
         });
     }
