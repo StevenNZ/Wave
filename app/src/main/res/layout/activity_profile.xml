@@ -17,7 +17,7 @@
             android:id="@+id/profile"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="Wishlist"
+            android:text="Profile"
             android:textAlignment="center"
             android:textSize="40sp"
             />
@@ -43,6 +43,7 @@
                 android:layout_marginBottom="10dp"/>
 
             <Button
+                android:id="@+id/signoutBtn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/profileUsername"
