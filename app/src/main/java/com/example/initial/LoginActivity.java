@@ -34,6 +34,8 @@ public class LoginActivity extends AppCompatActivity {
         EditText emailField = findViewById(R.id.emailField);
         EditText passwordField = findViewById(R.id.passwordField);
 
+        mAuth = FirebaseAuth.getInstance();
+
         registerLink.setOnClickListener(v -> {
             Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
             startActivity(intent);
