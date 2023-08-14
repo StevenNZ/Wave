@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
@@ -28,7 +29,14 @@ public class MainActivity extends AppCompatActivity {
 
         // Set the adapter for the RecyclerView
         recyclerView.setAdapter(itemsAdapter);
-        layoutManager.scrollToPositionWithOffset(1, recyclerView.getHeight() / 2);
+        int recyclerViewWidth = recyclerView.getWidth();
+
+        layoutManager.scrollToPositionWithOffset(0,  recyclerViewWidth);
+
+        List<Popular> popularList = PopularDataProvider.getPopular();
+        PopularAdaptor popularAdapter = new PopularAdaptor (this, R.layout.popular_list_item, popularList);
+        ListView listView = findViewById(R.id.popular_list_view);
+        listView.setAdapter(popularAdapter);
 
 
 
