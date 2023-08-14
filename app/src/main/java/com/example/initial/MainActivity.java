@@ -6,10 +6,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import java.util.List;
@@ -22,7 +18,7 @@ public class MainActivity extends AppCompatActivity implements CategoryRecyclerI
         setContentView(R.layout.activity_main);
 
 
-        List<Category> categoryList = DataProvider.getCategories();
+        List<Category> categoryList = CategoryDataProvider.getCategories();
         RecyclerView recyclerView = findViewById(R.id.category_recycler_view);
         // Set up the RecyclerView with a LinearLayoutManager
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
@@ -49,6 +45,9 @@ public class MainActivity extends AppCompatActivity implements CategoryRecyclerI
     public void onItemClick(int position) {
 
         Intent resultIntent = new Intent(this, ResultActivity.class);
+
+        //this is where you get the code to get the category they clicked on using the getters
+
 
         startActivity(resultIntent);
 
