@@ -1,5 +1,7 @@
 package entities;
 
+import androidx.annotation.Nullable;
+
 import java.util.List;
 
 public class Category {
@@ -14,7 +16,7 @@ public class Category {
     private String imageURL;
     private String blurb;
 
-    /*
+    /**
      * Constructor for Category class
      * @param categoryID
      * @param categoryName
@@ -42,7 +44,7 @@ public class Category {
         this.blurb = blurb;
     }
 
-    /*
+    /**
      * Getter for categoryID
      * @return categoryID
      */
@@ -50,7 +52,7 @@ public class Category {
         return categoryID;
     }
 
-    /*
+    /**
      * Getter for categoryName
      * @return categoryName
      */
@@ -58,7 +60,7 @@ public class Category {
         return categoryName;
     }
 
-    /*
+    /**
      * Getter for description
      * @return description
      */
@@ -66,7 +68,7 @@ public class Category {
         return description;
     }
 
-    /*
+    /**
      * Getter for subcategoriesList
      * @return subcategoriesList
      */
@@ -74,7 +76,7 @@ public class Category {
         return subcategoriesList;
     }
 
-    /*
+    /**
      * Getter for artistIDList
      * @return artistIDList
      */
@@ -82,7 +84,7 @@ public class Category {
         return artistIDList;
     }
 
-    /*
+    /**
      * Getter for discographyIDList
      * @return discographyIDList
      */
@@ -90,7 +92,7 @@ public class Category {
         return discographyIDList;
     }
 
-    /*
+    /**
      * Getter for origin
      * @return origin
      */
@@ -98,7 +100,7 @@ public class Category {
         return origin;
     }
 
-    /*
+    /**
      * Getter for era
      * @return era
      */
@@ -106,7 +108,7 @@ public class Category {
         return era;
     }
 
-    /*
+    /**
      * Getter for imageURL
      * @return imageURL
      */
@@ -114,12 +116,52 @@ public class Category {
         return imageURL;
     }
 
-    /*
+    /**
      * Getter for blurb
      * @return blurb
      */
     public String getBlurb() {
         return blurb;
+    }
+
+    /**
+     * equals method for Category class
+     */
+    @Override
+    public boolean equals(@Nullable Object obj) {
+        if (obj instanceof Category) {
+            Category category = (Category) obj;
+            return categoryID.equals(category.getCategoryID());
+        }
+        return false;
+    }
+
+
+    /**
+     * hashCode method for Category class
+     */
+    @Override
+    public int hashCode() {
+        return getCategoryID().hashCode();
+    }
+
+    /**
+     * toString method for Category class
+     */
+    @Override
+    public String toString() {
+        return "Category{" +
+                "categoryID='" + categoryID + '\'' +
+                ", categoryName='" + categoryName + '\'' +
+                ", description='" + description + '\'' +
+                ", subcategoriesList=" + subcategoriesList +
+                ", artistIDList=" + artistIDList +
+                ", discographyIDList=" + discographyIDList +
+                ", origin='" + origin + '\'' +
+                ", era='" + era + '\'' +
+                ", imageURL='" + imageURL + '\'' +
+                ", blurb='" + blurb + '\'' +
+                '}';
     }
 }
 

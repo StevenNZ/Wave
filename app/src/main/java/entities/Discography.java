@@ -1,5 +1,7 @@
 package entities;
 
+import androidx.annotation.Nullable;
+
 import java.util.List;
 
 public class Discography {
@@ -16,7 +18,7 @@ public class Discography {
     private String primaryColour;
     private String secondaryColour;
 
-    /*
+    /**
      * Constructor for Discography class
      * @param discographyID
      * @param artistID
@@ -49,7 +51,7 @@ public class Discography {
         this.secondaryColour = secondaryColour;
     }
 
-    /*
+    /**
      * Getter for discographyID
      * @return discographyID
      */
@@ -57,7 +59,7 @@ public class Discography {
         return discographyID;
     }
 
-    /*
+    /**
      * Getter for artistID
      * @return artistID
      */
@@ -65,7 +67,7 @@ public class Discography {
         return artistID;
     }
 
-    /*
+    /**
      * Getter for categoryID
      * @return categoryID
      */
@@ -73,7 +75,7 @@ public class Discography {
         return categoryID;
     }
 
-    /*
+    /**
      * Getter for releaseName
      * @return releaseName
      */
@@ -81,7 +83,7 @@ public class Discography {
         return releaseName;
     }
 
-    /*
+    /**
      * Getter for releaseDate
      * @return releaseDate
      */
@@ -89,7 +91,7 @@ public class Discography {
         return releaseDate;
     }
 
-    /*
+    /**
      * Getter for releaseType
      * @return releaseType
      */
@@ -97,7 +99,7 @@ public class Discography {
         return releaseType;
     }
 
-    /*
+    /**
      * Getter for releaseArtworkURI
      * @return releaseArtworkURI
      */
@@ -105,7 +107,7 @@ public class Discography {
         return releaseArtworkURI;
     }
 
-    /*
+    /**
      * Getter for streamingFigures
      * @return streamingFigures
      */
@@ -113,7 +115,7 @@ public class Discography {
         return streamingFigures;
     }
 
-    /*
+    /**
      * Getter for tracklist
      * @return tracklist
      */
@@ -121,7 +123,7 @@ public class Discography {
         return tracklist;
     }
 
-    /*
+    /**
      * Getter for collaborators
      * @return collaborators
      */
@@ -129,7 +131,7 @@ public class Discography {
         return collaborators;
     }
 
-    /*
+    /**
      * Getter for primaryColour
      * @return primaryColour
      */
@@ -137,12 +139,53 @@ public class Discography {
         return primaryColour;
     }
 
-    /*
+    /**
      * Getter for secondaryColour
      * @return secondaryColour
      */
     public String getSecondaryColour() {
         return secondaryColour;
+    }
+
+    /**
+     * equals method for Discography class
+     */
+    @Override
+    public boolean equals(@Nullable Object obj) {
+        if (obj instanceof Discography) {
+            Discography discography = (Discography) obj;
+            return discography.getDiscographyID().equals(discographyID);
+        }
+        return false;
+    }
+
+    /**
+     * hashCode method for Discography class
+     */
+    @Override
+    public int hashCode() {
+        return getDiscographyID().hashCode();
+    }
+
+    /**
+     * toString method for Discography class
+     */
+    @Override
+    public String toString() {
+        return "Discography{" +
+                "discographyID='" + discographyID + '\'' +
+                ", artistID='" + artistID + '\'' +
+                ", categoryID='" + categoryID + '\'' +
+                ", releaseName='" + releaseName + '\'' +
+                ", releaseDate='" + releaseDate + '\'' +
+                ", releaseType='" + releaseType + '\'' +
+                ", releaseArtworkURI='" + releaseArtworkURI + '\'' +
+                ", streamingFigures=" + streamingFigures +
+                ", tracklist=" + tracklist +
+                ", collaborators=" + collaborators +
+                ", primaryColour='" + primaryColour + '\'' +
+                ", secondaryColour='" + secondaryColour + '\'' +
+                '}';
     }
 }
 
