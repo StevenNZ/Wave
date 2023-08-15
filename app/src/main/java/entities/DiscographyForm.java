@@ -3,11 +3,11 @@ package entities;
 import androidx.annotation.Nullable;
 
 public class DiscographyForm {
-    private String discographyFormID;
-    private String discographyID;
-    private String name;
-    private String price;
-    private Format hardMediaFormat;
+    private final String discographyFormID;
+    private final String discographyID;
+    private final String name;
+    private final String price;
+    private final Format hardMediaFormat;
 
     /**
      * Constructor for DiscographyForm class

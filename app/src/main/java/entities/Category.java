@@ -5,19 +5,20 @@ import androidx.annotation.Nullable;
 import java.util.List;
 
 public class Category {
-    private String categoryID;
-    private String categoryName;
-    private String description;
-    private List<String> subcategoriesList;
-    private List<String> artistIDList;
-    private List<String> discographyIDList;
-    private String origin;
-    private String era;
-    private String imageURL;
-    private String blurb;
+    final private String categoryID;
+    final private String categoryName;
+    final private String description;
+    final private List<String> subcategoriesList;
+    final private List<String> artistIDList;
+    final private List<String> discographyIDList;
+    final private String origin;
+    final private String era;
+    final private String imageURL;
+    final private String blurb;
 
     /**
      * Constructor for Category class
+     *
      * @param categoryID
      * @param categoryName
      * @param description
@@ -46,6 +47,7 @@ public class Category {
 
     /**
      * Getter for categoryID
+     *
      * @return categoryID
      */
     public String getCategoryID() {
@@ -54,6 +56,7 @@ public class Category {
 
     /**
      * Getter for categoryName
+     *
      * @return categoryName
      */
     public String getCategoryName() {
@@ -62,6 +65,7 @@ public class Category {
 
     /**
      * Getter for description
+     *
      * @return description
      */
     public String getDescription() {
@@ -70,6 +74,7 @@ public class Category {
 
     /**
      * Getter for subcategoriesList
+     *
      * @return subcategoriesList
      */
     public List<String> getSubcategoriesList() {
@@ -78,6 +83,7 @@ public class Category {
 
     /**
      * Getter for artistIDList
+     *
      * @return artistIDList
      */
     public List<String> getArtistIDList() {
@@ -86,6 +92,7 @@ public class Category {
 
     /**
      * Getter for discographyIDList
+     *
      * @return discographyIDList
      */
     public List<String> getDiscographyIDList() {
@@ -94,6 +101,7 @@ public class Category {
 
     /**
      * Getter for origin
+     *
      * @return origin
      */
     public String getOrigin() {
@@ -102,6 +110,7 @@ public class Category {
 
     /**
      * Getter for era
+     *
      * @return era
      */
     public String getEra() {
@@ -110,6 +119,7 @@ public class Category {
 
     /**
      * Getter for imageURL
+     *
      * @return imageURL
      */
     public String getImageURL() {
@@ -118,6 +128,7 @@ public class Category {
 
     /**
      * Getter for blurb
+     *
      * @return blurb
      */
     public String getBlurb() {

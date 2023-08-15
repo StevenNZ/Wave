@@ -6,11 +6,11 @@ import java.util.List;
 import java.util.Objects;
 
 public class Order {
-    private String orderID;
-    private String userID;
-    private List<String> discographyFormID;
-    private String orderDate;
-    private Status deliveryStatus;
+    private final String orderID;
+    private final String userID;
+    private final List<String> discographyFormID;
+    private final String orderDate;
+    private final Status deliveryStatus;
 
     /**
      * Constructor for Order class

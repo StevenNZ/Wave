@@ -5,16 +5,16 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 public class Artist {
-    private String artistID;
-    private String categoryID;
-    private String artistName;
-    private String biography;
-    private String countryOfOrigin;
-    private List<String> discographyIDList;
-    private List<String> awards;
-    private String activeYearsStart;
-    private String activeYearsEnd;
-    private String blurb;
+    private final String artistID;
+    private final String categoryID;
+    private final String artistName;
+    private final String biography;
+    private final String countryOfOrigin;
+    private final List<String> discographyIDList;
+    private final List<String> awards;
+    private final String activeYearsStart;
+    private final String activeYearsEnd;
+    private final String blurb;
 
     /**
     * Constructor for Artist class

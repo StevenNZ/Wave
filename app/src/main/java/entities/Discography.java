@@ -5,18 +5,18 @@ import androidx.annotation.Nullable;
 import java.util.List;
 
 public class Discography {
-    private String discographyID;
-    private String artistID;
-    private String categoryID;
-    private String releaseName;
-    private String releaseDate;
-    private String releaseType;
-    private String releaseArtworkURI;
-    private long streamingFigures;
-    private List<String> tracklist;
-    private List<String> collaborators;
-    private String primaryColour;
-    private String secondaryColour;
+    private final String discographyID;
+    private final String artistID;
+    private final String categoryID;
+    private final String releaseName;
+    private final String releaseDate;
+    private final String releaseType;
+    private final String releaseArtworkURI;
+    private final long streamingFigures;
+    private final List<String> tracklist;
+    private final List<String> collaborators;
+    private final String primaryColour;
+    private final String secondaryColour;
 
     /**
      * Constructor for Discography class
