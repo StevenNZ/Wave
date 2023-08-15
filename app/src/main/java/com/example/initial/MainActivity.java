@@ -39,15 +39,12 @@ public class MainActivity extends AppCompatActivity implements CategoryRecyclerI
 
     }
 
-
-
     @Override
     public void onItemClick(int position) {
 
         Intent resultIntent = new Intent(this, ResultActivity.class);
 
         //this is where you get the code to get the category they clicked on using the getters
-
 
         startActivity(resultIntent);
 

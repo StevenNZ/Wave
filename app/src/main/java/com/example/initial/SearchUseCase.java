@@ -9,7 +9,7 @@ public class SearchUseCase {
 
         //we make an arrayList of discography objetcs
 
-        //call getDiscographyBySearch(searchString) which returns a List<Discography>
+        // call getDiscographyBySearch(searchString) which returns a List<Discography>
         // in the Discography Repository part of the UML
 
 
@@ -20,8 +20,11 @@ public class SearchUseCase {
         results.add(new Discography("2", "Taylor Swift", "pop", "pop_image"));
         results.add(new Discography("3", "Kpop", "Kpop", "kpop_image"));
         results.add(new Discography("4", "Kanye West", "Graduation", "graduation_image"));
+        results.add(new Discography("5", "Travis Scott", "astroworld", "rodeo_image")); results.add(new Discography("1", "Travis Scott", "astroworld", "astroworld_image"));
+        results.add(new Discography("2", "Taylor Swift", "pop", "pop_image"));
+        results.add(new Discography("3", "Kpop", "Kpop", "kpop_image"));
+        results.add(new Discography("4", "Kanye West", "Graduation", "graduation_image"));
         results.add(new Discography("5", "Travis Scott", "astroworld", "rodeo_image"));
-
 
         return results;
 
