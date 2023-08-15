@@ -35,3 +35,6 @@ output.json
 #NDK
 obj/
 .externalNativeBuild
+
+#local configuration file (sdk path, etc)
+local.properties
