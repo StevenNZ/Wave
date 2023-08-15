@@ -16,6 +16,21 @@ public class Discography {
     private String primaryColour;
     private String secondaryColour;
 
+    /*
+     * Constructor for Discography class
+     * @param discographyID
+     * @param artistID
+     * @param categoryID
+     * @param releaseName
+     * @param releaseDate
+     * @param releaseType
+     * @param releaseArtworkURI
+     * @param streamingFigures
+     * @param tracklist
+     * @param collaborators
+     * @param primaryColour
+     * @param secondaryColour
+     */
     public Discography(String discographyID, String artistID, String categoryID, String releaseName,
                         String releaseDate, String releaseType, String releaseArtworkURI,
                         long streamingFigures, List<String> tracklist, List<String> collaborators,
@@ -34,50 +49,98 @@ public class Discography {
         this.secondaryColour = secondaryColour;
     }
 
+    /*
+     * Getter for discographyID
+     * @return discographyID
+     */
     public String getDiscographyID() {
         return discographyID;
     }
 
+    /*
+     * Getter for artistID
+     * @return artistID
+     */
     public String getArtistID() {
         return artistID;
     }
 
+    /*
+     * Getter for categoryID
+     * @return categoryID
+     */
     public String getCategoryID() {
         return categoryID;
     }
 
+    /*
+     * Getter for releaseName
+     * @return releaseName
+     */
     public String getReleaseName() {
         return releaseName;
     }
 
+    /*
+     * Getter for releaseDate
+     * @return releaseDate
+     */
     public String getReleaseDate() {
         return releaseDate;
     }
 
+    /*
+     * Getter for releaseType
+     * @return releaseType
+     */
     public String getReleaseType() {
         return releaseType;
     }
 
+    /*
+     * Getter for releaseArtworkURI
+     * @return releaseArtworkURI
+     */
     public String getReleaseArtworkURI() {
         return releaseArtworkURI;
     }
 
+    /*
+     * Getter for streamingFigures
+     * @return streamingFigures
+     */
     public long getStreamingFigures() {
         return streamingFigures;
     }
 
+    /*
+     * Getter for tracklist
+     * @return tracklist
+     */
     public List<String> getTracklist() {
         return tracklist;
     }
 
+    /*
+     * Getter for collaborators
+     * @return collaborators
+     */
     public List<String> getCollaborators() {
         return collaborators;
     }
 
+    /*
+     * Getter for primaryColour
+     * @return primaryColour
+     */
     public String getPrimaryColour() {
         return primaryColour;
     }
 
+    /*
+     * Getter for secondaryColour
+     * @return secondaryColour
+     */
     public String getSecondaryColour() {
         return secondaryColour;
     }
