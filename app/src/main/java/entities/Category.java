@@ -28,7 +28,7 @@ public class Category {
         this.imageURL = imageURL;
         this.blurb = blurb;
     }
-    
+
     public String getCategoryID() {
         return categoryID;
     }
