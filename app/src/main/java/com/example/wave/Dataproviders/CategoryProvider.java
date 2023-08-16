@@ -1,6 +1,7 @@
 package com.example.wave.Dataproviders;
 
 import com.example.wave.Entities.Category;
+import com.example.wave.Repository.CategoryRepository;
 
 import java.util.List;
 

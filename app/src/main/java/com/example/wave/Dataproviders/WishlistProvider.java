@@ -1,6 +1,7 @@
 package com.example.wave.Dataproviders;
 
 import com.example.wave.Entities.Order;
+import com.example.wave.Repository.WishlistRepository;
 
 import java.util.List;
 

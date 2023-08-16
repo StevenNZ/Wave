@@ -1,6 +1,7 @@
 package com.example.wave.Dataproviders;
 
 import com.example.wave.Entities.Artist;
+import com.example.wave.Repository.ArtistRepository;
 
 import java.util.List;
 

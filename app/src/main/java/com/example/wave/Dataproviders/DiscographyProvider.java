@@ -2,6 +2,7 @@ package com.example.wave.Dataproviders;
 
 import com.example.wave.Entities.Discography;
 import com.example.wave.Entities.DiscographyForm;
+import com.example.wave.Repository.DiscographyRepository;
 
 import java.util.List;
 
