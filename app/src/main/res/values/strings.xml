@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Initial</string>
+    <string name="app_name">Wave</string>
     <string name="wishlist_empty">Looking empty here... \n Go favourite some albums!</string>
     <string name="cart_empty">Looking empty here... \n Go add some albums!</string>
     <string name="registerLink">Don\'t have an account? <u>Register Now!</u> </string>
