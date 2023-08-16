@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace 'com.example.initial'
+    namespace 'com.example.wave'
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.example.initial"
+        applicationId "com.example.wave"
         minSdk 24
         targetSdk 33
         versionCode 1
@@ -27,13 +27,23 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    sourceSets {
+        main {
+            java {
+                srcDirs 'src\\main\\java'
+            }
+        }
+    }
 }
 
 dependencies {
 
     implementation 'androidx.appcompat:appcompat:1.4.1'
+    implementation "androidx.cardview:cardview:1.0.0"
     implementation 'com.google.android.material:material:1.5.0'
     implementation 'com.google.firebase:firebase-firestore:24.4.1'
+    implementation "androidx.recyclerview:recyclerview:1.3.1"
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
