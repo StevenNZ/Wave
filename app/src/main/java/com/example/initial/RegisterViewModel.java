@@ -7,6 +7,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class RegisterViewModel extends ViewModel {
     protected RegisterUseCase registerUseCase;
+    protected SignOutUseCase signOutUseCase;
     protected AuthenticationViewModel authenticationViewModel;
 
     protected void registerUser(String username, String email, String password) {
@@ -17,5 +18,15 @@ public class RegisterViewModel extends ViewModel {
     public LiveData<String> getAuthenticationError() {
         authenticationViewModel = new AuthenticationViewModel();
         return authenticationViewModel.getAuthenticationError();
+    }
+
+    public LiveData<FirebaseUser> getAuthenticatedUser() {
+        authenticationViewModel = new AuthenticationViewModel();
+        return authenticationViewModel.getAuthenticatedUser();
+    }
+
+    public void signOutUser() {
+        signOutUseCase = new SignOutUseCase();
+        signOutUseCase.signOutUser();
     }
 }

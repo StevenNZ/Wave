@@ -82,15 +82,16 @@ public class UserRepository {
             });
         }
 
-    private void signOutUser() {
-
+    protected void signOutUser() {
+        authenticatedUser.postValue(null);
+        mAuth.signOut();
     }
 
-    public LiveData<FirebaseUser> getAuthenticatedUser() {
+    protected LiveData<FirebaseUser> getAuthenticatedUser() {
         return authenticatedUser;
     }
 
-    public LiveData<String> getAuthenticationError() {
+    protected LiveData<String> getAuthenticationError() {
         return authenticationError;
     }
 
@@ -100,9 +101,9 @@ public class UserRepository {
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
                     authenticationError.postValue(null);
+                    authenticatedUser.postValue(mAuth.getCurrentUser());
                 } else {
                     authenticationError.postValue(task.getException().getMessage());
-                    mAuth.signOut();
                 }
             }
         });

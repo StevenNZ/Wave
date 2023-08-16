@@ -72,12 +72,16 @@ public class RegisterActivity extends AppCompatActivity {
         model.getAuthenticationError().observe(this, error -> {
             if (error != null) {
                 Toast.makeText(getBaseContext(), error, Toast.LENGTH_SHORT).show();
-            } else {
+            }
+        });
+
+        model.getAuthenticatedUser().observe(this, user -> {
+            if (user != null) {
+                model.signOutUser();
                 Toast.makeText(getBaseContext(), "Registered Successfully! Please check your email for verification", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
                 startActivity(intent);
             }
-
         });
     }
 
