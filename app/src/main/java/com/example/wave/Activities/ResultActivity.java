@@ -1,4 +1,4 @@
-package com.example.initial;
+package com.example.wave.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
@@ -7,10 +7,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.Toast;
-import android.content.Context;
+
+import com.example.wave.R;
+import com.example.wave.Adaptor.PopularAdaptor;
 
 import java.util.ArrayList;
 import java.util.List;

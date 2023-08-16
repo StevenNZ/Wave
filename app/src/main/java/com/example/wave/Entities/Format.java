@@ -1,4 +1,4 @@
-package entities;
+package com.example.wave.Entities;
 
 /***
  * Enum for Format

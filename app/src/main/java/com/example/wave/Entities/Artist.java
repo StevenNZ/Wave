@@ -1,8 +1,8 @@
-package entities;
+package com.example.wave.Entities;
+
+import androidx.annotation.Nullable;
 
 import java.util.List;
-
-import javax.annotation.Nullable;
 
 public class Artist {
     private final String artistID;

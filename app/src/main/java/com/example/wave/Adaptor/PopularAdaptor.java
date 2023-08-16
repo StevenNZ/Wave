@@ -1,4 +1,4 @@
-package com.example.initial;
+package com.example.wave.Adaptor;
 
 import android.content.Context;
 import android.util.Log;
@@ -9,8 +9,13 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import com.example.wave.Activities.Popular;
+import com.example.wave.R;
 
 import java.util.List;
 

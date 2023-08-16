@@ -1,4 +1,4 @@
-package com.example.initial;
+package com.example.wave.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -7,6 +7,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ListView;
+
+import com.example.wave.Activities.Category;
+import com.example.wave.Activities.CategoryDataProvider;
+import com.example.wave.Activities.CategoryRecyclerInterface;
+import com.example.wave.Activities.Popular;
+import com.example.wave.Activities.ResultActivity;
+import com.example.wave.R;
+import com.example.wave.Adaptor.CategoryAdapter;
+import com.example.wave.Adaptor.PopularAdaptor;
 
 import java.util.List;
 
@@ -31,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements CategoryRecyclerI
 
         layoutManager.scrollToPositionWithOffset(0,  recyclerViewWidth);
 
-        List<Popular> popularList = PopularDataProvider.getPopular();
+        List<Popular> popularList = Popular.PopularDataProvider.getPopular();
         PopularAdaptor popularAdapter = new PopularAdaptor (this, R.layout.popular_list_item, popularList);
         ListView listView = findViewById(R.id.popular_list_view);
         listView.setAdapter(popularAdapter);
