@@ -1,4 +1,4 @@
-package com.example.initial;
+package com.example.wave;
 
 import org.junit.Test;
 

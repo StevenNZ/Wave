@@ -1,4 +1,4 @@
-package com.example.initial;
+package com.example.wave.Activities;
 
 public class Category {
 
