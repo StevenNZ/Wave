@@ -23,4 +23,9 @@ public class LoginViewModel extends ViewModel {
         authenticationViewModel = new AuthenticationViewModel();
         return authenticationViewModel.getAuthenticationError();
     }
+
+    public void resetAuthenticationError() {
+        authenticationViewModel = new AuthenticationViewModel();
+        authenticationViewModel.resetAuthenticationError();
+    }
 }

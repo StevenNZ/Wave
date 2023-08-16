@@ -95,6 +95,10 @@ public class UserRepository {
         return authenticationError;
     }
 
+    protected void resetAuthenticationError() {
+        authenticationError.postValue(null);
+    }
+
     private void sendVerifyEmail() {
         mAuth.getCurrentUser().sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override

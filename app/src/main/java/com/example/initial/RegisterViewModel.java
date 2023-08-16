@@ -29,4 +29,9 @@ public class RegisterViewModel extends ViewModel {
         signOutUseCase = new SignOutUseCase();
         signOutUseCase.signOutUser();
     }
+
+    public void resetAuthenticationError() {
+        authenticationViewModel = new AuthenticationViewModel();
+        authenticationViewModel.resetAuthenticationError();
+    }
 }

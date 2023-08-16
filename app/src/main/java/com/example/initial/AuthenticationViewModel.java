@@ -18,4 +18,9 @@ public class AuthenticationViewModel extends ViewModel {
         authenticationErrorUseCase = new AuthenticationErrorUseCase();
         return authenticationErrorUseCase.getAuthenticationError();
     }
+
+    public void resetAuthenticationError() {
+        authenticationErrorUseCase = new AuthenticationErrorUseCase();
+        authenticationErrorUseCase.resetAuthenticationError();
+    }
 }

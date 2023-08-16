@@ -59,7 +59,6 @@ public class LoginActivity extends AppCompatActivity {
         model.getAuthenticatedUser().observe(this, user -> {
             if (user != null) {
                 Toast.makeText(getBaseContext(), "Login successful", Toast.LENGTH_SHORT).show();
-
                 Intent intent = new Intent(LoginActivity.this, ProfileActivity.class);
                 intent.putExtra("USERNAME", user.getDisplayName());
                 startActivity(intent);
@@ -70,6 +69,7 @@ public class LoginActivity extends AppCompatActivity {
         model.getAuthenticationError().observe(this, error -> {
             if (error != null) {
                 Toast.makeText(getBaseContext(), error, Toast.LENGTH_SHORT).show();
+                model.resetAuthenticationError();
             }
         });
     }

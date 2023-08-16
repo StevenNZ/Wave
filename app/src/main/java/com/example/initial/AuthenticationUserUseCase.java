@@ -35,4 +35,9 @@ public class AuthenticationUserUseCase implements UserProvider {
     public LiveData<String> getAuthenticationError() {
         return null;
     }
+
+    @Override
+    public void resetAuthenticationError() {
+
+    }
 }

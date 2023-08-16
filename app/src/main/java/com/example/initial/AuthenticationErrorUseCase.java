@@ -34,4 +34,9 @@ public class AuthenticationErrorUseCase implements UserProvider{
     public LiveData<String> getAuthenticationError() {
         return UserRepository.getInstance().getAuthenticationError();
     }
+
+    @Override
+    public void resetAuthenticationError() {
+        UserRepository.getInstance().resetAuthenticationError();
+    }
 }

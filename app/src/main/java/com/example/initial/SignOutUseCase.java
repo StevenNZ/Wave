@@ -34,4 +34,9 @@ public class SignOutUseCase implements UserProvider{
     public LiveData<String> getAuthenticationError() {
         return null;
     }
+
+    @Override
+    public void resetAuthenticationError() {
+
+    }
 }

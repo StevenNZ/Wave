@@ -72,6 +72,7 @@ public class RegisterActivity extends AppCompatActivity {
         model.getAuthenticationError().observe(this, error -> {
             if (error != null) {
                 Toast.makeText(getBaseContext(), error, Toast.LENGTH_SHORT).show();
+                model.resetAuthenticationError();
             }
         });
 

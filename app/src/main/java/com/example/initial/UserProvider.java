@@ -12,4 +12,5 @@ public interface UserProvider {
     void signOutUser();
     LiveData<FirebaseUser> getAuthenticatedUser();
     LiveData<String> getAuthenticationError();
+    void resetAuthenticationError();
 }
