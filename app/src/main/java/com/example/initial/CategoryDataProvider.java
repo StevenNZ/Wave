@@ -3,7 +3,7 @@ package com.example.initial;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DataProvider {
+public class CategoryDataProvider {
 
     public static List<String> generateCategories(){
 

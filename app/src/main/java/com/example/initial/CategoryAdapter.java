@@ -17,14 +17,17 @@ import java.util.List;
 
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHolder> {
 
+    private final CategoryRecyclerInterface categoryRecyclerInterface;
     int mLayoutID;
     List<Category> mCategories;
     Context mContext;
 
-    public CategoryAdapter(Context context, int resource, @NonNull List objects){
+    public CategoryAdapter(Context context, int resource, @NonNull List objects, CategoryRecyclerInterface categoryRecyclerInterface){
         mLayoutID = resource;
         mCategories = objects;
         mContext  = context;
+        this.categoryRecyclerInterface = categoryRecyclerInterface;
+
     }
 
     @NonNull
@@ -33,7 +36,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.category_list_item, parent, false);
-        return new ViewHolder(view);
+        return new ViewHolder(view, categoryRecyclerInterface);
     }
 
     //binding of all the data to each widget
@@ -67,10 +70,24 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
         ImageView categoryImageView;
         TextView categoryTextView;
 
-        public ViewHolder(View itemView) {
+        public ViewHolder(View itemView, CategoryRecyclerInterface categoryRecyclerInterface) {
             super(itemView);
             categoryImageView = itemView.findViewById(R.id.category_image);
             categoryTextView = itemView.findViewById(R.id.category_text);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (categoryRecyclerInterface != null){
+                        int pos = getAbsoluteAdapterPosition();
+
+                        if(pos != RecyclerView.NO_POSITION){
+                            categoryRecyclerInterface.onItemClick(pos);
+
+                        }
+                    }
+                }
+            });
         }
     }
 

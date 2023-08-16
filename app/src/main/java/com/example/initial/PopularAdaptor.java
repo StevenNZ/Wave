@@ -1,6 +1,7 @@
 package com.example.initial;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,15 @@ public class PopularAdaptor extends ArrayAdapter {
     List<Popular> mPopular;
     Context mContext;
 
+
+    public void setFilteredList(List<Popular> filteredList){
+        Log.d("SearchDebug", "onQueryTextChange: filteredList = " + filteredList);
+        mPopular = filteredList;
+        Log.d("SearchDebug", "onQueryTextChange: mPopular = " + mPopular);
+        notifyDataSetChanged();
+    }
+
+
     public PopularAdaptor(@NonNull Context context, int resource, @NonNull List<Popular> objects) {
         super(context, resource, objects);
         mPopular = objects;
@@ -37,6 +47,9 @@ public class PopularAdaptor extends ArrayAdapter {
         if (currentListViewItem == null) {
             currentListViewItem = LayoutInflater.from(getContext()).inflate(mLayoutId, parent, false);
         }
+
+        Log.d("SearchDebug", "getView: mPopular = " + mPopular);
+        Log.d("SearchDebug", "getView: mPopular = " + mPopular.size());
         //Get the Number object for the current position
         Popular currentPopular = mPopular.get(position);
 
@@ -58,5 +71,10 @@ public class PopularAdaptor extends ArrayAdapter {
 
 
         return currentListViewItem;
+    }
+
+    @Override
+    public int getCount() {
+        return mPopular.size();
     }
 }
