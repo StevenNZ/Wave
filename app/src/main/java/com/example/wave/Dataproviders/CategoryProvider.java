@@ -1,8 +1,8 @@
-package dataproviders;
+package com.example.wave.Dataproviders;
+
+import com.example.wave.Entities.Category;
 
 import java.util.List;
-
-import entities.Category;
 
 
 public interface CategoryProvider {

@@ -1,8 +1,10 @@
-package dataproviders;
+package com.example.wave.Dataproviders;
+
+import com.example.wave.Entities.Artist;
 
 import java.util.List;
 
-import entities.Artist;
+
 
 public interface ArtistProvider {
     ArtistRepository getInstance();

@@ -1,8 +1,8 @@
-package dataproviders;
+package com.example.wave.Dataproviders;
+
+import com.example.wave.Entities.Order;
 
 import java.util.List;
-
-import entities.Order;
 
 public interface OrderHistoryProvider {
     OrderHistoryRepository getInstance();

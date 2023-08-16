@@ -1,9 +1,10 @@
-package dataproviders;
+package com.example.wave.Dataproviders;
+
+import com.example.wave.Entities.Discography;
+import com.example.wave.Entities.DiscographyForm;
 
 import java.util.List;
 
-import entities.Discography;
-import entities.DiscographyForm;
 
 public interface DiscographyProvider {
     DiscographyRepository getInstance();
