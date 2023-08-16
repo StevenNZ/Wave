@@ -36,26 +36,26 @@
                 android:id="@+id/profileUsername"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Hi Someone!"
+                android:text="@string/UserGreet"
                 android:textAlignment="center"
                 android:textSize="48sp"
                 android:lineSpacingExtra="10dp"
-                android:layout_marginBottom="10dp"/>
+                android:layout_marginBottom="20dp"/>
 
             <Button
                 android:id="@+id/signoutBtn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/profileUsername"
-                android:padding="15dp"
-                android:text="Sign Out"/>
+                android:text="@string/signOutBtn"
+                style="@style/Button" />
 
         </RelativeLayout>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Purchases"
+            android:text="@string/purchasesTitle"
             android:layout_below="@id/userLayout"
             android:textSize="24sp"/>
 

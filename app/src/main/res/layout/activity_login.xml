@@ -19,47 +19,49 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="50dp"
-            android:layout_centerVertical="true">
+            android:layout_centerInParent="true">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Email" />
+                android:text="@string/email"
+                style="@style/EditfieldTitle" />
 
             <EditText
                 android:id="@+id/emailField"
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
                 android:layout_marginTop="30dp"
-                android:layout_marginBottom="15dp"
-                android:background="@drawable/editfield"/>
+                android:layout_marginBottom="25dp"
+                android:autofillHints="emailAddress"
+                android:hint="@string/emailHint"
+                android:inputType="textEmailAddress"
+                style="@style/EditText"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/emailField"
-                android:text="Password" />
+                android:text="@string/password"
+                style="@style/EditfieldTitle" />
 
             <EditText
                 android:id="@+id/passwordField"
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
                 android:layout_below="@id/emailField"
-                android:inputType="textPassword"
                 android:layout_marginTop="30dp"
                 android:layout_marginBottom="15dp"
-                android:background="@drawable/editfield"/>
+                android:autofillHints="password"
+                android:inputType="textPassword"
+                style="@style/EditText"/>
 
             <Button
                 android:id="@+id/loginButton"
+                style="@style/Button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/passwordField"
                 android:layout_marginTop="45dp"
-                android:text="Log In"
-                style="@style/Button"
-                android:background="@drawable/button"
-                android:textAllCaps="false"/>
+                android:text="@string/loginBtn"/>
 
             <TextView
                 android:id="@+id/registerLink"
@@ -67,8 +69,9 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/loginButton"
                 android:layout_marginTop="20dp"
+                android:text="@string/registerLink"
                 android:textAlignment="center"
-                android:text="@string/registerLink"/>
+                android:textColor="@color/black" />
 
         </RelativeLayout>
 

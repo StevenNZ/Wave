@@ -3,4 +3,16 @@
     <string name="wishlist_empty">Looking empty here... \n Go favourite some albums!</string>
     <string name="cart_empty">Looking empty here... \n Go add some albums!</string>
     <string name="registerLink">Don\'t have an account? <u>Register Now!</u> </string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="loginBtn">Log In</string>
+    <string name="emailHint">Jane@example.com</string>
+    <string name="signOutBtn">Sign Out</string>
+    <string name="purchasesTitle">Purchases</string>
+    <string name="UserGreet">Hi Someone!</string>
+    <string name="registerBtn">Register</string>
+    <string name="emailTitle">Email</string>
+    <string name="usernameTitle">Username</string>
+    <string name="passwordTitle">Password</string>
+    <string name="confirmPasswordTitle">Confirm Password</string>
 </resources>
