@@ -14,5 +14,5 @@ public interface ArtistProvider {
     }
 
     Task<List<Artist>> getAllArtists();
-    Task<List<Artist>> getArtistsByID(String categoryID);
+    Task<Artist> getArtistByID(String categoryID);
 }

@@ -21,6 +21,10 @@ public class ArtistRepository implements ArtistProvider {
 
     }
 
+    /**
+     * Singleton pattern
+     * @return instance of ArtistRepository
+     */
     public static ArtistRepository getInstance() {
         if (instance == null) {
             instance = new ArtistRepository();
@@ -28,6 +32,10 @@ public class ArtistRepository implements ArtistProvider {
         return instance;
     }
 
+    /**
+     * Get all artists from the database
+     * @return Task<List<Artist>> with all artists
+     */
     @Override
     public Task<List<Artist>> getAllArtists() {
         return artistsCollection.get().continueWith(task -> {
@@ -45,9 +53,12 @@ public class ArtistRepository implements ArtistProvider {
         });
     }
 
-
+    /**
+     * Gets an Artist by ID
+     * @return Task<Artist> with the artist
+     */
     @Override
-    public Task<List<Artist>> getArtistsByID(String categoryID) {
+    public Task<Artist> getArtistByID(String categoryID) {
         return null;
     }
 
