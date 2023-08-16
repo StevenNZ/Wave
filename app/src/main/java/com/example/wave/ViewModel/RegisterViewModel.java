@@ -1,8 +1,10 @@
-package com.example.initial;
+package com.example.wave.ViewModel;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.wave.Domains.RegisterUseCase;
+import com.example.wave.Domains.SignOutUseCase;
 import com.google.firebase.auth.FirebaseUser;
 
 public class RegisterViewModel extends ViewModel {
@@ -10,7 +12,7 @@ public class RegisterViewModel extends ViewModel {
     protected SignOutUseCase signOutUseCase;
     protected AuthenticationViewModel authenticationViewModel;
 
-    protected void registerUser(String username, String email, String password) {
+    public void registerUser(String username, String email, String password) {
         registerUseCase = new RegisterUseCase();
         registerUseCase.registerUser(username, email, password);
     }

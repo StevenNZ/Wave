@@ -1,8 +1,10 @@
-package com.example.initial;
+package com.example.wave.ViewModel;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.wave.Domains.AuthenticationErrorUseCase;
+import com.example.wave.Domains.AuthenticationUserUseCase;
 import com.google.firebase.auth.FirebaseUser;
 
 public class AuthenticationViewModel extends ViewModel {

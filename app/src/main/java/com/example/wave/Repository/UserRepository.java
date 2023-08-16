@@ -1,10 +1,8 @@
-package com.example.initial;
+package com.example.wave.Repository;
 
 import static android.content.ContentValues.TAG;
 
-import android.content.Intent;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
@@ -38,7 +36,7 @@ public class UserRepository {
         return instance;
     }
 
-    protected void registerUser(String userName, String email, String password) {
+    public void registerUser(String userName, String email, String password) {
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
@@ -62,7 +60,7 @@ public class UserRepository {
                 });
     }
 
-    protected void signInUser(String email, String password) {
+    public void signInUser(String email, String password) {
             mAuth.signInWithEmailAndPassword(email, password).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                 @Override
                 public void onSuccess(AuthResult authResult) {
@@ -82,20 +80,20 @@ public class UserRepository {
             });
         }
 
-    protected void signOutUser() {
+    public void signOutUser() {
         authenticatedUser.postValue(null);
         mAuth.signOut();
     }
 
-    protected LiveData<FirebaseUser> getAuthenticatedUser() {
+    public LiveData<FirebaseUser> getAuthenticatedUser() {
         return authenticatedUser;
     }
 
-    protected LiveData<String> getAuthenticationError() {
+    public LiveData<String> getAuthenticationError() {
         return authenticationError;
     }
 
-    protected void resetAuthenticationError() {
+    public void resetAuthenticationError() {
         authenticationError.postValue(null);
     }
 

@@ -1,15 +1,16 @@
-package com.example.initial;
+package com.example.wave.ViewModel;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.wave.Domains.LoginUseCase;
 import com.google.firebase.auth.FirebaseUser;
 
 public class LoginViewModel extends ViewModel {
     protected LoginUseCase loginUseCase;
     protected AuthenticationViewModel authenticationViewModel;
 
-    protected void signInUser(String email, String password) {
+    public void signInUser(String email, String password) {
         loginUseCase = new LoginUseCase();
         loginUseCase.signInUser(email, password);
     }

@@ -1,10 +1,12 @@
-package com.example.initial;
+package com.example.wave.Domains;
 
 import androidx.lifecycle.LiveData;
 
+import com.example.wave.Dataproviders.UserProvider;
+import com.example.wave.Repository.UserRepository;
 import com.google.firebase.auth.FirebaseUser;
 
-public class SignOutUseCase implements UserProvider{
+public class RegisterUseCase implements UserProvider {
     @Override
     public UserRepository getInstance() {
         return null;
@@ -12,7 +14,7 @@ public class SignOutUseCase implements UserProvider{
 
     @Override
     public void registerUser(String userName, String email, String password) {
-
+        UserRepository.getInstance().registerUser(userName, email, password);
     }
 
     @Override
@@ -22,7 +24,7 @@ public class SignOutUseCase implements UserProvider{
 
     @Override
     public void signOutUser() {
-        UserRepository.getInstance().signOutUser();
+
     }
 
     @Override

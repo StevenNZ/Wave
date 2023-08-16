@@ -1,4 +1,4 @@
-package com.example.initial;
+package com.example.wave.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
@@ -9,7 +9,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.google.firebase.auth.FirebaseAuth;
+import com.example.wave.R;
+import com.example.wave.ViewModel.ProfileViewModel;
 
 public class ProfileActivity extends AppCompatActivity {
 

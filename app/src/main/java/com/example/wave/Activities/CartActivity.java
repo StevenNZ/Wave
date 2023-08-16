@@ -1,14 +1,16 @@
-package com.example.initial;
+package com.example.wave.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-public class WishlistActivity extends AppCompatActivity {
+import com.example.wave.R;
+
+public class CartActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_wishlist);
+        setContentView(R.layout.activity_cart);
     }
 }

@@ -1,7 +1,8 @@
-package com.example.initial;
+package com.example.wave.Dataproviders;
 
 import androidx.lifecycle.LiveData;
 
+import com.example.wave.Repository.UserRepository;
 import com.google.firebase.auth.FirebaseUser;
 
 public interface UserProvider {
