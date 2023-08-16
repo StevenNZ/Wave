@@ -11,10 +11,11 @@ public class AuthenticationViewModel extends ViewModel {
 
     public LiveData<FirebaseUser> getAuthenticatedUser() {
         authenticationUserUseCase = new AuthenticationUserUseCase();
-        return UserRepository.getInstance().getAuthenticatedUser();
+        return authenticationUserUseCase.getAuthenticatedUser();
     }
 
     public LiveData<String> getAuthenticationError() {
-        return UserRepository.getInstance().getAuthenticationError();
+        authenticationErrorUseCase = new AuthenticationErrorUseCase();
+        return authenticationErrorUseCase.getAuthenticationError();
     }
 }

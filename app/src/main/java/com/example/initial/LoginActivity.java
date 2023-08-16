@@ -23,7 +23,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity {
 
-    LoginViewModel model;
+    private LoginViewModel model;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

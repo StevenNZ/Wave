@@ -4,6 +4,7 @@ import static android.content.ContentValues.TAG;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -25,7 +26,7 @@ import com.google.firebase.auth.UserProfileChangeRequest;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    private FirebaseAuth mAuth;
+    private RegisterViewModel model;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +40,8 @@ public class RegisterActivity extends AppCompatActivity {
         EditText passwordConfirmedField = findViewById(R.id.passwordConfirmField);
 
         // Initialize Firebase Auth
-        mAuth = FirebaseAuth.getInstance();
+
+        model = new ViewModelProvider(this).get(RegisterViewModel.class);
 
         registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,7 +58,7 @@ public class RegisterActivity extends AppCompatActivity {
                 } else if (!checkIfMatch(password, passwordTwo)) {
                     Toast.makeText(getBaseContext(), "Password does not match", Toast.LENGTH_SHORT).show();
                 } else {
-                    registerUser(emailAddress, username, password);
+                    model.registerUser(username, emailAddress, password);
                 }
             }
         });
@@ -66,51 +68,20 @@ public class RegisterActivity extends AppCompatActivity {
             Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
             startActivity(intent);
         });
-    }
 
-    private void registerUser(String emailAddress, String username, String password) {
-
-        mAuth.createUserWithEmailAndPassword(emailAddress, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success
-                            Log.d(TAG, "createUserWithEmail:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
-
-                            UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder().setDisplayName(username).build();
-
-                            user.updateProfile(profileUpdates);
-
-                            sendVerifyEmail();
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                            Toast.makeText(getBaseContext(), task.getException().getMessage(),
-                                    Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-    }
-
-
-
-    private void sendVerifyEmail() {
-        mAuth.getCurrentUser().sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if (task.isSuccessful()) {
-                    Toast.makeText(getBaseContext(), "Registered Successfully! Please check your email for verification", Toast.LENGTH_LONG).show();
-                } else {
-                    Toast.makeText(getBaseContext(), task.getException().getMessage(), Toast.LENGTH_LONG).show();
-                }
-                mAuth.signOut();
+        model.getAuthenticationError().observe(this, error -> {
+            if (error != null) {
+                Toast.makeText(getBaseContext(), error, Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getBaseContext(), "Registered Successfully! Please check your email for verification", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
                 startActivity(intent);
             }
+
         });
     }
+
+
 
     private boolean checkIfEmpty(String emailAddress, String username, String password) {
         return TextUtils.isEmpty(emailAddress) || TextUtils.isEmpty(username) || TextUtils.isEmpty(password);
