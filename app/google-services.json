@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "615167357532",
+    "project_id": "softeng306",
+    "storage_bucket": "softeng306.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:615167357532:android:1fa37afa54dd602ac2ec99",
+        "android_client_info": {
+          "package_name": "com.example.wave"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "615167357532-g0hvgcc82c7pqtiq92ula60japm2tllv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD3s4ma3fuiyigaed6CkkCeoaZWsk5siKs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "615167357532-g0hvgcc82c7pqtiq92ula60japm2tllv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

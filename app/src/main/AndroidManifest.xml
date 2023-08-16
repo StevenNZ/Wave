@@ -25,6 +25,22 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".Activities.RegisterActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.ProfileActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.WishlistActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.CartActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.LoginActivity"
+            android:exported="false"
+            android:label="Login"/>
     </application>
 
 </manifest>
