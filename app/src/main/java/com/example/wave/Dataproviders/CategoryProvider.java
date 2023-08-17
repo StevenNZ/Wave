@@ -7,7 +7,10 @@ import java.util.List;
 
 
 public interface CategoryProvider {
-    CategoryRepository getInstance();
+    static CategoryRepository getInstance() {
+        return null;
+    }
+
     List<Category> getAllCategories();
     Category getCategoryByID(String categoryID);
 }
