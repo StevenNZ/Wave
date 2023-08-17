@@ -15,7 +15,7 @@ public class ArtistRepository implements ArtistProvider {
     private static ArtistRepository instance;
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private final CollectionReference artistsCollection = db.collection("artists");
+    private final CollectionReference artistsCollection = db.collection("Artist");
 
     private ArtistRepository() {
 
