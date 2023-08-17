@@ -8,8 +8,8 @@ import java.util.Objects;
 public class Order {
     private final String orderID;
     private final String userID;
-    private final List<String> discographyFormID;
-    private final String orderDate;
+    private List<String> discographyFormIDList;
+    private String orderDate;
     private final Status deliveryStatus;
 
     /**
@@ -20,12 +20,12 @@ public class Order {
      * @param orderDate
      * @param deliveryStatus
      */
-    public Order(String orderID, String userID, List<String> discographyFormID, String orderDate, Status deliveryStatus) {
+    public Order(String orderID, String userID, List<String> discographyFormID, String orderDate) {
         this.orderID = orderID;
         this.userID = userID;
-        this.discographyFormID = discographyFormID;
+        this.discographyFormIDList = discographyFormID;
         this.orderDate = orderDate;
-        this.deliveryStatus = deliveryStatus;
+        this.deliveryStatus = Status.Ordered;
     }
 
     /**
@@ -48,8 +48,15 @@ public class Order {
      * Getter for discographyFormID
      * @return discographyFormID
      */
-    public List<String> getDiscographyFormID() {
-        return discographyFormID;
+    public List<String> getDiscographyFormIDList() {
+        return discographyFormIDList;
+    }
+
+    public void appendDiscographyFormIDList(String discographyFormID) {
+        this.discographyFormIDList.add(discographyFormID);
+    }
+    public void removeDiscographyFormIDList(String discographyFormID) {
+        this.discographyFormIDList.remove(discographyFormID);
     }
 
     /**
@@ -97,7 +104,7 @@ public class Order {
         return "Order{" +
                 "orderID='" + orderID + '\'' +
                 ", userID='" + userID + '\'' +
-                ", discographyFormID=" + discographyFormID +
+                ", discographyFormID=" + discographyFormIDList +
                 ", orderDate='" + orderDate + '\'' +
                 ", deliveryStatus=" + deliveryStatus +
                 '}';
