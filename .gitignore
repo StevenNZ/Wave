@@ -38,3 +38,6 @@ obj/
 
 #local configuration file (sdk path, etc)
 local.properties
+
+#gradle
+.gradle
