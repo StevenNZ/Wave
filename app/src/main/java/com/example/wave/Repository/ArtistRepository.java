@@ -58,8 +58,15 @@ public class ArtistRepository implements ArtistProvider {
      * @return Task<Artist> with the artist
      */
     @Override
-    public Task<Artist> getArtistByID(String categoryID) {
-        return null;
+    public Task<Artist> getArtistByID(String artistID) {
+        return artistsCollection.document(artistID).get().continueWith(task -> {
+            if (task.isSuccessful()) {
+                Artist artist = task.getResult().toObject(Artist.class);
+                return artist;
+            } else {
+                throw task.getException();
+            }
+        });
     }
 
 }
