@@ -1,65 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingHorizontal="30dp"
-    tools:context=".ProfileActivity">
+    tools:context=".Activities.ProfileActivity">
 
-    <RelativeLayout
-        android:layout_height="wrap_content"
+    <ScrollView
         android:layout_width="match_parent"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp">
-
-        <TextView
-            android:id="@+id/profile"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="Profile"
-            android:textAlignment="center"
-            android:textSize="40sp"
-            />
+        android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/bottomNavigationView">
 
         <RelativeLayout
-            android:id="@+id/userLayout"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/profile"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="50dp"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginBottom="60dp">
+            android:layout_width="match_parent"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:paddingHorizontal="30dp">
 
             <TextView
-                android:id="@+id/profileUsername"
+                android:id="@+id/profile"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/UserGreet"
+                android:layout_height="match_parent"
+                android:text="Profile"
                 android:textAlignment="center"
-                android:textSize="48sp"
-                android:lineSpacingExtra="10dp"
-                android:layout_marginBottom="20dp"/>
+                android:textSize="40sp"
+                />
 
-            <Button
-                android:id="@+id/signoutBtn"
+            <RelativeLayout
+                android:id="@+id/userLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/profile"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="50dp"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginBottom="60dp">
+
+                <TextView
+                    android:id="@+id/profileUsername"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/UserGreet"
+                    android:textAlignment="center"
+                    android:textSize="48sp"
+                    android:lineSpacingExtra="10dp"
+                    android:layout_marginBottom="20dp"/>
+
+                <Button
+                    android:id="@+id/signoutBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/profileUsername"
+                    android:text="@string/signOutBtn"
+                    style="@style/Button" />
+
+            </RelativeLayout>
+
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/profileUsername"
-                android:text="@string/signOutBtn"
-                style="@style/Button" />
+                android:text="@string/purchasesTitle"
+                android:layout_below="@id/userLayout"
+                android:textSize="24sp"/>
 
         </RelativeLayout>
+    </ScrollView>
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:id="@+id/bottomNavigationView"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/navigation_background"
+        android:paddingHorizontal="14dp"
+        android:paddingVertical="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:menu="@menu/bottom_menu"
+        app:itemIconSize="30dp"
+        app:itemPaddingBottom="4dp"
+        app:itemPaddingTop="3dp"
+        app:itemRippleColor="@android:color/transparent"
+        app:labelVisibilityMode="labeled" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/purchasesTitle"
-            android:layout_below="@id/userLayout"
-            android:textSize="24sp"/>
-
-    </RelativeLayout>
-
-
-</ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>
