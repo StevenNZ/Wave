@@ -1,7 +1,9 @@
 package com.example.wave.Activities;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ListView;
 
 import androidx.annotation.Nullable;
@@ -22,7 +24,7 @@ public class SearchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.search_activity);
 
-        searchView = findViewById(R.id.main_search);
+        searchView = findViewById(R.id.empty_search);
         searchView.setIconified(false);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 
@@ -38,6 +40,17 @@ public class SearchActivity extends AppCompatActivity {
                 return false;
             }
         });
+
+//        searchButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent searchIntent = new Intent(MainActivity.this, SearchActivity.class);
+//
+//                //this is where you get the code to get the category they clicked on using the getters
+//                startActivity(searchIntent);
+//
+//            }
+//        });
 
 
 

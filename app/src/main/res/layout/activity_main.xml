@@ -14,26 +14,20 @@
         android:orientation="vertical">
 
         <LinearLayout
-            android:layout_width="142dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center"
             android:layout_gravity="center">
 
-            <ImageButton
-                android:id="@+id/search_button"
-                android:layout_width="wrap_content"
-                android:layout_height="48dp"
-                android:layout_weight="1"
-                android:contentDescription="Search Button"
-                android:src="@drawable/baseline_search_24"/>
-
-            <TextView
-                android:layout_width="wrap_content"
+            <androidx.appcompat.widget.SearchView
+                android:id="@+id/main_search"
+                android:layout_width="200dp"
                 android:layout_height="wrap_content"
-                android:text="SEARCH"
-                android:textSize="24sp"
-                android:textColor="@color/black" />
+                android:layout_weight="1"
+                app:queryHint="SEARCH"
+                app:searchIcon="@drawable/baseline_search_24" />
+
 
         </LinearLayout>
 

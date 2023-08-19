@@ -26,6 +26,8 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements CategoryRecyclerInterface {
 
+    SearchView mainSearch;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,17 +52,27 @@ public class MainActivity extends AppCompatActivity implements CategoryRecyclerI
         ListView listView = findViewById(R.id.popular_list_view);
         listView.setAdapter(popularAdapter);
 
-        ImageButton searchButton = findViewById(R.id.search_button);
-        searchButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent searchIntent = new Intent(MainActivity.this, SearchActivity.class);
+        mainSearch = findViewById(R.id.main_search);
 
-                //this is where you get the code to get the category they clicked on using the getters
+        mainSearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+
+                Intent searchIntent = new Intent(MainActivity.this, ResultActivity.class);
+//
+//                //this is where you get the code to get the category they clicked on using the getters
                 startActivity(searchIntent);
 
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                //
+                return false;
             }
         });
+
 
 
 
