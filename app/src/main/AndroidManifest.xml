@@ -41,6 +41,12 @@
             android:name=".Activities.LoginActivity"
             android:exported="false"
             android:label="Login"/>
+
+        <activity
+            android:name=".Activities.SearchActivity"
+            android:exported="false"/>
+
+
     </application>
 
 </manifest>

@@ -3,9 +3,14 @@ package com.example.wave.Activities;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.appcompat.widget.SearchView;
+
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 
 import com.example.wave.Activities.Category;
@@ -44,6 +49,20 @@ public class MainActivity extends AppCompatActivity implements CategoryRecyclerI
         PopularAdaptor popularAdapter = new PopularAdaptor (this, R.layout.popular_list_item, popularList);
         ListView listView = findViewById(R.id.popular_list_view);
         listView.setAdapter(popularAdapter);
+
+        ImageButton searchButton = findViewById(R.id.search_button);
+        searchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent searchIntent = new Intent(MainActivity.this, SearchActivity.class);
+
+                //this is where you get the code to get the category they clicked on using the getters
+                startActivity(searchIntent);
+
+            }
+        });
+
+
 
 
     }
