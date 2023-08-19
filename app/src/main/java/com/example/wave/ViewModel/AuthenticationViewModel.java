@@ -28,6 +28,6 @@ public class AuthenticationViewModel extends ViewModel {
 
     public boolean isLogin() {
         authenticationUserUseCase = new AuthenticationUserUseCase();
-        return (authenticationUserUseCase.getAuthenticatedUser() != null);
+        return (authenticationUserUseCase.getAuthenticatedUser().getValue() != null);
     }
 }
