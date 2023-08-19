@@ -30,4 +30,10 @@ public class AuthenticationViewModel extends ViewModel {
         authenticationUserUseCase = new AuthenticationUserUseCase();
         return (authenticationUserUseCase.getAuthenticatedUser().getValue() != null);
     }
+
+    public String getUserID() {
+        authenticationUserUseCase = new AuthenticationUserUseCase();
+        // can return null
+        return (authenticationUserUseCase.getAuthenticatedUser().getValue().getUid());
+    }
 }
