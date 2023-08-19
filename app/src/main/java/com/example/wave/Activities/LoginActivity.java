@@ -54,7 +54,6 @@ public class LoginActivity extends AppCompatActivity {
             if (user != null) {
                 Toast.makeText(getBaseContext(), "Login successful", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(LoginActivity.this, ProfileActivity.class);
-                intent.putExtra("USERNAME", user.getDisplayName());
                 startActivity(intent);
             }
         });
