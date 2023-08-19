@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements CategoryRecyclerI
             public boolean onQueryTextSubmit(String query) {
 
                 Intent searchIntent = new Intent(MainActivity.this, ResultActivity.class);
-//
+                searchIntent.putExtra("query", query);
 //                //this is where you get the code to get the category they clicked on using the getters
                 startActivity(searchIntent);
 
@@ -81,6 +81,8 @@ public class MainActivity extends AppCompatActivity implements CategoryRecyclerI
 
     @Override
     public void onItemClick(int position) {
+
+        //how would I get the categoryID and pass it
 
         Intent resultIntent = new Intent(this, ResultActivity.class);
 

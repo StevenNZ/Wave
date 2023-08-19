@@ -3,14 +3,18 @@ package com.example.wave.Activities;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
 
+import com.example.wave.Dataproviders.DiscographyProvider;
+import com.example.wave.Entities.Discography;
 import com.example.wave.R;
 import com.example.wave.Adaptor.PopularAdaptor;
+import com.google.android.gms.tasks.Task;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,13 +24,24 @@ public class ResultActivity extends AppCompatActivity {
     private SearchView searchView;
     private PopularAdaptor resultAdapater;
 
+    private List<Popular> resultList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result);
 
+        Intent intent = getIntent();
+        String query = intent.getStringExtra("query");
 
-        List<Popular> resultList = SearchUseCase.getSearchedDiscography();
+
+        resultList = SearchUseCase.getSearchedDiscography(query);
+        Log.d("SearchDebug", "total Result list= " + resultList);
+
+        for(Popular res: resultList){
+            Log.d("SearchDebug", "current res = " + res);
+        }
+
         resultAdapater = new PopularAdaptor (this, R.layout.popular_list_item, resultList);
         ListView listView = findViewById(R.id.result_list_view);
         listView.setAdapter(resultAdapater);
@@ -55,15 +70,13 @@ public class ResultActivity extends AppCompatActivity {
             public boolean onQueryTextChange(String newText) {
                 //any changes (autocomplete)
 
-
-                List<Popular> filter = SearchUseCase.getSearchedDiscography();
                 List<Popular> filteredList = new ArrayList<>();
 
                 Log.d("SearchDebug", "onQueryTextChange: newText = " + newText);
-                Log.d("SearchDebug", "onQueryTextChange: newText = " + filter);
+                Log.d("SearchDebug", "onQueryTextChange: newText = " + resultList);
 
 
-                for (Popular popular: filter){
+                for (Popular popular: resultList){
                     //if album name in newText or artist name in new text
                     if(popular.getAlbumName().toLowerCase().contains(newText.toLowerCase())
                     || popular.getAlbumArtist().toLowerCase().contains(newText.toLowerCase())){
@@ -87,4 +100,5 @@ public class ResultActivity extends AppCompatActivity {
 
         return super.onCreateOptionsMenu(menu);
     }
+
 }

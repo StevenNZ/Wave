@@ -1,5 +1,7 @@
 package com.example.wave.Repository;
 
+import android.util.Log;
+
 import com.example.wave.Dataproviders.ArtistProvider;
 import com.example.wave.Entities.Artist;
 import com.google.android.gms.tasks.Task;
@@ -15,7 +17,7 @@ public class ArtistRepository implements ArtistProvider {
     private static ArtistRepository instance;
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private final CollectionReference artistsCollection = db.collection("Artist");
+    private final CollectionReference artistsCollection = db.collection("Artist/");
 
     private ArtistRepository() {
 
@@ -43,9 +45,11 @@ public class ArtistRepository implements ArtistProvider {
                 List<Artist> artists = new ArrayList<>();
                 QuerySnapshot querySnapshot = task.getResult();
                 for (QueryDocumentSnapshot document : querySnapshot) {
+                    Log.d("SearchDebug", "DOCUMENT = " + document);
                     Artist artist = document.toObject(Artist.class);
                     artists.add(artist);
                 }
+                Log.d("SearchDebug", "FROM REPO = " + artists);
                 return artists;
             } else {
                 throw task.getException();
