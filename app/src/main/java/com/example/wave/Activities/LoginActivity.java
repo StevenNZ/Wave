@@ -1,19 +1,23 @@
 package com.example.wave.Activities;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import com.example.wave.R;
 import com.example.wave.ViewModel.LoginViewModel;
+import com.google.android.material.appbar.MaterialToolbar;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -28,6 +32,18 @@ public class LoginActivity extends AppCompatActivity {
         Button loginBtn = findViewById(R.id.loginButton);
         EditText emailField = findViewById(R.id.emailField);
         EditText passwordField = findViewById(R.id.passwordField);
+        MaterialToolbar toolbar = findViewById(R.id.topAppBar);
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (model.getAuthenticatedUser() == null) {
+                    onBackPressed();
+                } else {
+                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                }
+            }
+        });
 
         registerLink.setOnClickListener(v -> {
             Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
