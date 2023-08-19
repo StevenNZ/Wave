@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.example.wave.R;
 import com.example.wave.ViewModel.ProfileViewModel;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class ProfileActivity extends AppCompatActivity {
 
@@ -39,6 +40,30 @@ public class ProfileActivity extends AppCompatActivity {
 
                 Intent intent = new Intent(ProfileActivity.this, LoginActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
+        bottomNavigationView.setSelectedItemId(R.id.bottom_profile);
+
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            int itemID = item.getItemId();
+
+            if (itemID == R.id.bottom_home){
+                startActivity(new Intent(this, MainActivity.class));
+                return true;
+            } else if (itemID == R.id.bottom_search){
+                return true;
+            } else if (itemID == R.id.bottom_wishlist){
+                startActivity(new Intent(this, WishlistActivity.class));
+                return true;
+            } else if (itemID == R.id.bottom_cart){
+                startActivity(new Intent(this, CartActivity.class));
+                return true;
+            } else if (itemID == R.id.bottom_profile){
+                return true;
+            } else {
+                return false;
             }
         });
     }

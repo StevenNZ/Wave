@@ -1,6 +1,7 @@
 package com.example.wave.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -16,16 +17,22 @@ import com.example.wave.Activities.ResultActivity;
 import com.example.wave.R;
 import com.example.wave.Adaptor.CategoryAdapter;
 import com.example.wave.Adaptor.PopularAdaptor;
+import com.example.wave.ViewModel.MainViewModel;
+import com.example.wave.ViewModel.RegisterViewModel;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements CategoryRecyclerInterface {
+
+    private MainViewModel model;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        model = new ViewModelProvider(this).get(MainViewModel.class);
 
         List<Category> categoryList = CategoryDataProvider.getCategories();
         RecyclerView recyclerView = findViewById(R.id.category_recycler_view);
@@ -45,7 +52,33 @@ public class MainActivity extends AppCompatActivity implements CategoryRecyclerI
         ListView listView = findViewById(R.id.popular_list_view);
         listView.setAdapter(popularAdapter);
 
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
+        bottomNavigationView.setSelectedItemId(R.id.bottom_home);
 
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            boolean isLoggedIn = model.isLogin();
+            int itemID = item.getItemId();
+
+            if (itemID == R.id.bottom_home){
+                return true;
+            } else if (itemID == R.id.bottom_search){
+                return true;
+            } else if (!isLoggedIn) {
+                startActivity(new Intent(this, LoginActivity.class));
+                return true;
+            } else if (itemID == R.id.bottom_wishlist){
+                startActivity(new Intent(this, WishlistActivity.class));
+                return true;
+            } else if (itemID == R.id.bottom_cart){
+                startActivity(new Intent(this, CartActivity.class));
+                return true;
+            } else if (itemID == R.id.bottom_profile){
+                startActivity(new Intent(this, ProfileActivity.class));
+                return true;
+            } else {
+                return false;
+            }
+        });
     }
 
     @Override

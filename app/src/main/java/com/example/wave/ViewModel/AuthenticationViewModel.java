@@ -25,4 +25,9 @@ public class AuthenticationViewModel extends ViewModel {
         authenticationErrorUseCase = new AuthenticationErrorUseCase();
         authenticationErrorUseCase.resetAuthenticationError();
     }
+
+    public boolean isLogin() {
+        authenticationUserUseCase = new AuthenticationUserUseCase();
+        return (authenticationUserUseCase.getAuthenticatedUser() != null);
+    }
 }
