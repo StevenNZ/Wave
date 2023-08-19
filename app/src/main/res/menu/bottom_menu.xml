@@ -3,7 +3,7 @@
 
     <item
         android:id="@+id/bottom_home"
-        android:icon="@drawable/home_icon"
+        android:icon="@drawable/home_selector"
         android:title="@string/home_bottom"/>
     <item
         android:id="@+id/bottom_search"
@@ -11,15 +11,15 @@
         android:title="@string/search_bottom"/>
     <item
         android:id="@+id/bottom_wishlist"
-        android:icon="@drawable/wishlist_icon"
+        android:icon="@drawable/wishlist_selector"
         android:title="@string/wishlist_bottom"/>
     <item
         android:id="@+id/bottom_cart"
-        android:icon="@drawable/cart_icon"
+        android:icon="@drawable/cart_selector"
         android:title="@string/cart_bottom"/>
     <item
         android:id="@+id/bottom_profile"
-        android:icon="@drawable/profile_icon"
+        android:icon="@drawable/profile_selector"
         android:title="@string/profile_bottom"/>
 
 </menu>
