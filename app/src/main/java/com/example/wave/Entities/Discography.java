@@ -5,18 +5,18 @@ import androidx.annotation.Nullable;
 import java.util.List;
 
 public class Discography {
-    private final String discographyID;
-    private final String artistID;
-    private final String categoryID;
-    private final String releaseName;
-    private final String releaseDate;
-    private final String releaseType;
-    private final String releaseArtworkURI;
-    private final long streamingFigures;
-    private final List<String> tracklist;
-    private final List<String> collaborators;
-    private final String primaryColour;
-    private final String secondaryColour;
+    private String discographyID;
+    private String artistID;
+    private String categoryID;
+    private String releaseName;
+    private String releaseDate;
+    private String releaseType;
+    private String releaseArtworkURL;
+    private String streamingFigures;
+    private List<String> tracklist;
+    private List<String> collaborators;
+    private String primaryColour;
+    private String secondaryColour;
 
     /**
      * Constructor for Discography class
@@ -26,7 +26,7 @@ public class Discography {
      * @param releaseName
      * @param releaseDate
      * @param releaseType
-     * @param releaseArtworkURI
+     * @param releaseArtworkURL
      * @param streamingFigures
      * @param tracklist
      * @param collaborators
@@ -34,8 +34,8 @@ public class Discography {
      * @param secondaryColour
      */
     public Discography(String discographyID, String artistID, String categoryID, String releaseName,
-                        String releaseDate, String releaseType, String releaseArtworkURI,
-                        long streamingFigures, List<String> tracklist, List<String> collaborators,
+                        String releaseDate, String releaseType, String releaseArtworkURL,
+                        String streamingFigures, List<String> tracklist, List<String> collaborators,
                         String primaryColour, String secondaryColour) {
         this.discographyID = discographyID;
         this.artistID = artistID;
@@ -43,7 +43,7 @@ public class Discography {
         this.releaseName = releaseName;
         this.releaseDate = releaseDate;
         this.releaseType = releaseType;
-        this.releaseArtworkURI = releaseArtworkURI;
+        this.releaseArtworkURL = releaseArtworkURL;
         this.streamingFigures = streamingFigures;
         this.tracklist = tracklist;
         this.collaborators = collaborators;
@@ -100,18 +100,18 @@ public class Discography {
     }
 
     /**
-     * Getter for releaseArtworkURI
-     * @return releaseArtworkURI
+     * Getter for releaseArtworkURL
+     * @return releaseArtworkURL
      */
-    public String getReleaseArtworkURI() {
-        return releaseArtworkURI;
+    public String getreleaseArtworkURL() {
+        return releaseArtworkURL;
     }
 
     /**
      * Getter for streamingFigures
      * @return streamingFigures
      */
-    public long getStreamingFigures() {
+    public String getStreamingFigures() {
         return streamingFigures;
     }
 
@@ -148,6 +148,102 @@ public class Discography {
     }
 
     /**
+     * Setter for discographyID
+     * @param discographyID
+     */
+    public void setDiscographyID(String discographyID) {
+        this.discographyID = discographyID;
+    }
+
+    /**
+     * Setter for artistID
+     * @param artistID
+     */
+    public void setArtistID(String artistID) {
+        this.artistID = artistID;
+    }
+
+    /**
+     * Setter for categoryID
+     * @param categoryID
+     */
+    public void setCategoryID(String categoryID) {
+        this.categoryID = categoryID;
+    }
+
+    /**
+     * Setter for releaseName
+     * @param releaseName
+     */
+    public void setReleaseName(String releaseName) {
+        this.releaseName = releaseName;
+    }
+
+    /**
+     * Setter for releaseDate
+     * @param releaseDate
+     */
+    public void setReleaseDate(String releaseDate) {
+        this.releaseDate = releaseDate;
+    }
+
+    /**
+     * Setter for releaseType
+     * @param releaseType
+     */
+    public void setReleaseType(String releaseType) {
+        this.releaseType = releaseType;
+    }
+
+    /**
+     * Setter for releaseArtworkURL
+     * @param releaseArtworkURL
+     */
+    public void setReleaseArtworkURL(String releaseArtworkURL) {
+        this.releaseArtworkURL = releaseArtworkURL;
+    }
+
+    /**
+     * Setter for streamingFigures
+     * @param streamingFigures
+     */
+    public void setStreamingFigures(String streamingFigures) {
+        this.streamingFigures = streamingFigures;
+    }
+
+    /**
+     * Setter for tracklist
+     * @param tracklist
+     */
+    public void setTracklist(List<String> tracklist) {
+        this.tracklist = tracklist;
+    }
+
+    /**
+     * Setter for collaborators
+     * @param collaborators
+     */
+    public void setCollaborators(List<String> collaborators) {
+        this.collaborators = collaborators;
+    }
+
+    /**
+     * Setter for primaryColour
+     * @param primaryColour
+     */
+    public void setPrimaryColour(String primaryColour) {
+        this.primaryColour = primaryColour;
+    }
+
+    /**
+     * Setter for secondaryColour
+     * @param secondaryColour
+     */
+    public void setSecondaryColour(String secondaryColour) {
+        this.secondaryColour = secondaryColour;
+    }
+
+    /**
      * equals method for Discography class
      */
     @Override
@@ -179,7 +275,7 @@ public class Discography {
                 ", releaseName='" + releaseName + '\'' +
                 ", releaseDate='" + releaseDate + '\'' +
                 ", releaseType='" + releaseType + '\'' +
-                ", releaseArtworkURI='" + releaseArtworkURI + '\'' +
+                ", releaseArtworkURL='" + releaseArtworkURL + '\'' +
                 ", streamingFigures=" + streamingFigures +
                 ", tracklist=" + tracklist +
                 ", collaborators=" + collaborators +
