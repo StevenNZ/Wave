@@ -16,19 +16,19 @@ public class SearchUseCase {
     public static void generateDiscographyResults(String query, DiscographyResultsListener listener) {
 
 
-        Task<List<Artist>> artistList = ArtistRepository.getInstance().getAllArtists();
+        Task<List<Discography>> discographyList = DiscographyRepository.getInstance().getDiscographyBySearch(query);
 
-        artistList.addOnCompleteListener(task -> {
+        discographyList.addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
-                List<Artist> discographyList = task.getResult();
+                List<Discography> list = task.getResult();
                 List<Popular> resultDiscographies = new ArrayList<>();
 
-                Log.d("SearchDebug", "from returned = " + discographyList);
+                Log.d("SearchDebug", "from returned = " + list);
 
-                for (Artist artist : discographyList) {
-                    String discogName = artist.getArtistName();
-                    String artistName = artist.getArtistID();
-                    String discogImage = artist.getArtistID();
+                for (Discography discography : list) {
+                    String discogName = discography.getReleaseName();
+                    String artistName = discography.getArtistID();
+                    String discogImage = discography.getDiscographyID();
 
                     Popular res = new Popular(discogName, artistName, discogImage);
                     resultDiscographies.add(res);

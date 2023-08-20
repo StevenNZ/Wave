@@ -52,6 +52,13 @@ public class Discography {
     }
 
     /**
+     * Default constructor for Discography class
+     */
+    public Discography() {
+        // Default constructor required for calls to DataSnapshot.getValue(Discography.class)
+    }
+
+    /**
      * Getter for discographyID
      * @return discographyID
      */
