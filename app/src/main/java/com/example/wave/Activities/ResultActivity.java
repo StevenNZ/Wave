@@ -2,6 +2,7 @@ package com.example.wave.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,7 +16,10 @@ import com.example.wave.Dataproviders.DiscographyProvider;
 import com.example.wave.Entities.Discography;
 import com.example.wave.R;
 import com.example.wave.Adaptor.PopularAdaptor;
+import com.example.wave.ViewModel.MainViewModel;
+import com.example.wave.ViewModel.ResultViewModel;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +30,7 @@ public class ResultActivity extends AppCompatActivity {
     private PopularAdaptor resultAdapater;
 
     private List<Popular> results;
+    private ResultViewModel model;
 
     //might have to put this into viewModel , ask Gurjot
     private void fetchAndDisplay(String query){
@@ -54,12 +59,41 @@ public class ResultActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result);
 
+        model = new ViewModelProvider(this).get(ResultViewModel.class);
+
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
+        bottomNavigationView.setSelectedItemId(R.id.bottom_search);
+
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            boolean isLoggedIn = model.isLogin();
+            int itemID = item.getItemId();
+
+            if (itemID == R.id.bottom_home){
+                startActivity(new Intent(this, MainActivity.class));
+                return true;
+            } else if (itemID == R.id.bottom_search){
+                return true;
+            } else if (!isLoggedIn) {
+                startActivity(new Intent(this, LoginActivity.class));
+                return true;
+            } else if (itemID == R.id.bottom_wishlist){
+                startActivity(new Intent(this, WishlistActivity.class));
+                return true;
+            } else if (itemID == R.id.bottom_cart){
+                startActivity(new Intent(this, CartActivity.class));
+                return true;
+            } else if (itemID == R.id.bottom_profile){
+                startActivity(new Intent(this, ProfileActivity.class));
+                return true;
+            } else {
+                return false;
+            }
+        });
+
         Intent intent = getIntent();
         String query = intent.getStringExtra("query");
 
         fetchAndDisplay(query);
-
-
     }
 
     @Override

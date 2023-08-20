@@ -101,6 +101,7 @@ public class MainActivity extends AppCompatActivity implements CategoryRecyclerI
             if (itemID == R.id.bottom_home){
                 return true;
             } else if (itemID == R.id.bottom_search){
+                startActivity(new Intent(this, ResultActivity.class));
                 return true;
             } else if (!isLoggedIn) {
                 startActivity(new Intent(this, LoginActivity.class));

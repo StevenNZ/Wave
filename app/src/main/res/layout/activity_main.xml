@@ -26,7 +26,8 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center"
-            android:layout_gravity="center">
+            android:layout_gravity="center"
+            android:paddingVertical="15dp">
 
             <androidx.appcompat.widget.SearchView
                 android:id="@+id/main_search"
