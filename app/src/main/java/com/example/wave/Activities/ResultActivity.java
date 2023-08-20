@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -19,6 +20,8 @@ import com.example.wave.Adaptor.PopularAdaptor;
 import com.example.wave.ViewModel.MainViewModel;
 import com.example.wave.ViewModel.ResultViewModel;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
@@ -31,6 +34,8 @@ public class ResultActivity extends AppCompatActivity {
 
     private List<Popular> results;
     private ResultViewModel model;
+
+    private MaterialToolbar topAppBar;
 
     //might have to put this into viewModel , ask Gurjot
     private void fetchAndDisplay(String query){
@@ -45,6 +50,7 @@ public class ResultActivity extends AppCompatActivity {
                     results = resultList;
                     resultAdapater = new PopularAdaptor(ResultActivity.this, R.layout.popular_list_item, resultList);
                     ListView listView = findViewById(R.id.result_list_view);
+                    topAppBar.setVisibility(View.VISIBLE);
                     listView.setAdapter(resultAdapater);
                 }
 
@@ -63,6 +69,10 @@ public class ResultActivity extends AppCompatActivity {
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setSelectedItemId(R.id.bottom_search);
+
+        topAppBar = findViewById(R.id.topAppBar);
+        setSupportActionBar(topAppBar);
+        topAppBar.setVisibility(View.GONE);
 
         bottomNavigationView.setOnItemSelectedListener(item -> {
             boolean isLoggedIn = model.isLogin();
@@ -93,28 +103,29 @@ public class ResultActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String query = intent.getStringExtra("query");
 
+
+
         fetchAndDisplay(query);
     }
-
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-
-
         getMenuInflater().inflate(R.menu.results_menu, menu);
 
         MenuItem resultsMenu = menu.findItem(R.id.result_search_view);
         searchView = (SearchView) resultsMenu.getActionView();
+        setupSearchViewListener();
 
-        searchView.setQueryHint("Search");
-
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        return true;
+    }
+    private void setupSearchViewListener() {
+        if (searchView != null) {
+            searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
+                Log.d("SearchDebug", "IS THIS BEING CALLED = " + query);
                 //when the user presses enter what happens.
                 fetchAndDisplay(query);
                 return false;
             }
-
             @Override
             public boolean onQueryTextChange(String newText) {
                 //any changes (autocomplete)
@@ -136,14 +147,11 @@ public class ResultActivity extends AppCompatActivity {
                     //this makes sure that when the list is empty we don't do anything
                     // can refactor to make better but idc
                     resultAdapater.setFilteredList(filteredList);
-
-
                 }
                 return true;
             }
         });
-
-        return super.onCreateOptionsMenu(menu);
+        }
     }
-
+    
 }
