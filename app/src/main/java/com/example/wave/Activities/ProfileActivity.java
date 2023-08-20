@@ -11,6 +11,9 @@ import android.widget.TextView;
 
 import com.example.wave.R;
 import com.example.wave.ViewModel.ProfileViewModel;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class ProfileActivity extends AppCompatActivity {
 
@@ -24,13 +27,14 @@ public class ProfileActivity extends AppCompatActivity {
         TextView usernameGreet = findViewById(R.id.profileUsername);
         Button signoutBtn = findViewById(R.id.signoutBtn);
 
-        String receivedString = getIntent().getStringExtra("USERNAME");
-        if (receivedString != null) {
-            String greet = "Hi " + receivedString + "!";
+        model = new ViewModelProvider(this).get(ProfileViewModel.class);
+
+        FirebaseUser user = model.getAuthenticatedUser().getValue();
+
+        if (user != null) {
+            String greet = "Hi " + user.getDisplayName() + "!";
             usernameGreet.setText(greet);
         }
-
-        model = new ViewModelProvider(this).get(ProfileViewModel.class);
 
         signoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -39,6 +43,30 @@ public class ProfileActivity extends AppCompatActivity {
 
                 Intent intent = new Intent(ProfileActivity.this, LoginActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
+        bottomNavigationView.setSelectedItemId(R.id.bottom_profile);
+
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            int itemID = item.getItemId();
+
+            if (itemID == R.id.bottom_home){
+                startActivity(new Intent(this, MainActivity.class));
+                return true;
+            } else if (itemID == R.id.bottom_search){
+                return true;
+            } else if (itemID == R.id.bottom_wishlist){
+                startActivity(new Intent(this, WishlistActivity.class));
+                return true;
+            } else if (itemID == R.id.bottom_cart){
+                startActivity(new Intent(this, CartActivity.class));
+                return true;
+            } else if (itemID == R.id.bottom_profile){
+                return true;
+            } else {
+                return false;
             }
         });
     }

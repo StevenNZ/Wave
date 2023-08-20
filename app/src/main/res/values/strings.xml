@@ -15,4 +15,9 @@
     <string name="usernameTitle">Username</string>
     <string name="passwordTitle">Password</string>
     <string name="confirmPasswordTitle">Confirm Password</string>
+    <string name="home_bottom">Home</string>
+    <string name="search_bottom">Search</string>
+    <string name="wishlist_bottom">Wishlist</string>
+    <string name="cart_bottom">Cart</string>
+    <string name="profile_bottom">Profile</string>
 </resources>

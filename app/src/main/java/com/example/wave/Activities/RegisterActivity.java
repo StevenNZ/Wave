@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.example.wave.R;
 import com.example.wave.ViewModel.RegisterViewModel;
+import com.google.android.material.appbar.MaterialToolbar;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -28,8 +29,14 @@ public class RegisterActivity extends AppCompatActivity {
         EditText usernameField = findViewById(R.id.usernameField);
         EditText passwordField = findViewById(R.id.passwordField);
         EditText passwordConfirmedField = findViewById(R.id.passwordConfirmField);
+        MaterialToolbar toolbar = findViewById(R.id.topAppBar);
 
-        // Initialize Firebase Auth
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
         model = new ViewModelProvider(this).get(RegisterViewModel.class);
 
@@ -51,12 +58,6 @@ public class RegisterActivity extends AppCompatActivity {
                     model.registerUser(username, emailAddress, password);
                 }
             }
-        });
-
-        Button tempBtn = findViewById(R.id.temp);
-        tempBtn.setOnClickListener(v -> {
-            Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
-            startActivity(intent);
         });
 
         model.getAuthenticationError().observe(this, error -> {
