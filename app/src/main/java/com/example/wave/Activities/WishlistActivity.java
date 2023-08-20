@@ -25,6 +25,7 @@ public class WishlistActivity extends AppCompatActivity {
                 startActivity(new Intent(this, MainActivity.class));
                 return true;
             } else if (itemID == R.id.bottom_search){
+                startActivity(new Intent(this, ResultActivity.class));
                 return true;
             } else if (itemID == R.id.bottom_wishlist){
                 return true;
