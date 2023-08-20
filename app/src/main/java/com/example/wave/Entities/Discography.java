@@ -11,7 +11,7 @@ public class Discography {
     private String releaseName;
     private String releaseDate;
     private String releaseType;
-    private String releaseArtworkURL;
+    private String imageURL;
     private String streamingFigures;
     private List<String> tracklist;
     private List<String> collaborators;
@@ -34,7 +34,7 @@ public class Discography {
      * @param secondaryColour
      */
     public Discography(String discographyID, String artistID, String categoryID, String releaseName,
-                        String releaseDate, String releaseType, String releaseArtworkURL,
+                        String releaseDate, String releaseType, String imageURL,
                         String streamingFigures, List<String> tracklist, List<String> collaborators,
                         String primaryColour, String secondaryColour) {
         this.discographyID = discographyID;
@@ -43,12 +43,19 @@ public class Discography {
         this.releaseName = releaseName;
         this.releaseDate = releaseDate;
         this.releaseType = releaseType;
-        this.releaseArtworkURL = releaseArtworkURL;
+        this.imageURL = imageURL;
         this.streamingFigures = streamingFigures;
         this.tracklist = tracklist;
         this.collaborators = collaborators;
         this.primaryColour = primaryColour;
         this.secondaryColour = secondaryColour;
+    }
+
+    /**
+     * Default constructor for Discography class
+     */
+    public Discography() {
+        // Default constructor required for calls to DataSnapshot.getValue(Discography.class)
     }
 
     /**
@@ -103,8 +110,8 @@ public class Discography {
      * Getter for releaseArtworkURL
      * @return releaseArtworkURL
      */
-    public String getreleaseArtworkURL() {
-        return releaseArtworkURL;
+    public String getImageURL() {
+        return imageURL;
     }
 
     /**
@@ -197,10 +204,10 @@ public class Discography {
 
     /**
      * Setter for releaseArtworkURL
-     * @param releaseArtworkURL
+     * @param imageURL
      */
-    public void setReleaseArtworkURL(String releaseArtworkURL) {
-        this.releaseArtworkURL = releaseArtworkURL;
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
     }
 
     /**
@@ -275,7 +282,7 @@ public class Discography {
                 ", releaseName='" + releaseName + '\'' +
                 ", releaseDate='" + releaseDate + '\'' +
                 ", releaseType='" + releaseType + '\'' +
-                ", releaseArtworkURL='" + releaseArtworkURL + '\'' +
+                ", imageURL='" + imageURL + '\'' +
                 ", streamingFigures=" + streamingFigures +
                 ", tracklist=" + tracklist +
                 ", collaborators=" + collaborators +
