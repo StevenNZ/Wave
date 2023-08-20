@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.wave.Dataproviders.DiscographyProvider;
 import com.example.wave.Entities.Discography;
@@ -24,7 +25,29 @@ public class ResultActivity extends AppCompatActivity {
     private SearchView searchView;
     private PopularAdaptor resultAdapater;
 
-    private List<Popular> resultList;
+    private List<Popular> results;
+
+    //might have to put this into viewModel , ask Gurjot
+    private void fetchAndDisplay(String query){
+        SearchUseCase.generateDiscographyResults(query, new DiscographyResultsListener() {
+            @Override
+            public void onDiscographyResultsReady(List<Popular> resultList) {
+                Log.d("SearchDebug", "total Result list = " + resultList);
+
+                if(resultList.isEmpty()){
+                    Toast.makeText(getBaseContext(), "Make sure fields are not empty", Toast.LENGTH_SHORT).show();
+                }else{
+                    results = resultList;
+                    resultAdapater = new PopularAdaptor(ResultActivity.this, R.layout.popular_list_item, resultList);
+                    ListView listView = findViewById(R.id.result_list_view);
+                    listView.setAdapter(resultAdapater);
+                }
+
+
+            }
+        });
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,17 +57,8 @@ public class ResultActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String query = intent.getStringExtra("query");
 
+        fetchAndDisplay(query);
 
-        resultList = SearchUseCase.getSearchedDiscography(query);
-        Log.d("SearchDebug", "total Result list= " + resultList);
-
-        for(Popular res: resultList){
-            Log.d("SearchDebug", "current res = " + res);
-        }
-
-        resultAdapater = new PopularAdaptor (this, R.layout.popular_list_item, resultList);
-        ListView listView = findViewById(R.id.result_list_view);
-        listView.setAdapter(resultAdapater);
 
     }
 
@@ -63,6 +77,7 @@ public class ResultActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 //when the user presses enter what happens.
+                fetchAndDisplay(query);
                 return false;
             }
 
@@ -73,26 +88,22 @@ public class ResultActivity extends AppCompatActivity {
                 List<Popular> filteredList = new ArrayList<>();
 
                 Log.d("SearchDebug", "onQueryTextChange: newText = " + newText);
-                Log.d("SearchDebug", "onQueryTextChange: newText = " + resultList);
+                Log.d("SearchDebug", "onQueryTextChange: OnTextChange = " + results);
 
 
-                for (Popular popular: resultList){
+                for (Popular popular: results){
                     //if album name in newText or artist name in new text
                     if(popular.getAlbumName().toLowerCase().contains(newText.toLowerCase())
                     || popular.getAlbumArtist().toLowerCase().contains(newText.toLowerCase())){
                         filteredList.add(popular);
                     }
                 }
-                if(filteredList.isEmpty()){
+                if(!filteredList.isEmpty()){
                     //this makes sure that when the list is empty we don't do anything
                     // can refactor to make better but idc
-
-
-                }else{
-                    Log.d("SearchDebug", "onQueryTextChange: newText = " + newText);
-                    Log.d("SearchDebug", "onQueryTextChange: filtered = " + filteredList);
-
                     resultAdapater.setFilteredList(filteredList);
+
+
                 }
                 return true;
             }

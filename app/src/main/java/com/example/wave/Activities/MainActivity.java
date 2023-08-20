@@ -9,10 +9,12 @@ import androidx.appcompat.widget.SearchView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.wave.Activities.Category;
 import com.example.wave.Activities.CategoryDataProvider;
@@ -30,8 +32,12 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements CategoryRecyclerInterface {
 
-    SearchView mainSearch;
+
+    private SearchView mainSearch;
+    private TextView searchLabel;
+    private int originalSearchWidth;
     private MainViewModel model;
+
 
 
     @Override
@@ -61,6 +67,10 @@ public class MainActivity extends AppCompatActivity implements CategoryRecyclerI
 
 
         mainSearch = findViewById(R.id.main_search);
+        searchLabel = findViewById(R.id.search_label);
+        originalSearchWidth = mainSearch.getLayoutParams().width;
+        
+        setupSearchViewListeners();
 
         mainSearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -108,6 +118,39 @@ public class MainActivity extends AppCompatActivity implements CategoryRecyclerI
                 return false;
             }
         });
+
+
+    }
+
+    private void setupSearchViewListeners() {
+        setupSearchClickListener();
+        setupCloseListener();
+    }
+
+    private void setupCloseListener() {
+        mainSearch.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                searchLabel.setVisibility(View.VISIBLE);
+                mainSearch.getLayoutParams().width = originalSearchWidth;
+                mainSearch.requestLayout();
+                return false;
+            }
+        });
+    }
+
+    private void setupSearchClickListener() {
+        //remove search text and increase width
+        mainSearch.setOnSearchClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                searchLabel.setVisibility(View.GONE);
+                mainSearch.setMaxWidth(600);
+            }
+        });
+
+
+
     }
 
     @Override
@@ -122,4 +165,5 @@ public class MainActivity extends AppCompatActivity implements CategoryRecyclerI
         startActivity(resultIntent);
 
     }
+
 }

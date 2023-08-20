@@ -30,11 +30,21 @@
 
             <androidx.appcompat.widget.SearchView
                 android:id="@+id/main_search"
-                android:layout_width="200dp"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:inputType="textAutoComplete"
                 app:queryHint="SEARCH"
                 app:searchIcon="@drawable/baseline_search_24" />
+
+            <TextView
+                android:id="@+id/search_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:text="SEARCH"
+                android:visibility="visible"
+                android:textSize="24dp"/>
 
 
         </LinearLayout>
