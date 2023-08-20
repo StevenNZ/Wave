@@ -5,16 +5,16 @@ import androidx.annotation.Nullable;
 import java.util.List;
 
 public class Category {
-    final private String categoryID;
-    final private String categoryName;
-    final private String description;
-    final private List<String> subcategoriesList;
-    final private List<String> artistIDList;
-    final private List<String> discographyIDList;
-    final private String origin;
-    final private String era;
-    final private String imageURL;
-    final private String blurb;
+    private String categoryID;
+    private String categoryName;
+    private String description;
+    private List<String> subcategoriesList;
+    private List<String> artistIDList;
+    private List<String> discographyIDList;
+    private String origin;
+    private String era;
+    private String imageURL;
+    private String blurb;
 
     /**
      * Constructor for Category class
@@ -133,6 +133,86 @@ public class Category {
      */
     public String getBlurb() {
         return blurb;
+    }
+
+    /**
+     * Setter for categoryID
+     * @param categoryID
+     */
+    public void setCategoryID(String categoryID) {
+        this.categoryID = categoryID;
+    }
+
+    /**
+     * Setter for categoryName
+     * @param categoryName
+     */
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
+    }
+
+    /**
+     * Setter for description
+     * @param description
+     */
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    /**
+     * Setter for subcategoriesList
+     * @param subcategoriesList
+     */
+    public void setSubcategoriesList(List<String> subcategoriesList) {
+        this.subcategoriesList = subcategoriesList;
+    }
+
+    /**
+     * Setter for artistIDList
+     * @param artistIDList
+     */
+    public void setArtistIDList(List<String> artistIDList) {
+        this.artistIDList = artistIDList;
+    }
+
+    /**
+     * Setter for discographyIDList
+     * @param discographyIDList
+     */
+    public void setDiscographyIDList(List<String> discographyIDList) {
+        this.discographyIDList = discographyIDList;
+    }
+
+    /**
+     * Setter for origin
+     * @param origin
+     */
+    public void setOrigin(String origin) {
+        this.origin = origin;
+    }
+
+    /**
+     * Setter for era
+     * @param era
+     */
+    public void setEra(String era) {
+        this.era = era;
+    }
+
+    /**
+     * Setter for imageURL
+     * @param imageURL
+     */
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
+    }
+
+    /**
+     * Setter for blurb
+     * @param blurb
+     */
+    public void setBlurb(String blurb) {
+        this.blurb = blurb;
     }
 
     /**
