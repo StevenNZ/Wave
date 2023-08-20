@@ -25,4 +25,15 @@ public class AuthenticationViewModel extends ViewModel {
         authenticationErrorUseCase = new AuthenticationErrorUseCase();
         authenticationErrorUseCase.resetAuthenticationError();
     }
+
+    public boolean isLogin() {
+        authenticationUserUseCase = new AuthenticationUserUseCase();
+        return (authenticationUserUseCase.getAuthenticatedUser().getValue() != null);
+    }
+
+    public String getUserID() {
+        authenticationUserUseCase = new AuthenticationUserUseCase();
+        // can return null
+        return (authenticationUserUseCase.getAuthenticatedUser().getValue().getUid());
+    }
 }
