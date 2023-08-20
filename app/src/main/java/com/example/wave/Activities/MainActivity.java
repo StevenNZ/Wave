@@ -8,10 +8,12 @@ import androidx.appcompat.widget.SearchView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.wave.Activities.Category;
 import com.example.wave.Activities.CategoryDataProvider;
@@ -26,13 +28,14 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements CategoryRecyclerInterface {
 
-    SearchView mainSearch;
+    private SearchView mainSearch;
+    private TextView searchLabel;
+    private int originalSearchWidth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
 
         List<Category> categoryList = CategoryDataProvider.getCategories();
         RecyclerView recyclerView = findViewById(R.id.category_recycler_view);
@@ -53,6 +56,8 @@ public class MainActivity extends AppCompatActivity implements CategoryRecyclerI
         listView.setAdapter(popularAdapter);
 
         mainSearch = findViewById(R.id.main_search);
+        searchLabel = findViewById(R.id.search_label);
+        originalSearchWidth = mainSearch.getLayoutParams().width;
 
         mainSearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -73,8 +78,25 @@ public class MainActivity extends AppCompatActivity implements CategoryRecyclerI
             }
         });
 
+        //remove search text and increase width
+        mainSearch.setOnSearchClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                searchLabel.setVisibility(View.GONE);
+                mainSearch.setMaxWidth(600);
+            }
+        });
 
-
+        //on close get original view back
+        mainSearch.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                searchLabel.setVisibility(View.VISIBLE);
+                mainSearch.getLayoutParams().width = originalSearchWidth;
+                mainSearch.requestLayout();
+                return false;
+            }
+        });
 
 
     }
@@ -91,4 +113,5 @@ public class MainActivity extends AppCompatActivity implements CategoryRecyclerI
         startActivity(resultIntent);
 
     }
+
 }

@@ -27,6 +27,7 @@ public class ResultActivity extends AppCompatActivity {
 
     private List<Popular> results;
 
+    //might have to put this into viewModel , ask Gurjot
     private void fetchAndDisplay(String query){
         SearchUseCase.generateDiscographyResults(query, new DiscographyResultsListener() {
             @Override
