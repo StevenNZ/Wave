@@ -17,6 +17,7 @@ public class Artist {
     private  String activeYearsEnd;
     private  String blurb;
 
+
     /**
     * Constructor for Artist class
     * @param artistID
@@ -44,10 +45,7 @@ public class Artist {
         this.activeYearsEnd = activeYearsEnd;
         this.blurb = blurb;
     }
-
-    public Artist(){
-
-    }
+    
     public void setArtistID(String artistID) {
         this.artistID = artistID;
     }
@@ -86,6 +84,13 @@ public class Artist {
 
     public void setBlurb(String blurb) {
         this.blurb = blurb;
+    }
+
+    /**
+     * Default constructor for Artist class
+     */
+    public Artist() {
+        // Default constructor required for calls to DataSnapshot.getValue(Artist.class)
     }
 
     /**
@@ -179,6 +184,7 @@ public class Artist {
         }
         return false;
     }
+
 
     /**
      * hashCode method for Artist class

@@ -47,6 +47,7 @@ public class ArtistRepository implements ArtistProvider {
                 for (QueryDocumentSnapshot document : querySnapshot) {
                     Log.d("SearchDebug", "DOCUMENT = " + document);
                     Artist artist = document.toObject(Artist.class);
+                    Log.d("SearchDebug", "ARTIST = " + artist);
                     artists.add(artist);
                 }
                 Log.d("SearchDebug", "FROM REPO = " + artists);
