@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.wave.Dataproviders.DiscographyProvider;
 import com.example.wave.Entities.Discography;
@@ -39,15 +40,16 @@ public class ResultActivity extends AppCompatActivity {
             public void onDiscographyResultsReady(List<Popular> resultList) {
                 Log.d("SearchDebug", "total Result list = " + resultList);
 
-                for (Popular res : resultList) {
-                    Log.d("SearchDebug", "current res = " + res);
+                if(resultList.isEmpty()){
+                    Toast.makeText(getBaseContext(), "Make sure fields are not empty", Toast.LENGTH_SHORT).show();
+                }else{
+                    results = resultList;
+                    resultAdapater = new PopularAdaptor(ResultActivity.this, R.layout.popular_list_item, resultList);
+                    ListView listView = findViewById(R.id.result_list_view);
+                    listView.setAdapter(resultAdapater);
                 }
 
-                results = resultList;
 
-                resultAdapater = new PopularAdaptor(ResultActivity.this, R.layout.popular_list_item, resultList);
-                ListView listView = findViewById(R.id.result_list_view);
-                listView.setAdapter(resultAdapater);
             }
         });
     }
