@@ -282,7 +282,7 @@ public class Discography {
                 ", releaseName='" + releaseName + '\'' +
                 ", releaseDate='" + releaseDate + '\'' +
                 ", releaseType='" + releaseType + '\'' +
-                ", releaseArtworkURL='" + releaseArtworkURL + '\'' +
+                ", imageURL='" + imageURL + '\'' +
                 ", streamingFigures=" + streamingFigures +
                 ", tracklist=" + tracklist +
                 ", collaborators=" + collaborators +
