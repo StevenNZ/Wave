@@ -58,6 +58,8 @@ public class MainActivity extends AppCompatActivity implements CategoryRecyclerI
         mainSearch = findViewById(R.id.main_search);
         searchLabel = findViewById(R.id.search_label);
         originalSearchWidth = mainSearch.getLayoutParams().width;
+        
+        setupSearchViewListeners();
 
         mainSearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -78,16 +80,14 @@ public class MainActivity extends AppCompatActivity implements CategoryRecyclerI
             }
         });
 
-        //remove search text and increase width
-        mainSearch.setOnSearchClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                searchLabel.setVisibility(View.GONE);
-                mainSearch.setMaxWidth(600);
-            }
-        });
+    }
 
-        //on close get original view back
+    private void setupSearchViewListeners() {
+        setupSearchClickListener();
+        setupCloseListener();
+    }
+
+    private void setupCloseListener() {
         mainSearch.setOnCloseListener(new SearchView.OnCloseListener() {
             @Override
             public boolean onClose() {
@@ -97,8 +97,17 @@ public class MainActivity extends AppCompatActivity implements CategoryRecyclerI
                 return false;
             }
         });
+    }
 
-
+    private void setupSearchClickListener() {
+        //remove search text and increase width
+        mainSearch.setOnSearchClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                searchLabel.setVisibility(View.GONE);
+                mainSearch.setMaxWidth(600);
+            }
+        });
     }
 
     @Override
