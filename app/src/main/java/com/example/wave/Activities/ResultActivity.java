@@ -27,14 +27,7 @@ public class ResultActivity extends AppCompatActivity {
 
     private List<Popular> results;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_result);
-
-        Intent intent = getIntent();
-        String query = intent.getStringExtra("query");
-
+    private void fetchAndDisplay(String query){
         SearchUseCase.generateDiscographyResults(query, new DiscographyResultsListener() {
             @Override
             public void onDiscographyResultsReady(List<Popular> resultList) {
@@ -52,6 +45,20 @@ public class ResultActivity extends AppCompatActivity {
 
             }
         });
+
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_result);
+
+        Intent intent = getIntent();
+        String query = intent.getStringExtra("query");
+
+        fetchAndDisplay(query);
+
+
     }
 
     @Override
@@ -69,6 +76,7 @@ public class ResultActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 //when the user presses enter what happens.
+                fetchAndDisplay(query);
                 return false;
             }
 
