@@ -45,7 +45,7 @@ public class Artist {
         this.activeYearsEnd = activeYearsEnd;
         this.blurb = blurb;
     }
-    
+
     public void setArtistID(String artistID) {
         this.artistID = artistID;
     }
