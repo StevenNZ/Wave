@@ -4,9 +4,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.appcompat.widget.SearchView;
+
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 
 import com.example.wave.Activities.Category;
@@ -25,7 +30,9 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements CategoryRecyclerInterface {
 
+    SearchView mainSearch;
     private MainViewModel model;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +59,28 @@ public class MainActivity extends AppCompatActivity implements CategoryRecyclerI
         ListView listView = findViewById(R.id.popular_list_view);
         listView.setAdapter(popularAdapter);
 
+
+        mainSearch = findViewById(R.id.main_search);
+
+        mainSearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+
+                Intent searchIntent = new Intent(MainActivity.this, ResultActivity.class);
+                searchIntent.putExtra("query", query);
+//                //this is where you get the code to get the category they clicked on using the getters
+                startActivity(searchIntent);
+
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                //
+                return false;
+            }
+        });
+        
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setSelectedItemId(R.id.bottom_home);
 
@@ -83,6 +112,8 @@ public class MainActivity extends AppCompatActivity implements CategoryRecyclerI
 
     @Override
     public void onItemClick(int position) {
+
+        //how would I get the categoryID and pass it
 
         Intent resultIntent = new Intent(this, ResultActivity.class);
 

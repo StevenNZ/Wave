@@ -5,47 +5,60 @@ import androidx.annotation.Nullable;
 import java.util.List;
 
 public class Artist {
-    private final String artistID;
-    private final String categoryID;
-    private final String artistName;
-    private final String biography;
-    private final String countryOfOrigin;
-    private final List<String> discographyIDList;
-    private final List<String> awards;
-    private final String activeYearsStart;
-    private final String activeYearsEnd;
-    private final String blurb;
+
+    private String artistID;
+    private String categoryID;
+    private String artistName;
+    private String biography;
+    private String countryOfOrigin;
+    private String imageURL;
+    private List<String> discographyIDList;
+    private List<String> awardsList;
+    private String activeYearsStart;
+    private String activeYearsEnd;
+    private String blurb;
 
     /**
-    * Constructor for Artist class
-    * @param artistID
-    * @param categoryID
-    * @param artistName
-    * @param biography
-    * @param countryOfOrigin
-    * @param discographyIDList
-    * @param awards
-    * @param activeYearsStart
-    * @param activeYearsEnd
-    * @param blurb
+     * Constructor for Artist class
+     *
+     * @param artistID
+     * @param categoryID
+     * @param artistName
+     * @param biography
+     * @param countryOfOrigin
+     * @param imageURL
+     * @param discographyIDList
+     * @param awardsList
+     * @param activeYearsStart
+     * @param activeYearsEnd
+     * @param blurb
      */
-    public Artist(String artistID, String categoryID, String artistName, String biography, String countryOfOrigin,
-                  List<String> discographyIDList, List<String> awards, String activeYearsStart, String activeYearsEnd,
+    public Artist(String artistID, String categoryID, String artistName, String biography, String countryOfOrigin, String imageURL,
+                  List<String> discographyIDList, List<String> awardsList, String activeYearsStart, String activeYearsEnd,
                   String blurb) {
         this.artistID = artistID;
         this.categoryID = categoryID;
         this.artistName = artistName;
         this.biography = biography;
         this.countryOfOrigin = countryOfOrigin;
+        this.imageURL = imageURL;
         this.discographyIDList = discographyIDList;
-        this.awards = awards;
+        this.awardsList = awardsList;
         this.activeYearsStart = activeYearsStart;
         this.activeYearsEnd = activeYearsEnd;
         this.blurb = blurb;
     }
 
     /**
+     * Default constructor for Artist class
+     */
+    public Artist() {
+        // Default constructor required for calls to DataSnapshot.getValue(Artist.class)
+    }
+
+    /**
      * Getter for artistID
+     *
      * @return artistID
      */
     public String getArtistID() {
@@ -54,6 +67,7 @@ public class Artist {
 
     /**
      * Getter for categoryID
+     *
      * @return categoryID
      */
     public String getCategoryID() {
@@ -62,6 +76,7 @@ public class Artist {
 
     /**
      * Getter for artistName
+     *
      * @return artistName
      */
     public String getArtistName() {
@@ -70,6 +85,7 @@ public class Artist {
 
     /**
      * Getter for biography
+     *
      * @return biography
      */
     public String getBiography() {
@@ -78,6 +94,7 @@ public class Artist {
 
     /**
      * Getter for countryOfOrigin
+     *
      * @return countryOfOrigin
      */
     public String getCountryOfOrigin() {
@@ -85,7 +102,17 @@ public class Artist {
     }
 
     /**
+     * Getter for imageURL
+     *
+     * @return imageURL
+     */
+    public String getImageURL() {
+        return imageURL;
+    }
+
+    /**
      * Getter for discographyIDList
+     *
      * @return discographyIDList
      */
     public List<String> getDiscographyIDList() {
@@ -93,15 +120,17 @@ public class Artist {
     }
 
     /**
-     * Getter for awards
-     * @return awards
+     * Getter for awardsList
+     *
+     * @return awardsList
      */
-    public List<String> getAwards() {
-        return awards;
+    public List<String> getawardsList() {
+        return awardsList;
     }
 
     /**
      * Getter for activeYearsStart
+     *
      * @return activeYearsStart
      */
     public String getActiveYearsStart() {
@@ -110,6 +139,7 @@ public class Artist {
 
     /**
      * Getter for activeYearsEnd
+     *
      * @return activeYearsEnd
      */
     public String getActiveYearsEnd() {
@@ -117,19 +147,108 @@ public class Artist {
     }
 
     /**
-    * Getter for blurb
-    * @return blurb
-    */
+     * Getter for blurb
+     *
+     * @return blurb
+     */
     public String getBlurb() {
         return blurb;
+    }
+
+    /**
+     * Setter for artistID
+     * @param artistID
+     */
+    public void setArtistID(String artistID) {
+        this.artistID = artistID;
+    }
+
+    /**
+     * Setter for categoryID
+     * @param categoryID
+     */
+    public void setCategoryID(String categoryID) {
+        this.categoryID = categoryID;
+    }
+
+    /**
+     * Setter for artistName
+     * @param artistName
+     */
+    public void setArtistName(String artistName) {
+        this.artistName = artistName;
+    }
+
+    /**
+     * Setter for biography
+     * @param biography
+     */
+    public void setBiography(String biography) {
+        this.biography = biography;
+    }
+
+    /**
+     * Setter for countryOfOrigin
+     * @param countryOfOrigin
+     */
+    public void setCountryOfOrigin(String countryOfOrigin) {
+        this.countryOfOrigin = countryOfOrigin;
+    }
+
+    /**
+     * Setter for discographyIDList
+     * @param discographyIDList
+     */
+    public void setDiscographyIDList(List<String> discographyIDList) {
+        this.discographyIDList = discographyIDList;
+    }
+
+    /**
+     * Setter for awardsList
+     * @param awardsList
+     */
+    public void setawardsList(List<String> awardsList) {
+        this.awardsList = awardsList;
+    }
+
+    /**
+     * Setter for activeYearsStart
+     * @param activeYearsStart
+     */
+    public void setActiveYearsStart(String activeYearsStart) {
+        this.activeYearsStart = activeYearsStart;
+    }
+
+    /**
+     * Setter for activeYearsEnd
+     * @param activeYearsEnd
+     */
+    public void setActiveYearsEnd(String activeYearsEnd) {
+        this.activeYearsEnd = activeYearsEnd;
+    }
+
+    /**
+     * Setter for imageURL
+     * @param imageURL
+     */
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
+    }
+
+    /**
+     * Setter for blurb
+     * @param blurb
+     */
+    public void setBlurb(String blurb) {
+        this.blurb = blurb;
     }
 
     /**
      * equals method for Artist class
      */
     @Override
-    public boolean equals(@Nullable Object obj){
-        if (obj instanceof Artist){
+    public boolean equals(@Nullable Object obj) {
+        if (obj instanceof Artist) {
             Artist artist = (Artist) obj;
             return artistID.equals(artist.getArtistID());
         }
@@ -155,8 +274,9 @@ public class Artist {
                 ", artistName='" + artistName + '\'' +
                 ", biography='" + biography + '\'' +
                 ", countryOfOrigin='" + countryOfOrigin + '\'' +
+                ", imageURL='" + imageURL + '\'' +
                 ", discographyIDList=" + discographyIDList +
-                ", awards=" + awards +
+                ", awardsList=" + awardsList +
                 ", activeYearsStart='" + activeYearsStart + '\'' +
                 ", activeYearsEnd='" + activeYearsEnd + '\'' +
                 ", blurb='" + blurb + '\'' +
