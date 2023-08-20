@@ -5,16 +5,17 @@ import androidx.annotation.Nullable;
 import java.util.List;
 
 public class Artist {
-    private final String artistID;
-    private final String categoryID;
-    private final String artistName;
-    private final String biography;
-    private final String countryOfOrigin;
-    private final List<String> discographyIDList;
-    private final List<String> awards;
-    private final String activeYearsStart;
-    private final String activeYearsEnd;
-    private final String blurb;
+
+    private String artistID;
+    private String categoryID;
+    private String artistName;
+    private String biography;
+    private String countryOfOrigin;
+    private List<String> discographyIDList;
+    private List<String> awards;
+    private String activeYearsStart;
+    private String activeYearsEnd;
+    private String blurb;
 
     /**
     * Constructor for Artist class
@@ -42,6 +43,13 @@ public class Artist {
         this.activeYearsStart = activeYearsStart;
         this.activeYearsEnd = activeYearsEnd;
         this.blurb = blurb;
+    }
+
+    /**
+     * Default constructor for Artist class
+     */
+    public Artist() {
+        // Default constructor required for calls to DataSnapshot.getValue(Artist.class)
     }
 
     /**
@@ -134,6 +142,46 @@ public class Artist {
             return artistID.equals(artist.getArtistID());
         }
         return false;
+    }
+
+    public void setArtistID(String artistID) {
+        this.artistID = artistID;
+    }
+
+    public void setCategoryID(String categoryID) {
+        this.categoryID = categoryID;
+    }
+
+    public void setArtistName(String artistName) {
+        this.artistName = artistName;
+    }
+
+    public void setBiography(String biography) {
+        this.biography = biography;
+    }
+
+    public void setCountryOfOrigin(String countryOfOrigin) {
+        this.countryOfOrigin = countryOfOrigin;
+    }
+
+    public void setDiscographyIDList(List<String> discographyIDList) {
+        this.discographyIDList = discographyIDList;
+    }
+
+    public void setAwards(List<String> awards) {
+        this.awards = awards;
+    }
+
+    public void setActiveYearsStart(String activeYearsStart) {
+        this.activeYearsStart = activeYearsStart;
+    }
+
+    public void setActiveYearsEnd(String activeYearsEnd) {
+        this.activeYearsEnd = activeYearsEnd;
+    }
+
+    public void setBlurb(String blurb) {
+        this.blurb = blurb;
     }
 
     /**

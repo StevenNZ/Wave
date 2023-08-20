@@ -33,11 +33,11 @@ public class SearchUseCase {
 
         artistList.addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
-                List<Artist> discographyList = task.getResult();
+                List<Artist> list = task.getResult();
 
-                Log.d("SearchDebug", "on successful = " + discographyList);
+                Log.d("SearchDebug", "on successful = " + list);
 
-                for (Artist artist : discographyList) {
+                for (Artist artist : list) {
                     // Convert and add to the final results list
                     results.add(artist);
                 }
