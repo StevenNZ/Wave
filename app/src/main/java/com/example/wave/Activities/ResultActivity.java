@@ -34,18 +34,20 @@ public class ResultActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String query = intent.getStringExtra("query");
 
+        SearchUseCase.generateDiscographyResults(query, new DiscographyResultsListener() {
+            @Override
+            public void onDiscographyResultsReady(List<Popular> resultList) {
+                Log.d("SearchDebug", "total Result list = " + resultList);
 
-        resultList = SearchUseCase.getSearchedDiscography(query);
-        Log.d("SearchDebug", "total Result list= " + resultList);
+                for (Popular res : resultList) {
+                    Log.d("SearchDebug", "current res = " + res);
+                }
 
-        for(Popular res: resultList){
-            Log.d("SearchDebug", "current res = " + res);
-        }
-
-        resultAdapater = new PopularAdaptor (this, R.layout.popular_list_item, resultList);
-        ListView listView = findViewById(R.id.result_list_view);
-        listView.setAdapter(resultAdapater);
-
+                resultAdapater = new PopularAdaptor(ResultActivity.this, R.layout.popular_list_item, resultList);
+                ListView listView = findViewById(R.id.result_list_view);
+                listView.setAdapter(resultAdapater);
+            }
+        });
     }
 
     @Override
