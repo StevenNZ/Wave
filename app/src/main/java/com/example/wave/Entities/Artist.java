@@ -13,7 +13,7 @@ public class Artist {
     private String countryOfOrigin;
     private String imageURL;
     private List<String> discographyIDList;
-    private List<String> awards;
+    private List<String> awardsList;
     private String activeYearsStart;
     private String activeYearsEnd;
     private String blurb;
@@ -28,13 +28,13 @@ public class Artist {
      * @param countryOfOrigin
      * @param imageURL
      * @param discographyIDList
-     * @param awards
+     * @param awardsList
      * @param activeYearsStart
      * @param activeYearsEnd
      * @param blurb
      */
     public Artist(String artistID, String categoryID, String artistName, String biography, String countryOfOrigin, String imageURL,
-                  List<String> discographyIDList, List<String> awards, String activeYearsStart, String activeYearsEnd,
+                  List<String> discographyIDList, List<String> awardsList, String activeYearsStart, String activeYearsEnd,
                   String blurb) {
         this.artistID = artistID;
         this.categoryID = categoryID;
@@ -43,7 +43,7 @@ public class Artist {
         this.countryOfOrigin = countryOfOrigin;
         this.imageURL = imageURL;
         this.discographyIDList = discographyIDList;
-        this.awards = awards;
+        this.awardsList = awardsList;
         this.activeYearsStart = activeYearsStart;
         this.activeYearsEnd = activeYearsEnd;
         this.blurb = blurb;
@@ -120,12 +120,12 @@ public class Artist {
     }
 
     /**
-     * Getter for awards
+     * Getter for awardsList
      *
-     * @return awards
+     * @return awardsList
      */
-    public List<String> getAwards() {
-        return awards;
+    public List<String> getawardsList() {
+        return awardsList;
     }
 
     /**
@@ -204,11 +204,11 @@ public class Artist {
     }
 
     /**
-     * Setter for awards
-     * @param awards
+     * Setter for awardsList
+     * @param awardsList
      */
-    public void setAwards(List<String> awards) {
-        this.awards = awards;
+    public void setawardsList(List<String> awardsList) {
+        this.awardsList = awardsList;
     }
 
     /**
@@ -276,7 +276,7 @@ public class Artist {
                 ", countryOfOrigin='" + countryOfOrigin + '\'' +
                 ", imageURL='" + imageURL + '\'' +
                 ", discographyIDList=" + discographyIDList +
-                ", awards=" + awards +
+                ", awardsList=" + awardsList +
                 ", activeYearsStart='" + activeYearsStart + '\'' +
                 ", activeYearsEnd='" + activeYearsEnd + '\'' +
                 ", blurb='" + blurb + '\'' +
