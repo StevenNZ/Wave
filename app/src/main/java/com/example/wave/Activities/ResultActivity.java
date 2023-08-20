@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -19,6 +20,8 @@ import com.example.wave.Adaptor.PopularAdaptor;
 import com.example.wave.ViewModel.MainViewModel;
 import com.example.wave.ViewModel.ResultViewModel;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
@@ -32,26 +35,32 @@ public class ResultActivity extends AppCompatActivity {
     private List<Popular> results;
     private ResultViewModel model;
 
+    private MaterialToolbar topAppBar;
+
     //might have to put this into viewModel , ask Gurjot
     private void fetchAndDisplay(String query){
-        SearchUseCase.generateDiscographyResults(query, new DiscographyResultsListener() {
-            @Override
-            public void onDiscographyResultsReady(List<Popular> resultList) {
-                Log.d("SearchDebug", "total Result list = " + resultList);
 
-                if(resultList.isEmpty()){
-                    Toast.makeText(getBaseContext(), "Make sure fields are not empty", Toast.LENGTH_SHORT).show();
-                }else{
-                    results = resultList;
-                    resultAdapater = new PopularAdaptor(ResultActivity.this, R.layout.popular_list_item, resultList);
-                    ListView listView = findViewById(R.id.result_list_view);
-                    listView.setAdapter(resultAdapater);
+        if(!query.isEmpty()){
+            SearchUseCase.generateDiscographyResults(query, new DiscographyResultsListener() {
+                @Override
+                public void onDiscographyResultsReady(List<Popular> resultList) {
+                    Log.d("SearchDebug", "total Result list = " + resultList);
+
+                    if(resultList.isEmpty()){
+                        //display something empty
+                        Toast.makeText(getBaseContext(), "NO results found", Toast.LENGTH_SHORT).show();
+                    }else{
+                        results = resultList;
+                        resultAdapater = new PopularAdaptor(ResultActivity.this, R.layout.popular_list_item, resultList);
+                        ListView listView = findViewById(R.id.result_list_view);
+                        listView.setAdapter(resultAdapater);
+                    }
                 }
+            });
 
-
-            }
-        });
-
+        }else {
+            Toast.makeText(getBaseContext(), "Enter something boss", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -63,6 +72,9 @@ public class ResultActivity extends AppCompatActivity {
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setSelectedItemId(R.id.bottom_search);
+
+        topAppBar = findViewById(R.id.topAppBar);
+        setSupportActionBar(topAppBar);
 
         bottomNavigationView.setOnItemSelectedListener(item -> {
             boolean isLoggedIn = model.isLogin();
@@ -93,30 +105,36 @@ public class ResultActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String query = intent.getStringExtra("query");
 
-        fetchAndDisplay(query);
+        if(query != null){
+            // only if not null
+            fetchAndDisplay(query);
+        }
     }
-
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-
-
         getMenuInflater().inflate(R.menu.results_menu, menu);
 
         MenuItem resultsMenu = menu.findItem(R.id.result_search_view);
         searchView = (SearchView) resultsMenu.getActionView();
+        setupSearchViewListener();
 
-        searchView.setQueryHint("Search");
-
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        return true;
+    }
+    private void setupSearchViewListener() {
+        if (searchView != null) {
+            searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
+                Log.d("SearchDebug", "IS THIS BEING CALLED = " + query);
                 //when the user presses enter what happens.
                 fetchAndDisplay(query);
                 return false;
             }
-
             @Override
             public boolean onQueryTextChange(String newText) {
+
+                if (results == null || results.isEmpty()) {
+                    return true; // Return early if the results list is not ready
+                }
                 //any changes (autocomplete)
 
                 List<Popular> filteredList = new ArrayList<>();
@@ -136,14 +154,11 @@ public class ResultActivity extends AppCompatActivity {
                     //this makes sure that when the list is empty we don't do anything
                     // can refactor to make better but idc
                     resultAdapater.setFilteredList(filteredList);
-
-
                 }
                 return true;
             }
         });
-
-        return super.onCreateOptionsMenu(menu);
+        }
     }
 
 }
