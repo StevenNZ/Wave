@@ -1,6 +1,10 @@
 package com.example.wave.Adaptor;
 
+import static android.content.ContentValues.TAG;
+
 import android.content.Context;
+import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import com.bumptech.glide.Glide;
 import com.example.wave.Activities.CategoryBreakdown;
 import com.example.wave.Activities.CategoryRecyclerInterface;
 
@@ -56,12 +61,8 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
         // Set the category name
         holder.categoryTextView.setText(categoryName);
 
-        // Get the resource ID of the category image
-        int imageResourceID = mContext.getResources().getIdentifier(
-                categoryImageName, "drawable", mContext.getPackageName());
-
         // Set the category image
-        holder.categoryImageView.setImageResource(imageResourceID);
+        Glide.with(mContext).load(categoryImageName).into(holder.categoryImageView);
     }
 
 

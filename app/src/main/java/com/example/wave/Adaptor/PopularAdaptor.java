@@ -14,6 +14,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.bumptech.glide.Glide;
 import com.example.wave.Activities.Popular;
 import com.example.wave.R;
 
@@ -60,12 +61,8 @@ public class PopularAdaptor extends ArrayAdapter {
 
         //Set the attributed of list_view_number_item views
         ImageView iconImageView = (ImageView) currentListViewItem.findViewById(R.id.popular_image);
-        int i = mContext.getResources().getIdentifier(
-                currentPopular.getAlbumImage(), "drawable",
-                mContext.getPackageName());
+        Glide.with(mContext).load(currentPopular.getAlbumImage()).into(iconImageView);
 
-        //Setting the icon
-        iconImageView.setImageResource(i);
 
         //setting the text
         TextView popularTextView = (TextView) currentListViewItem.findViewById(R.id.popular_name);
