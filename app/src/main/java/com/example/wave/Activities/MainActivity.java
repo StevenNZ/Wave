@@ -50,23 +50,11 @@ public class MainActivity extends AppCompatActivity {
         model = new ViewModelProvider(this).get(MainViewModel.class);
         fetchAndDisplayCategories();
 
-//        List<CategoryBreakdown> categoryList = GetCategoriesUseCase.getCategoryDetails();
-//        RecyclerView recyclerView = findViewById(R.id.category_recycler_view);
-//        // Set up the RecyclerView with a LinearLayoutManager
-//        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-//        recyclerView.setLayoutManager(layoutManager);
-//        CategoryAdapter itemsAdapter = new CategoryAdapter(this, R.layout.category_list_item, categoryList, this);
-//
-//        // Set the adapter for the RecyclerView
-//        recyclerView.setAdapter(itemsAdapter);
-//        int recyclerViewWidth = recyclerView.getWidth();
-//
-//        layoutManager.scrollToPositionWithOffset(0,  recyclerViewWidth);
 
-//        List<Popular> popularList = Popular.PopularDataProvider.getPopular();
-//        PopularAdaptor popularAdapter = new PopularAdaptor (this, R.layout.popular_list_item, popularList);
-//        ListView listView = findViewById(R.id.popular_list_view);
-//        listView.setAdapter(popularAdapter);
+        List<Popular> popularList = Popular.PopularDataProvider.getPopular();
+        PopularAdaptor popularAdapter = new PopularAdaptor (this, R.layout.popular_list_item, popularList);
+        ListView listView = findViewById(R.id.popular_list_view);
+        listView.setAdapter(popularAdapter);
 
 
         mainSearch = findViewById(R.id.main_search);

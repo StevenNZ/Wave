@@ -48,22 +48,22 @@ public class Popular {
             return popular;
         }
 
-//        public static List<Popular> getPopular(){
-//
-//            List<Popular> popularAlbums = new ArrayList<Popular>();
-//            Map<String, String> popularList = generatePopular();
-//
-//            for (String key: popularList.keySet()){
-//                String albumName = key;
-//                String artistName = popularList.get(key);
-//                String albumCover = key + "_image";
-//
-//                Popular popular = new Popular(albumName, artistName, albumCover);
-//                popularAlbums.add(popular);
-//            }
-//
-//            return popularAlbums;
-//
-//        }
+        public static List<Popular> getPopular(){
+
+            List<Popular> popularAlbums = new ArrayList<Popular>();
+            Map<String, String> popularList = generatePopular();
+
+            for (String key: popularList.keySet()){
+                String albumName = key;
+                String artistName = popularList.get(key);
+                String albumCover = key + "_image";
+
+                Popular popular = new Popular(albumName, artistName, albumCover, albumCover);
+                popularAlbums.add(popular);
+            }
+
+            return popularAlbums;
+
+        }
     }
 }
