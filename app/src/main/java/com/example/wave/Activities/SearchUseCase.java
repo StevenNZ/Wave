@@ -13,10 +13,14 @@ import java.util.List;
 
 public class SearchUseCase {
 
-    public static void generateDiscographyResults(String query, DiscographyResultsListener listener) {
+    public static void generateDiscographyResults(String query, String categoryId, DiscographyResultsListener listener) {
 
-
-        Task<List<Discography>> discographyList = DiscographyRepository.getInstance().getDiscographyBySearch(query);
+        Task<List<Discography>> discographyList;
+        if(query.isEmpty()){
+            discographyList = DiscographyRepository.getInstance().getDiscographyByCategoryID(categoryId);
+        }else{
+            discographyList = DiscographyRepository.getInstance().getDiscographyBySearch(query);
+        }
 
         discographyList.addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
@@ -28,9 +32,10 @@ public class SearchUseCase {
                 for (Discography discography : list) {
                     String discogName = discography.getReleaseName();
                     String artistName = discography.getArtistID();
-                    String discogImage = discography.getDiscographyID();
+                    String discogImage = discography.getImageURL();
+                    String discogId = discography.getDiscographyID();
 
-                    Popular res = new Popular(discogName, artistName, discogImage);
+                    Popular res = new Popular(discogName, artistName, discogImage, discogId);
                     resultDiscographies.add(res);
                 }
 
