@@ -10,8 +10,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.wave.Activities.Category;
+
+import com.example.wave.Activities.CategoryBreakdown;
 import com.example.wave.Activities.CategoryRecyclerInterface;
+
 import com.example.wave.R;
 
 import java.util.List;
@@ -20,7 +22,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
 
     private final CategoryRecyclerInterface categoryRecyclerInterface;
     int mLayoutID;
-    List<Category> mCategories;
+    List<CategoryBreakdown> mCategories;
     Context mContext;
 
     public CategoryAdapter(Context context, int resource, @NonNull List objects, CategoryRecyclerInterface categoryRecyclerInterface){
@@ -45,10 +47,11 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         // Get the data for the current position
 
-        Category currentCategory = mCategories.get(position);
+        CategoryBreakdown currentCategory = mCategories.get(position);
 
         String categoryName = currentCategory.getCategoryName();
         String categoryImageName = currentCategory.getCategoryImage();
+        String categoryID = currentCategory.getCategoryID();
 
         // Set the category name
         holder.categoryTextView.setText(categoryName);

@@ -45,6 +45,10 @@ public class Category {
         this.blurb = blurb;
     }
 
+    public Category(){
+
+    }
+
     /**
      * Getter for categoryID
      *

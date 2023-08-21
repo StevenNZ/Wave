@@ -1,10 +1,17 @@
 package com.example.wave.Repository;
 
+import android.util.Log;
+
 import com.example.wave.Dataproviders.CategoryProvider;
+import com.example.wave.Entities.Artist;
 import com.example.wave.Entities.Category;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CategoryRepository implements CategoryProvider {
@@ -35,15 +42,23 @@ public class CategoryRepository implements CategoryProvider {
      * @return List<Category> with all categories
      */
     @Override
-    public List<Category> getAllCategories() {
+    public Task<List<Category>> getAllCategories() {
         return categoryCollection.get().continueWith(task -> {
             if (task.isSuccessful()) {
-                List<Category> categories = task.getResult().toObjects(Category.class);
+                List<Category> categories = new ArrayList<>();
+                QuerySnapshot querySnapshot = task.getResult();
+                for (QueryDocumentSnapshot document : querySnapshot) {
+                    Log.d("SearchDebug", "DOCUMENT = " + document);
+                    Category category = document.toObject(Category.class);
+                    Log.d("SearchDebug", "CATEGORY = " + category);
+                    categories.add(category);
+                }
+                Log.d("SearchDebug", "FROM REPO = " + categories);
                 return categories;
             } else {
                 throw task.getException();
             }
-        }).getResult();
+        });
     }
 
     /**
