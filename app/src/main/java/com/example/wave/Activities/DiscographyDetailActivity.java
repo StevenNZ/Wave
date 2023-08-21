@@ -4,11 +4,13 @@ import static android.content.ContentValues.TAG;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.denzcoskun.imageslider.constants.AnimationTypes;
 import com.denzcoskun.imageslider.constants.ScaleTypes;
 
 import android.content.res.ColorStateList;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -40,6 +42,7 @@ public class DiscographyDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
+        ConstraintLayout constraintLayout = findViewById(R.id.detailLayout);
         MaterialToolbar toolbar = findViewById(R.id.topAppBar);
         imageSlider = findViewById(R.id.imageSlider);
         ImageButton cassette = findViewById(R.id.cassetteBtn);
@@ -51,7 +54,12 @@ public class DiscographyDetailActivity extends AppCompatActivity {
         ArrayList<SlideModel> imageList = new ArrayList<>();
         currentImageButton = cassette;
 
-        String id = "goodkidmaadcity";
+        AnimationDrawable animationDrawable = (AnimationDrawable) constraintLayout.getBackground();
+        animationDrawable.setEnterFadeDuration(1750);
+        animationDrawable.setExitFadeDuration(3500);
+        animationDrawable.start();
+
+        String id = "collegedropout";
         model = new DiscographyDetailViewModel();
         model.getDiscographyDetail(id).addOnCompleteListener(new OnCompleteListener<Discography>() {
             @Override

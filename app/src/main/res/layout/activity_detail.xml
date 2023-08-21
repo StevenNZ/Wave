@@ -2,8 +2,10 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/detailLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/bggradients"
     tools:context=".Activities.DiscographyDetailActivity">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -144,7 +146,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/mediaLayout"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="25dp"
             android:drawableLeft="@drawable/cart_add_icon"
             android:text="Add To Cart"
             android:textAllCaps="false"
@@ -154,7 +156,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/cartBtn"
-            android:text="Details"
+            android:text="Tracklist"
             android:layout_marginTop="25dp"/>
 
     </RelativeLayout>
