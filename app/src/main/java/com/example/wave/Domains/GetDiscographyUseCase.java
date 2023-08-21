@@ -25,7 +25,7 @@ public class GetDiscographyUseCase implements DiscographyProvider {
     }
 
     @Override
-    public Task<Discography> getDiscographyByCategoryID(String categoryID) {
+    public Task<List<Discography>> getDiscographyByCategoryID(String categoryID) {
         return null;
     }
 
