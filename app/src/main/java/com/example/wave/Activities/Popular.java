@@ -7,7 +7,7 @@ import java.util.Map;
 
 public class Popular {
 
-    private String albumImage, albumName, albumArtist;
+    private String albumImage, albumName, albumArtist, discographyId;
 
     public String getAlbumName() {
         return albumName;
@@ -21,10 +21,15 @@ public class Popular {
         return albumArtist;
     }
 
-    public Popular(String albumName, String albumArtist, String albumImage){
+    public String getDiscographyId() {
+        return discographyId;
+    }
+
+    public Popular(String albumName, String albumArtist, String albumImage, String discographyId){
         this.albumArtist = albumArtist;
         this.albumName = albumName;
         this.albumImage = albumImage;
+        this.discographyId = discographyId;
 
     }
 
@@ -43,22 +48,22 @@ public class Popular {
             return popular;
         }
 
-        public static List<Popular> getPopular(){
-
-            List<Popular> popularAlbums = new ArrayList<Popular>();
-            Map<String, String> popularList = generatePopular();
-
-            for (String key: popularList.keySet()){
-                String albumName = key;
-                String artistName = popularList.get(key);
-                String albumCover = key + "_image";
-
-                Popular popular = new Popular(albumName, artistName, albumCover);
-                popularAlbums.add(popular);
-            }
-
-            return popularAlbums;
-
-        }
+//        public static List<Popular> getPopular(){
+//
+//            List<Popular> popularAlbums = new ArrayList<Popular>();
+//            Map<String, String> popularList = generatePopular();
+//
+//            for (String key: popularList.keySet()){
+//                String albumName = key;
+//                String artistName = popularList.get(key);
+//                String albumCover = key + "_image";
+//
+//                Popular popular = new Popular(albumName, artistName, albumCover);
+//                popularAlbums.add(popular);
+//            }
+//
+//            return popularAlbums;
+//
+//        }
     }
 }
