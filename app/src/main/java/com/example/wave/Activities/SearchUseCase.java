@@ -13,10 +13,15 @@ import java.util.List;
 
 public class SearchUseCase {
 
-    public static void generateDiscographyResults(String query, DiscographyResultsListener listener) {
+    public static void generateDiscographyResults(String query, String categoryId, DiscographyResultsListener listener) {
 
 
-        Task<List<Discography>> discographyList = DiscographyRepository.getInstance().getDiscographyBySearch(query);
+        Task<List<Discography>> discographyList;
+        if(query.isEmpty()){
+            discographyList = DiscographyRepository.getInstance().getDiscographyByCategoryID(categoryId);
+        }else{
+            discographyList = DiscographyRepository.getInstance().getDiscographyBySearch(query);
+        }
 
         discographyList.addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
