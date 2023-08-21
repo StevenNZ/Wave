@@ -9,6 +9,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import com.denzcoskun.imageslider.constants.AnimationTypes;
 import com.denzcoskun.imageslider.constants.ScaleTypes;
 
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -65,9 +67,13 @@ public class DiscographyDetailActivity extends AppCompatActivity {
         animationDrawable.setExitFadeDuration(3500);
         animationDrawable.start();
 
-        String id = "collegedropout";
+        Intent intent = getIntent();
+        String discographyId = intent.getStringExtra("DiscographyId");
+
+        artistTextView.setText(intent.getStringExtra("ArtistName"));
+
         model = new DiscographyDetailViewModel();
-        model.getDiscographyDetail(id).addOnCompleteListener(new OnCompleteListener<Discography>() {
+        model.getDiscographyDetail(discographyId).addOnCompleteListener(new OnCompleteListener<Discography>() {
             @Override
             public void onComplete(@NonNull Task<Discography> task) {
                 if (!task.isSuccessful()) {
@@ -76,7 +82,6 @@ public class DiscographyDetailActivity extends AppCompatActivity {
                     Discography discographyResult = task.getResult();
 
                     albumTextView.setText(discographyResult.getReleaseName());
-                    artistTextView.setText(discographyResult.getArtistID());
 
                     imageList.add(new SlideModel(discographyResult.getImageURL(), "", ScaleTypes.CENTER_INSIDE));
                     imageList.add(new SlideModel(discographyResult.getImageURL(), "", ScaleTypes.CENTER_INSIDE));

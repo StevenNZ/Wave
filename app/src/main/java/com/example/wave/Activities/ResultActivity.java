@@ -61,7 +61,7 @@ public class ResultActivity extends AppCompatActivity {
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                                 Popular currentDiscography = resultList.get(position);
 
-                                Intent intent = new Intent(ResultActivity.this, MainActivity.class);
+                                Intent intent = new Intent(ResultActivity.this, DiscographyDetailActivity.class);
                                 intent.putExtra("DiscographyId", currentDiscography.getDiscographyId());
                                 intent.putExtra("ArtistName", currentDiscography.getAlbumArtist());
                                 startActivity(intent);
