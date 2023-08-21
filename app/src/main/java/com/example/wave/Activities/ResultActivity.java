@@ -38,10 +38,10 @@ public class ResultActivity extends AppCompatActivity {
     private MaterialToolbar topAppBar;
 
     //might have to put this into viewModel , ask Gurjot
-    private void fetchAndDisplay(String query){
+    private void fetchAndDisplay(String query, String categoryId){
 
-        if(!query.isEmpty()){
-            SearchUseCase.generateDiscographyResults(query, new DiscographyResultsListener() {
+        if(!query.isEmpty() || !categoryId.isEmpty()){
+            SearchUseCase.generateDiscographyResults(query, categoryId, new DiscographyResultsListener() {
                 @Override
                 public void onDiscographyResultsReady(List<Popular> resultList) {
                     Log.d("SearchDebug", "total Result list = " + resultList);
@@ -104,10 +104,17 @@ public class ResultActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         String query = intent.getStringExtra("query");
+        String categoryId = intent.getStringExtra("categoryID");
+        Log.d("SearchDebug", "CategoryID = " + categoryId);
+        Log.d("SearchDebug", "query = " + query);
 
-        if(query != null){
+        //entered valid search from main
+        if(query != null && categoryId == null){
             // only if not null
-            fetchAndDisplay(query);
+            fetchAndDisplay(query, "");
+        } else if (query == null && categoryId != null) {
+            //clicked a valid category
+            fetchAndDisplay("", categoryId);
         }
     }
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -126,7 +133,7 @@ public class ResultActivity extends AppCompatActivity {
             public boolean onQueryTextSubmit(String query) {
                 Log.d("SearchDebug", "IS THIS BEING CALLED = " + query);
                 //when the user presses enter what happens.
-                fetchAndDisplay(query);
+                fetchAndDisplay(query, "");
                 return false;
             }
             @Override

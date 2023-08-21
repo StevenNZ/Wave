@@ -15,12 +15,14 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.example.wave.Activities.Category;
 import com.example.wave.Activities.CategoryDataProvider;
 import com.example.wave.Activities.CategoryRecyclerInterface;
 import com.example.wave.Activities.Popular;
 import com.example.wave.Activities.ResultActivity;
+import com.example.wave.Domains.GetCategoriesUseCase;
+import com.example.wave.Entities.Category;
 import com.example.wave.R;
 import com.example.wave.Adaptor.CategoryAdapter;
 import com.example.wave.Adaptor.PopularAdaptor;
@@ -30,7 +32,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements CategoryRecyclerInterface {
+public class MainActivity extends AppCompatActivity {
 
 
     private SearchView mainSearch;
@@ -46,19 +48,8 @@ public class MainActivity extends AppCompatActivity implements CategoryRecyclerI
         setContentView(R.layout.activity_main);
 
         model = new ViewModelProvider(this).get(MainViewModel.class);
+        fetchAndDisplayCategories();
 
-        List<Category> categoryList = CategoryDataProvider.getCategories();
-        RecyclerView recyclerView = findViewById(R.id.category_recycler_view);
-        // Set up the RecyclerView with a LinearLayoutManager
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-        recyclerView.setLayoutManager(layoutManager);
-        CategoryAdapter itemsAdapter = new CategoryAdapter(this, R.layout.category_list_item, categoryList, this);
-
-        // Set the adapter for the RecyclerView
-        recyclerView.setAdapter(itemsAdapter);
-        int recyclerViewWidth = recyclerView.getWidth();
-
-        layoutManager.scrollToPositionWithOffset(0,  recyclerViewWidth);
 
         List<Popular> popularList = Popular.PopularDataProvider.getPopular();
         PopularAdaptor popularAdapter = new PopularAdaptor (this, R.layout.popular_list_item, popularList);
@@ -123,6 +114,43 @@ public class MainActivity extends AppCompatActivity implements CategoryRecyclerI
 
     }
 
+    private void fetchAndDisplayCategories(){
+        GetCategoriesUseCase.getCategoryDetails(new CategoryResultsListener() {
+            @Override
+            public void onCategoryResultsReady(List<CategoryBreakdown> resultList) {
+                Log.d("SearchDebug", "total Result list = " + resultList);
+
+                if(resultList.isEmpty()){
+                    //display something empty
+                    Toast.makeText(getBaseContext(), "NO results found", Toast.LENGTH_SHORT).show();
+                }else{
+                    RecyclerView recyclerView = findViewById(R.id.category_recycler_view);
+                    // Set up the RecyclerView with a LinearLayoutManager
+                    LinearLayoutManager layoutManager = new LinearLayoutManager(MainActivity.this, LinearLayoutManager.HORIZONTAL, false);
+                    recyclerView.setLayoutManager(layoutManager);
+
+                    CategoryAdapter itemsAdapter = new CategoryAdapter(MainActivity.this, R.layout.category_list_item, resultList, new CategoryRecyclerInterface() {
+                        @Override
+                        public void onItemClick(int position) {
+
+                            CategoryBreakdown clickedCategory = resultList.get(position);
+
+                            // Do something with the clickedCategory, e.g., start a new activity
+                            Intent intent = new Intent(MainActivity.this, ResultActivity.class);
+                            intent.putExtra("categoryID", clickedCategory.getCategoryID());
+                            startActivity(intent);
+
+                        }
+                    });
+
+                    // Set the adapter for the RecyclerView
+                    recyclerView.setAdapter(itemsAdapter);
+                }
+            }
+        });
+    }
+
+
     private void setupSearchViewListeners() {
         setupSearchClickListener();
         setupCloseListener();
@@ -154,17 +182,19 @@ public class MainActivity extends AppCompatActivity implements CategoryRecyclerI
 
     }
 
-    @Override
-    public void onItemClick(int position) {
-
-        //how would I get the categoryID and pass it
-
-        Intent resultIntent = new Intent(this, ResultActivity.class);
-
-        //this is where you get the code to get the category they clicked on using the getters
-
-        startActivity(resultIntent);
-
-    }
+//    @Override
+//    public void onItemClick(int position) {
+//
+//        Log.d("SearchDebug", "POSITION = " + position);
+//
+//        //how would I get the categoryID and pass it
+//
+//        Intent resultIntent = new Intent(this, ResultActivity.class);
+//
+//        //this is where you get the code to get the category they clicked on using the getters
+//
+//        startActivity(resultIntent);
+//
+//    }
 
 }

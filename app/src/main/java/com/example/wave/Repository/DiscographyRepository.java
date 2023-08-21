@@ -133,8 +133,8 @@ public class DiscographyRepository implements DiscographyProvider {
      * @return Task<List<Discography>> with the discography
      */
     @Override
-    public Task<Discography> getDiscographyByCategoryID(String categoryID) {
-        TaskCompletionSource<Discography> taskCompletionSource = new TaskCompletionSource<>();
+    public Task<List<Discography>> getDiscographyByCategoryID(String categoryID) {
+        TaskCompletionSource<List<Discography>> taskCompletionSource = new TaskCompletionSource<>();
 
         Query query = discographyCollection.whereEqualTo("categoryID", categoryID);
 
@@ -143,9 +143,14 @@ public class DiscographyRepository implements DiscographyProvider {
                 QuerySnapshot querySnapshot = task.getResult();
                 if (querySnapshot != null && !querySnapshot.isEmpty()) {
                     // The query returned matching documents
-                    DocumentSnapshot documentSnapshot = querySnapshot.getDocuments().get(0); // Get the first matching document
-                    Discography discography = documentSnapshot.toObject(Discography.class);
-                    taskCompletionSource.setResult(discography);
+
+                    List<Discography> currentDiscographyList = new ArrayList<>();
+                    for (DocumentSnapshot documentSnapshot : querySnapshot.getDocuments()) {
+                        Discography discography = documentSnapshot.toObject(Discography.class);
+                        currentDiscographyList.add(discography);
+
+                    }
+                    taskCompletionSource.setResult(currentDiscographyList);
                 } else {
                     Log.d("getDiscographyByCategoryID", "No matching documents");
                     taskCompletionSource.setResult(null);
