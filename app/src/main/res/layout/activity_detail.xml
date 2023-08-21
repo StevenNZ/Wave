@@ -153,11 +153,20 @@
             android:background="@drawable/button"/>
 
         <TextView
+            android:id="@+id/tracklistTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/cartBtn"
             android:text="Tracklist"
             android:layout_marginTop="25dp"/>
+
+        <LinearLayout
+            android:id="@+id/tracklistLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_below="@id/tracklistTitle">
+        </LinearLayout>
 
     </RelativeLayout>
 

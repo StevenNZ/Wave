@@ -14,7 +14,10 @@ import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.denzcoskun.imageslider.ImageSlider;
@@ -28,6 +31,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.appbar.MaterialToolbar;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class DiscographyDetailActivity extends AppCompatActivity {
 
@@ -36,6 +40,7 @@ public class DiscographyDetailActivity extends AppCompatActivity {
     private ImageSlider imageSlider;
     private ImageButton currentImageButton;
     private DiscographyDetailViewModel model;
+    private List<String> trackLists;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +55,7 @@ public class DiscographyDetailActivity extends AppCompatActivity {
         ImageButton cd = findViewById(R.id.cdBtn);
         TextView albumTextView = findViewById(R.id.albumTitleText);
         TextView artistTextView = findViewById(R.id.artistText);
+        LinearLayout tracklistLayout = findViewById(R.id.tracklistLayout);
 
         ArrayList<SlideModel> imageList = new ArrayList<>();
         currentImageButton = cassette;
@@ -72,10 +78,24 @@ public class DiscographyDetailActivity extends AppCompatActivity {
                     albumTextView.setText(discographyResult.getReleaseName());
                     artistTextView.setText(discographyResult.getArtistID());
 
-                    imageList.add(new SlideModel("https://firebasestorage.googleapis.com/v0/b/softeng306.appspot.com/o/albumHipHopImages%2Fastroworld.png?alt=media&token=06728771-f194-4bf3-ab45-d207d8f18d73", "", ScaleTypes.CENTER_INSIDE));
-                    imageList.add(new SlideModel("https://firebasestorage.googleapis.com/v0/b/softeng306.appspot.com/o/albumHipHopImages%2Fcollegedropout.png?alt=media&token=87b58d54-6688-475e-8f41-d65f6ee28742", "", ScaleTypes.CENTER_INSIDE));
-                    imageList.add(new SlideModel("https://firebasestorage.googleapis.com/v0/b/softeng306.appspot.com/o/albumHipHopImages%2Fdamn.png?alt=media&token=21728145-9c54-48af-8b6c-433963e4b711", "", ScaleTypes.CENTER_INSIDE));
+                    imageList.add(new SlideModel(discographyResult.getImageURL(), "", ScaleTypes.CENTER_INSIDE));
+                    imageList.add(new SlideModel(discographyResult.getImageURL(), "", ScaleTypes.CENTER_INSIDE));
+                    imageList.add(new SlideModel(discographyResult.getImageURL(), "", ScaleTypes.CENTER_INSIDE));
                     imageSlider.setImageList(imageList);
+
+                    trackLists = discographyResult.getTracklist();
+                    for (int i = 0; i < trackLists.size(); i++) {
+                        // Create a new TextView for each item
+                        TextView textView = new TextView(getBaseContext());
+                        textView.setLayoutParams(new LinearLayout.LayoutParams(
+                                LinearLayout.LayoutParams.MATCH_PARENT,
+                                LinearLayout.LayoutParams.WRAP_CONTENT
+                        ));
+                        String text = i+1 + ". " + trackLists.get(i);
+                        textView.setText(text);
+
+                        tracklistLayout.addView(textView);
+                    }
                 }
             }
         });
