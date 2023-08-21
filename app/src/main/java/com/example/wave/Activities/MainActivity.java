@@ -56,6 +56,12 @@ public class MainActivity extends AppCompatActivity {
         ListView listView = findViewById(R.id.popular_list_view);
         listView.setAdapter(popularAdapter);
 
+        Intent intent = getIntent();
+        String query = intent.getStringExtra("DiscographyId");
+        String categoryId = intent.getStringExtra("ArtistName");
+        Log.d("SearchDebug", "ArtistName = " + categoryId);
+        Log.d("SearchDebug", "DiscographyId = " + query);
+
 
         mainSearch = findViewById(R.id.main_search);
         searchLabel = findViewById(R.id.search_label);
