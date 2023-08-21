@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -54,6 +55,20 @@ public class ResultActivity extends AppCompatActivity {
                         resultAdapater = new PopularAdaptor(ResultActivity.this, R.layout.popular_list_item, resultList);
                         ListView listView = findViewById(R.id.result_list_view);
                         listView.setAdapter(resultAdapater);
+                        
+                        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                Popular currentDiscography = resultList.get(position);
+
+                                Intent intent = new Intent(ResultActivity.this, MainActivity.class);
+                                intent.putExtra("DiscographyId", currentDiscography.getDiscographyId());
+                                intent.putExtra("ArtistName", currentDiscography.getAlbumArtist());
+                                startActivity(intent);
+
+                            }
+                        });
+
                     }
                 }
             });
