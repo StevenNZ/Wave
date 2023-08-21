@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activities.DetailActivity">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/topAppBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@color/off_white"
+        android:elevation="0dp">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/topAppBar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:title="Detail"
+            app:titleCentered="true"
+            app:navigationIcon="@drawable/back_icon"/>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/topAppBarLayout"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="25dp">
+
+        <com.denzcoskun.imageslider.ImageSlider
+            android:id="@+id/imageSlider"
+            android:layout_width="match_parent"
+            android:layout_height="350dp"
+            app:iss_delay="0"
+            android:padding="30dp"
+            app:iss_text_align="CENTER"
+            app:iss_title_background="@android:color/transparent"/>
+
+        <RelativeLayout
+            android:id="@+id/artistDescLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/imageSlider"
+            android:layout_marginVertical="30dp">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/albumTitleText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Album Title"
+                    android:textSize="20sp"
+                    android:layout_marginBottom="10dp"/>
+
+                <TextView
+                    android:id="@+id/artistText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Artist"
+                    android:textSize="20sp"
+                    android:layout_below="@id/albumTitleText"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerInParent="true">
+
+                <com.like.LikeButton
+                    android:id="@+id/heartIcon"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    app:anim_scale_factor="2"
+                    app:icon_size="15dp"
+                    app:icon_type="heart" />
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/mediaLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_below="@id/artistDescLayout">
+
+            <ImageButton
+                android:id="@+id/cassetteBtn"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:background="@drawable/circle"
+                android:backgroundTint="@color/gold"
+                android:src="@drawable/cassette"
+                android:scaleType="center"
+                android:layout_gravity="center"
+                android:padding="8dp"
+                android:layout_marginEnd="20dp"
+                android:contentDescription="Cassette"/>
+
+            <ImageButton
+                android:id="@+id/vinylBtn"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:background="@drawable/circle"
+                android:backgroundTint="@color/white"
+                android:src="@drawable/vinyl"
+                android:scaleType="center"
+                android:layout_gravity="center"
+                android:padding="8dp"
+                android:layout_marginEnd="20dp"
+                android:contentDescription="Vinyl" />
+
+            <ImageButton
+                android:id="@+id/cdBtn"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:background="@drawable/circle"
+                android:backgroundTint="@color/white"
+                android:src="@drawable/cd"
+                android:scaleType="center"
+                android:layout_gravity="center"
+                android:padding="8dp"
+                android:contentDescription="CD" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/cartBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/mediaLayout"
+            android:layout_marginTop="20dp"
+            android:drawableLeft="@drawable/cart_add_icon"
+            android:text="Add To Cart"
+            android:textAllCaps="false"
+            android:background="@drawable/button"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/cartBtn"
+            android:text="Details"
+            android:layout_marginTop="25dp"/>
+
+    </RelativeLayout>
+
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
