@@ -2,39 +2,38 @@ package com.example.wave.Activities;
 
 import static android.content.ContentValues.TAG;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.content.res.AppCompatResources;
-import androidx.core.content.res.ResourcesCompat;
-import androidx.core.graphics.drawable.DrawableCompat;
 
 import com.denzcoskun.imageslider.constants.AnimationTypes;
 import com.denzcoskun.imageslider.constants.ScaleTypes;
 
-import android.content.Intent;
 import android.content.res.ColorStateList;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.denzcoskun.imageslider.ImageSlider;
 import com.denzcoskun.imageslider.interfaces.ItemChangeListener;
 import com.denzcoskun.imageslider.models.SlideModel;
+import com.example.wave.Entities.Discography;
 import com.example.wave.R;
+import com.example.wave.ViewModel.DiscographyDetailViewModel;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.appbar.MaterialToolbar;
 
 import java.util.ArrayList;
 
-public class DetailActivity extends AppCompatActivity {
+public class DiscographyDetailActivity extends AppCompatActivity {
 
     private int position = 0;
     private int slide = 0;
     private ImageSlider imageSlider;
     private ImageButton currentImageButton;
-
+    private DiscographyDetailViewModel model;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,14 +45,32 @@ public class DetailActivity extends AppCompatActivity {
         ImageButton cassette = findViewById(R.id.cassetteBtn);
         ImageButton vinyl = findViewById(R.id.vinylBtn);
         ImageButton cd = findViewById(R.id.cdBtn);
-        currentImageButton = cassette;
+        TextView albumTextView = findViewById(R.id.albumTitleText);
+        TextView artistTextView = findViewById(R.id.artistText);
 
         ArrayList<SlideModel> imageList = new ArrayList<>();
-        imageList.add(new SlideModel("https://firebasestorage.googleapis.com/v0/b/softeng306.appspot.com/o/albumHipHopImages%2Fastroworld.png?alt=media&token=06728771-f194-4bf3-ab45-d207d8f18d73", "", ScaleTypes.CENTER_INSIDE));
-        imageList.add(new SlideModel("https://firebasestorage.googleapis.com/v0/b/softeng306.appspot.com/o/albumHipHopImages%2Fcollegedropout.png?alt=media&token=87b58d54-6688-475e-8f41-d65f6ee28742", "", ScaleTypes.CENTER_INSIDE));
-        imageList.add(new SlideModel("https://firebasestorage.googleapis.com/v0/b/softeng306.appspot.com/o/albumHipHopImages%2Fdamn.png?alt=media&token=21728145-9c54-48af-8b6c-433963e4b711", "", ScaleTypes.CENTER_INSIDE));
+        currentImageButton = cassette;
 
-        imageSlider.setImageList(imageList);
+        String id = "goodkidmaadcity";
+        model = new DiscographyDetailViewModel();
+        model.getDiscographyDetail(id).addOnCompleteListener(new OnCompleteListener<Discography>() {
+            @Override
+            public void onComplete(@NonNull Task<Discography> task) {
+                if (!task.isSuccessful()) {
+                    Log.d(TAG, "onComplete: discography query not successful");
+                } else {
+                    Discography discographyResult = task.getResult();
+
+                    albumTextView.setText(discographyResult.getReleaseName());
+                    artistTextView.setText(discographyResult.getArtistID());
+
+                    imageList.add(new SlideModel("https://firebasestorage.googleapis.com/v0/b/softeng306.appspot.com/o/albumHipHopImages%2Fastroworld.png?alt=media&token=06728771-f194-4bf3-ab45-d207d8f18d73", "", ScaleTypes.CENTER_INSIDE));
+                    imageList.add(new SlideModel("https://firebasestorage.googleapis.com/v0/b/softeng306.appspot.com/o/albumHipHopImages%2Fcollegedropout.png?alt=media&token=87b58d54-6688-475e-8f41-d65f6ee28742", "", ScaleTypes.CENTER_INSIDE));
+                    imageList.add(new SlideModel("https://firebasestorage.googleapis.com/v0/b/softeng306.appspot.com/o/albumHipHopImages%2Fdamn.png?alt=media&token=21728145-9c54-48af-8b6c-433963e4b711", "", ScaleTypes.CENTER_INSIDE));
+                    imageSlider.setImageList(imageList);
+                }
+            }
+        });
         imageSlider.setSlideAnimation(AnimationTypes.DEPTH_SLIDE);
         imageSlider.setItemChangeListener(new ItemChangeListener() {
             @Override
