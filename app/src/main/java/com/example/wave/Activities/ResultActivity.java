@@ -1,5 +1,6 @@
 package com.example.wave.Activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.lifecycle.ViewModelProvider;
@@ -18,6 +19,7 @@ import android.widget.GridLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.example.wave.Dataproviders.DiscographyProvider;
 import com.example.wave.Entities.Discography;
 import com.example.wave.R;
@@ -37,6 +39,12 @@ public class ResultActivity extends AppCompatActivity {
     private SearchView searchView;
     private PopularAdaptor resultsAdapter;
 
+    private BottomNavigationView bottomNavigationView;
+
+    private RecyclerView recyclerView;
+
+    private MenuItem resultsMenu;
+
     private List<Popular> results;
     private ResultViewModel model;
 
@@ -49,20 +57,16 @@ public class ResultActivity extends AppCompatActivity {
             SearchUseCase.generateDiscographyResults(query, categoryId, new DiscographyResultsListener() {
                 @Override
                 public void onDiscographyResultsReady(List<Popular> resultList) {
-                    Log.d("SearchDebug", "total Result list = " + resultList);
-
                     if(resultList.isEmpty()){
                         //display something empty
-                        Toast.makeText(getBaseContext(), "NO results found", Toast.LENGTH_SHORT).show();
-                    }else{
+                        Toast.makeText(ResultActivity.this, "Not working",Toast.LENGTH_SHORT).show();
 
+                    }else{
                         int layoutResourceId = getLayoutResource(categoryId);
 
                         RecyclerView.LayoutManager layoutManager = getLayoutManager(categoryId);
 
-
-                        Log.d("SearchDebug", "Layout resourceID = " + layoutResourceId);
-                        RecyclerView recyclerView = findViewById(R.id.result_list_view);
+                        recyclerView = findViewById(R.id.result_list_view);
                         results = resultList;
 
                         //LinearLayoutManager layoutManager = new LinearLayoutManager(ResultActivity.this, LinearLayoutManager.VERTICAL, false);
@@ -83,22 +87,7 @@ public class ResultActivity extends AppCompatActivity {
                         recyclerView.setAdapter(resultsAdapter);
 
 
-//                        resultAdapater = new PopularAdaptor(ResultActivity.this, layoutResourceId, resultList);
-//                        ListView listView = findViewById(R.id.result_list_view);
-//                        listView.setAdapter(resultAdapater);
 //
-//                        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//                            @Override
-//                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                                Popular currentDiscography = resultList.get(position);
-//
-//                                Intent intent = new Intent(ResultActivity.this, DiscographyDetailActivity.class);
-//                                intent.putExtra("DiscographyId", currentDiscography.getDiscographyId());
-//                                intent.putExtra("ArtistName", currentDiscography.getAlbumArtist());
-//                                startActivity(intent);
-//
-//                            }
-//                        });
 
                     }
                 }
@@ -128,7 +117,6 @@ public class ResultActivity extends AppCompatActivity {
         }
     }
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -136,7 +124,7 @@ public class ResultActivity extends AppCompatActivity {
 
         model = new ViewModelProvider(this).get(ResultViewModel.class);
 
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
+        bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setSelectedItemId(R.id.bottom_search);
 
         topAppBar = findViewById(R.id.topAppBar);
@@ -186,13 +174,17 @@ public class ResultActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.results_menu, menu);
 
-        MenuItem resultsMenu = menu.findItem(R.id.result_search_view);
+        resultsMenu = menu.findItem(R.id.result_search_view);
         searchView = (SearchView) resultsMenu.getActionView();
         setupSearchViewListener();
+
 
         return true;
     }
     private void setupSearchViewListener() {
+        setupSearchClickListener();
+        //setupCloseListener();
+
         if (searchView != null) {
             searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -239,5 +231,38 @@ public class ResultActivity extends AppCompatActivity {
         });
         }
     }
+
+    private void setupSearchClickListener() {
+        resultsMenu.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
+            @Override
+            public boolean onMenuItemActionExpand(MenuItem item) {
+                bottomNavigationView.setVisibility(View.GONE);
+                // Called when the action view (SearchView) is expanded (opened)
+                return true; // Return true to allow expanding the view
+            }
+
+            @Override
+            public boolean onMenuItemActionCollapse(MenuItem item) {
+                // Called when the action view (SearchView) is collapsed (closed)
+                bottomNavigationView.setVisibility(View.VISIBLE);
+                return true; // Return true to allow collapsing the view
+            }
+        });
+    }
+    @Override
+    public void onBackPressed() {
+        if (bottomNavigationView.getVisibility() == View.GONE) {
+            resultsMenu.collapseActionView();
+            bottomNavigationView.setVisibility(View.VISIBLE);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+
+
+
+
+
 
 }
