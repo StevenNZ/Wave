@@ -24,7 +24,7 @@
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
                 android:src="@drawable/astroworld_image"
-                android:id="@+id/kpop_cover"/>
+                android:id="@+id/popular_image"/>
 
         </androidx.cardview.widget.CardView>
 
@@ -39,7 +39,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:id="@+id/kpop_name"
+                android:id="@+id/popular_name"
                 android:text="Album Title"
                 android:textColor="@color/black"
                 android:textSize="20dp"
@@ -50,7 +50,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:id="@+id/kpop_artist"
+                android:id="@+id/popular_artist"
                 android:text="Artist"
                 android:textSize="16dp"
                 android:lineHeight="22dp" />

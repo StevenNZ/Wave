@@ -51,8 +51,24 @@ public class ResultActivity extends AppCompatActivity {
                         //display something empty
                         Toast.makeText(getBaseContext(), "NO results found", Toast.LENGTH_SHORT).show();
                     }else{
+
+                        int layoutResourceId;
+
+                        switch (categoryId) {
+                            case "kpop":
+                                layoutResourceId = R.layout.kpop_list_item;
+                                break;
+                            case "pop":
+                                layoutResourceId = R.layout.pop_list_item;
+                                break;
+                            default:
+                                layoutResourceId = R.layout.popular_list_item; // Default will be the pop version
+                                break;
+                        }
+
+                        Log.d("SearchDebug", "Layout resourceID = " + layoutResourceId);
                         results = resultList;
-                        resultAdapater = new PopularAdaptor(ResultActivity.this, R.layout.popular_list_item, resultList);
+                        resultAdapater = new PopularAdaptor(ResultActivity.this, layoutResourceId, resultList);
                         ListView listView = findViewById(R.id.result_list_view);
                         listView.setAdapter(resultAdapater);
                         
