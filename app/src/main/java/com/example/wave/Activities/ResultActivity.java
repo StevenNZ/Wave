@@ -52,19 +52,7 @@ public class ResultActivity extends AppCompatActivity {
                         Toast.makeText(getBaseContext(), "NO results found", Toast.LENGTH_SHORT).show();
                     }else{
 
-                        int layoutResourceId;
-
-                        switch (categoryId) {
-                            case "kpop":
-                                layoutResourceId = R.layout.kpop_list_item;
-                                break;
-                            case "pop":
-                                layoutResourceId = R.layout.pop_list_item;
-                                break;
-                            default:
-                                layoutResourceId = R.layout.popular_list_item; // Default will be the pop version
-                                break;
-                        }
+                        int layoutResourceId = getLayoutResource(categoryId);
 
                         Log.d("SearchDebug", "Layout resourceID = " + layoutResourceId);
                         results = resultList;
@@ -91,6 +79,17 @@ public class ResultActivity extends AppCompatActivity {
 
         }else {
             Toast.makeText(getBaseContext(), "Enter something boss", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private int getLayoutResource(String categoryId) {
+        switch (categoryId) {
+            case "kpop":
+                return (R.layout.kpop_list_item);
+            case "pop":
+                return (R.layout.pop_list_item);
+            default:
+                return (R.layout.popular_list_item);
         }
     }
 
