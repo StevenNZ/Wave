@@ -4,7 +4,6 @@ import android.util.Log;
 
 import com.example.wave.Dataproviders.DiscographyProvider;
 import com.example.wave.Entities.Discography;
-import com.example.wave.Entities.DiscographyForm;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.TaskCompletionSource;
 import com.google.firebase.firestore.CollectionReference;
@@ -190,39 +189,6 @@ public class DiscographyRepository implements DiscographyProvider {
                 }
             } else {
                 Log.d("getDiscographyByCategoryID", "Error getting documents: " + task.getException());
-                taskCompletionSource.setException(task.getException());
-            }
-        });
-
-        return taskCompletionSource.getTask();
-    }
-
-    /**
-     * Get a list of discography formats by a discographyID
-     *
-     * @param discographyID
-     * @return Task<List<DiscographyForm>> with the discography formats avaliable for that discography
-     */
-    @Override
-    public Task<List<DiscographyForm>> getDiscographyHardMediaForm(String discographyID) {
-        TaskCompletionSource<List<DiscographyForm>> taskCompletionSource = new TaskCompletionSource<>();
-
-        Query query = discographyCollection.whereEqualTo("discographyID", discographyID);
-
-        query.get().addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                QuerySnapshot querySnapshot = task.getResult();
-                List<DiscographyForm> hardMediaFormats = new ArrayList<>();
-
-                for (DocumentSnapshot documentSnapshot : querySnapshot.getDocuments()) {
-                    DiscographyForm form = documentSnapshot.toObject(DiscographyForm.class);
-                    hardMediaFormats.add(form);
-                }
-
-                taskCompletionSource.setResult(hardMediaFormats);
-
-            } else {
-                Log.d("getDiscographyHardMediaForm", "Error getting documents: " + task.getException());
                 taskCompletionSource.setException(task.getException());
             }
         });
