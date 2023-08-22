@@ -47,12 +47,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        String temp = "The College Dropout";
-        String sub = "the";
-
-        Log.d("SearchDebug", "onQueryTextChange: TO LOWER " + temp.toLowerCase() );
-        Log.d("SearchDebug", "onQueryTextChange: TO LOWER SUB " + sub.toLowerCase());
-        Log.d("SearchDebug", "onQueryTextChange: TO LOWER SUB " + temp.toLowerCase().contains(sub.toLowerCase()));
         model = new ViewModelProvider(this).get(MainViewModel.class);
         fetchAndDisplayCategories();
 
