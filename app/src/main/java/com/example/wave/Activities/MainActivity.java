@@ -120,10 +120,10 @@ public class MainActivity extends AppCompatActivity {
 
                 RecyclerView recyclerView = findViewById(R.id.popular_recycler_view);
                 // Set up the RecyclerView with a LinearLayoutManager
-                LinearLayoutManager layoutManager = new LinearLayoutManager(MainActivity.this, LinearLayoutManager.VERTICAL, false);
+                LinearLayoutManager layoutManager = new LinearLayoutManager(MainActivity.this, LinearLayoutManager.HORIZONTAL, false);
                 recyclerView.setLayoutManager(layoutManager);
 
-                PopularAdaptor popularAdaptor = new PopularAdaptor(MainActivity.this, R.layout.popular_list_item, resultList, new PopularRecylcerInterface() {
+                PopularAdaptor popularAdaptor = new PopularAdaptor(MainActivity.this, R.layout.kpop_list_item, resultList, new PopularRecylcerInterface() {
                     @Override
                     public void onItemClick(int position) {
                         Popular currentDiscography = resultList.get(position);

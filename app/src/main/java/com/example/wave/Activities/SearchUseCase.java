@@ -29,6 +29,10 @@ public class SearchUseCase {
             if (task.isSuccessful()) {
                 List<Discography> list = task.getResult();
                 List<Popular> resultDiscographies = new ArrayList<>();
+                if(list.isEmpty()){
+                    listener.onDiscographyResultsReady(resultDiscographies);
+                }
+
 
                 Log.d("SearchDebug", "from returned = " + list);
 
