@@ -10,6 +10,7 @@ import com.example.wave.Entities.PopDiscography;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.TaskCompletionSource;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -26,6 +27,7 @@ public class DiscographyRepository implements DiscographyProvider {
     private final CollectionReference discographyCollection = db.collection("Discography");
 
     private final CollectionReference discographyFormCollection = db.collection("DiscographyForm");
+
     private DiscographyRepository() {
     }
 
@@ -39,7 +41,7 @@ public class DiscographyRepository implements DiscographyProvider {
     /**
      * Get all discography from the database
      *
-     * @return Task<List<Discography>> with all discography
+     * @return Task<List < Discography>> with all discography
      */
     @Override
     public Task<List<Discography>> getAllDiscography() {
@@ -116,8 +118,7 @@ public class DiscographyRepository implements DiscographyProvider {
                                 break;
                         }
                         return discography;
-                    }
-                    else{
+                    } else {
                         Log.d("getDiscographyByDiscographyID", "No categoryID");
                         return null;
                     }
@@ -138,7 +139,7 @@ public class DiscographyRepository implements DiscographyProvider {
      * SPEED IS NOT GUARANTEED
      *
      * @param searchString
-     * @return Task<List<Discography>> with the discography
+     * @return Task<List < Discography>> with the discography
      */
     @Override
     public Task<List<Discography>> getDiscographyBySearch(String searchString) {
@@ -186,7 +187,7 @@ public class DiscographyRepository implements DiscographyProvider {
         });
 
         return taskCompletionSource.getTask();
-        
+
 
     }
 
@@ -194,7 +195,7 @@ public class DiscographyRepository implements DiscographyProvider {
      * Get a list of discography by a categoryID
      *
      * @param categoryID
-     * @return Task<List<Discography>> with the discography
+     * @return Task<List < Discography>> with the discography
      */
     @Override
     public Task<List<Discography>> getDiscographyByCategoryID(String categoryID) {
@@ -250,7 +251,7 @@ public class DiscographyRepository implements DiscographyProvider {
      * Get a list of discography by a artistID
      *
      * @param artistID
-     * @return Task<List<Discography>> with the discography
+     * @return Task<List < Discography>> with the discography
      */
     @Override
     public Task<List<Discography>> getDiscographyByArtistID(String artistID) {
@@ -264,7 +265,7 @@ public class DiscographyRepository implements DiscographyProvider {
                 if (querySnapshot != null && !querySnapshot.isEmpty()) {
                     // The query returned matching documents
                     List<Discography> currentDiscographyList = new ArrayList<>();
-                    for (DocumentSnapshot documentSnapshot : querySnapshot.getDocuments()){
+                    for (DocumentSnapshot documentSnapshot : querySnapshot.getDocuments()) {
                         String currentCategoryID = documentSnapshot.getString("categoryID");
                         if (currentCategoryID != null) {
                             Discography discography;
@@ -299,6 +300,49 @@ public class DiscographyRepository implements DiscographyProvider {
         });
 
         return taskCompletionSource.getTask();
+    }
+
+    /**
+     * Add View to a discography
+     */
+    @Override
+    public void addViewToDiscography(String discographyID) {
+        DocumentReference documentReference = discographyCollection.document(discographyID);
+        documentReference.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                DocumentSnapshot documentSnapshot = task.getResult();
+                if (documentSnapshot != null && documentSnapshot.exists()) {
+                    String currentCategoryID = documentSnapshot.getString("categoryID");
+                    if (currentCategoryID != null) {
+                        Discography discography;
+
+                        switch (currentCategoryID) {
+                            case "hiphop":
+                                discography = documentSnapshot.toObject(HipHopDiscography.class);
+                                break;
+                            case "kpop":
+                                discography = documentSnapshot.toObject(KPopDiscography.class);
+                                break;
+                            case "pop":
+                                discography = documentSnapshot.toObject(PopDiscography.class);
+                                break;
+                            default:
+                                discography = documentSnapshot.toObject(Discography.class);
+                                break;
+                        }
+                        if (discography != null) {
+                            int currentViews = discography.getViews();
+                            discography.setViews(currentViews + 1);
+                            documentReference.set(discography);
+                        }
+                        else {
+                            Log.d("addViewToDiscography", "Discography is null");
+                        }
+                    }
+                }
+            }
+        });
+
     }
 
 }

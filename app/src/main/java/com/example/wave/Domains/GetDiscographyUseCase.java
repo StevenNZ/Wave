@@ -32,4 +32,9 @@ public class GetDiscographyUseCase implements DiscographyProvider {
     public Task<List<Discography>> getDiscographyByArtistID(String artistID) {
         return null;
     }
+
+    @Override
+    public void addViewToDiscography(String discographyID) {
+        DiscographyRepository.getInstance().addViewToDiscography(discographyID);
+    }
 }
