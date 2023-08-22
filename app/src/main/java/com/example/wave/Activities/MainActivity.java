@@ -104,6 +104,9 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * shows popular discographies, updates dynamically based on user views
+     */
     private void fetchAndDisplayPopular(){
 
         GetPopularProductsUseCase getPopularProductsUseCase = new GetPopularProductsUseCase();
@@ -123,6 +126,7 @@ public class MainActivity extends AppCompatActivity {
                         Popular currentDiscography = resultList.get(position);
                         Log.d("SearchDebug", "currentDiscog = " + currentDiscography);
 
+                        //pass intent to Details activity
                         Intent intent = new Intent(MainActivity.this, DiscographyDetailActivity.class);
                         intent.putExtra("DiscographyId", currentDiscography.getDiscographyId());
                         intent.putExtra("ArtistName", currentDiscography.getAlbumArtist());
