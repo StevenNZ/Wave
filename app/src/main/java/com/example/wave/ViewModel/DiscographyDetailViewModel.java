@@ -16,4 +16,11 @@ public class DiscographyDetailViewModel extends ViewModel {
         }
         return getDiscographyUseCase.getDiscographyByDiscographyID(id);
     }
+
+    public void addViewToDiscography(String discographyID) {
+        if (getDiscographyUseCase == null) {
+            getDiscographyUseCase = new GetDiscographyUseCase();
+        }
+        getDiscographyUseCase.addViewToDiscography(discographyID);
+    }
 }

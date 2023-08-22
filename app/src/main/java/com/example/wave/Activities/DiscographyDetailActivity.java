@@ -49,6 +49,7 @@ public class DiscographyDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
+
         ConstraintLayout constraintLayout = findViewById(R.id.detailLayout);
         MaterialToolbar toolbar = findViewById(R.id.topAppBar);
         imageSlider = findViewById(R.id.imageSlider);
@@ -69,6 +70,10 @@ public class DiscographyDetailActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         String discographyId = intent.getStringExtra("DiscographyId");
+
+        //add view to discography
+        model.addViewToDiscography(discographyId);
+
 
         artistTextView.setText(intent.getStringExtra("ArtistName"));
 
