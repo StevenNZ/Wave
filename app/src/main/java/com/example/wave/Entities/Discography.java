@@ -21,6 +21,7 @@ public class Discography {
     private List<String> collaborators;
     private String primaryColour;
     private String secondaryColour;
+    private int views;
 
     /**
      * Constructor for Discography class
@@ -43,7 +44,7 @@ public class Discography {
     public Discography(String discographyID, String artistID, String categoryID, String releaseName,
                         String releaseDate, String releaseType, String imageURL, String cassetteImageUrl, String vinylImageUrl, String cdImageUrl,
                         String streamingFigures, List<String> tracklist, List<String> collaborators,
-                        String primaryColour, String secondaryColour) {
+                        String primaryColour, String secondaryColour, int views) {
         this.discographyID = discographyID;
         this.artistID = artistID;
         this.categoryID = categoryID;
@@ -59,6 +60,7 @@ public class Discography {
         this.collaborators = collaborators;
         this.primaryColour = primaryColour;
         this.secondaryColour = secondaryColour;
+        this.views = views;
     }
 
     /**
@@ -189,6 +191,14 @@ public class Discography {
     }
 
     /**
+     * Getter for views
+     * @return views
+     */
+    public int getViews() {
+        return views;
+    }
+
+    /**
      * Setter for discographyID
      * @param discographyID
      */
@@ -309,6 +319,14 @@ public class Discography {
     }
 
     /**
+     * Setter for views
+     * @param views
+     */
+    public void setViews(int views) {
+        this.views = views;
+    }
+
+    /**
      * equals method for Discography class
      */
     @Override
@@ -349,6 +367,7 @@ public class Discography {
                 ", collaborators=" + collaborators +
                 ", primaryColour='" + primaryColour + '\'' +
                 ", secondaryColour='" + secondaryColour + '\'' +
+                ", views=" + views +
                 '}';
     }
 
