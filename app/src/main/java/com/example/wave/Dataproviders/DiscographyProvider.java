@@ -16,6 +16,6 @@ public interface DiscographyProvider {
     Task<Discography> getDiscographyByDiscographyID(String discographyID);
     Task<List<Discography>> getDiscographyBySearch(String searchString);
     Task<List<Discography>> getDiscographyByCategoryID(String categoryID);
-    Task<Discography> getDiscographyByArtistID(String artistID);
+    Task<List<Discography>> getDiscographyByArtistID(String artistID);
 }
 

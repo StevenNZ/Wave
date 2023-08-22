@@ -29,7 +29,7 @@ public class GetDiscographyUseCase implements DiscographyProvider {
     }
 
     @Override
-    public Task<Discography> getDiscographyByArtistID(String artistID) {
+    public Task<List<Discography>> getDiscographyByArtistID(String artistID) {
         return null;
     }
 }
