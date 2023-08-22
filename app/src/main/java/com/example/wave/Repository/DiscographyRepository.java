@@ -109,7 +109,7 @@ public class DiscographyRepository implements DiscographyProvider {
                     Discography discography = documentSnapshot.toObject(Discography.class);
 
                     // Perform fuzzy search logic (e.g., check if productName contains searchTerm)
-                    if (discography != null && discography.getReleaseName().contains(searchString)) {
+                    if (discography != null && discography.getReleaseName().toLowerCase().contains(searchString.toLowerCase())) {
                         matchingDiscography.add(discography);
                     }
                 }
