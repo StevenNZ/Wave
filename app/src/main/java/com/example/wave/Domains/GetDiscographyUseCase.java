@@ -2,7 +2,6 @@ package com.example.wave.Domains;
 
 import com.example.wave.Dataproviders.DiscographyProvider;
 import com.example.wave.Entities.Discography;
-import com.example.wave.Entities.DiscographyForm;
 import com.example.wave.Repository.DiscographyRepository;
 import com.google.android.gms.tasks.Task;
 
@@ -30,12 +29,7 @@ public class GetDiscographyUseCase implements DiscographyProvider {
     }
 
     @Override
-    public Task<Discography> getDiscographyByArtistID(String artistID) {
-        return null;
-    }
-
-    @Override
-    public Task<List<DiscographyForm>> getDiscographyHardMediaForm(String discographyID) {
+    public Task<List<Discography>> getDiscographyByArtistID(String artistID) {
         return null;
     }
 }

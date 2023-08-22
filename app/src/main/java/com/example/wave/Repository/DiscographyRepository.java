@@ -4,7 +4,9 @@ import android.util.Log;
 
 import com.example.wave.Dataproviders.DiscographyProvider;
 import com.example.wave.Entities.Discography;
-import com.example.wave.Entities.DiscographyForm;
+import com.example.wave.Entities.HipHopDiscography;
+import com.example.wave.Entities.KPopDiscography;
+import com.example.wave.Entities.PopDiscography;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.TaskCompletionSource;
 import com.google.firebase.firestore.CollectionReference;
@@ -51,8 +53,26 @@ public class DiscographyRepository implements DiscographyProvider {
                 List<Discography> discographyList = new ArrayList<>();
 
                 for (DocumentSnapshot document : documents) {
-                    Discography discography = document.toObject(Discography.class);
-                    discographyList.add(discography);
+                    String categoryID = document.getString("categoryID");
+                    if (categoryID != null) {
+                        Discography discography;
+
+                        switch (categoryID) {
+                            case "hiphop":
+                                discography = document.toObject(HipHopDiscography.class);
+                                break;
+                            case "kpop":
+                                discography = document.toObject(KPopDiscography.class);
+                                break;
+                            case "pop":
+                                discography = document.toObject(PopDiscography.class);
+                                break;
+                            default:
+                                discography = document.toObject(Discography.class);
+                                break;
+                        }
+                        discographyList.add(discography);
+                    }
                 }
 
                 return discographyList;
@@ -76,9 +96,33 @@ public class DiscographyRepository implements DiscographyProvider {
         return documentTask.continueWith(task -> {
             if (task.isSuccessful()) {
                 DocumentSnapshot documentSnapshot = task.getResult();
+
                 if (documentSnapshot.exists()) {
-                    Discography discography = documentSnapshot.toObject(Discography.class);
-                    return discography;
+                    String categoryID = documentSnapshot.getString("categoryID");
+                    if (categoryID != null) {
+                        Discography discography;
+
+                        switch (categoryID) {
+                            case "hiphop":
+                                discography = documentSnapshot.toObject(HipHopDiscography.class);
+                                break;
+                            case "kpop":
+                                discography = documentSnapshot.toObject(KPopDiscography.class);
+                                break;
+                            case "pop":
+                                discography = documentSnapshot.toObject(PopDiscography.class);
+                                break;
+                            default:
+                                discography = documentSnapshot.toObject(Discography.class);
+                                break;
+                        }
+                        return discography;
+                    }
+                    else{
+                        Log.d("getDiscographyByDiscographyID", "No categoryID");
+                        return null;
+                    }
+
                 } else {
                     Log.d("getDiscographyByDiscographyID", "No matching documents with the given discographyID");
                     return null; // Document with the given ID does not exist
@@ -106,14 +150,34 @@ public class DiscographyRepository implements DiscographyProvider {
         query.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 List<Discography> matchingDiscography = new ArrayList<>();
-                for (DocumentSnapshot documentSnapshot : task.getResult()) {
-                    Discography discography = documentSnapshot.toObject(Discography.class);
+                for (DocumentSnapshot document : task.getResult()) {
 
-                    // Perform fuzzy search logic (e.g., check if productName contains searchTerm)
-                    if (discography != null && discography.getReleaseName().toLowerCase().contains(searchString.toLowerCase())) {
+                    String categoryID = document.getString("categoryID");
+                    if (categoryID != null) {
+                        Discography discography;
 
-                        matchingDiscography.add(discography);
+                        switch (categoryID) {
+                            case "hiphop":
+                                discography = document.toObject(HipHopDiscography.class);
+                                break;
+                            case "kpop":
+                                Log.d("getDiscographyBySearch", "KPOP");
+                                discography = document.toObject(KPopDiscography.class);
+                                break;
+                            case "pop":
+                                discography = document.toObject(PopDiscography.class);
+                                break;
+                            default:
+                                discography = document.toObject(Discography.class);
+                                break;
+                        }
+                        // Perform fuzzy search logic (e.g., check if productName contains searchTerm)
+                        if (discography != null && discography.getReleaseName().toLowerCase().contains(searchString.toLowerCase())) {
+                            matchingDiscography.add(discography);
+                        }
                     }
+
+
                 }
                 taskCompletionSource.setResult(matchingDiscography);
             } else {
@@ -147,8 +211,26 @@ public class DiscographyRepository implements DiscographyProvider {
 
                     List<Discography> currentDiscographyList = new ArrayList<>();
                     for (DocumentSnapshot documentSnapshot : querySnapshot.getDocuments()) {
-                        Discography discography = documentSnapshot.toObject(Discography.class);
-                        currentDiscographyList.add(discography);
+                        String currentCategoryID = documentSnapshot.getString("categoryID");
+                        if (currentCategoryID != null) {
+                            Discography discography;
+
+                            switch (currentCategoryID) {
+                                case "hiphop":
+                                    discography = documentSnapshot.toObject(HipHopDiscography.class);
+                                    break;
+                                case "kpop":
+                                    discography = documentSnapshot.toObject(KPopDiscography.class);
+                                    break;
+                                case "pop":
+                                    discography = documentSnapshot.toObject(PopDiscography.class);
+                                    break;
+                                default:
+                                    discography = documentSnapshot.toObject(Discography.class);
+                                    break;
+                            }
+                            currentDiscographyList.add(discography);
+                        }
 
                     }
                     taskCompletionSource.setResult(currentDiscographyList);
@@ -172,8 +254,8 @@ public class DiscographyRepository implements DiscographyProvider {
      * @return Task<List<Discography>> with the discography
      */
     @Override
-    public Task<Discography> getDiscographyByArtistID(String artistID) {
-        TaskCompletionSource<Discography> taskCompletionSource = new TaskCompletionSource<>();
+    public Task<List<Discography>> getDiscographyByArtistID(String artistID) {
+        TaskCompletionSource<List<Discography>> taskCompletionSource = new TaskCompletionSource<>();
 
         Query query = discographyCollection.whereEqualTo("artistID", artistID);
 
@@ -182,48 +264,37 @@ public class DiscographyRepository implements DiscographyProvider {
                 QuerySnapshot querySnapshot = task.getResult();
                 if (querySnapshot != null && !querySnapshot.isEmpty()) {
                     // The query returned matching documents
-                    DocumentSnapshot documentSnapshot = querySnapshot.getDocuments().get(0); // Get the first matching document
-                    Discography discography = documentSnapshot.toObject(Discography.class);
-                    taskCompletionSource.setResult(discography);
+                    List<Discography> currentDiscographyList = new ArrayList<>();
+                    for (DocumentSnapshot documentSnapshot : querySnapshot.getDocuments()){
+                        String currentCategoryID = documentSnapshot.getString("categoryID");
+                        if (currentCategoryID != null) {
+                            Discography discography;
+
+                            switch (currentCategoryID) {
+                                case "hiphop":
+                                    discography = documentSnapshot.toObject(HipHopDiscography.class);
+                                    break;
+                                case "kpop":
+                                    discography = documentSnapshot.toObject(KPopDiscography.class);
+                                    break;
+                                case "pop":
+                                    discography = documentSnapshot.toObject(PopDiscography.class);
+                                    break;
+                                default:
+                                    discography = documentSnapshot.toObject(Discography.class);
+                                    break;
+                            }
+                            currentDiscographyList.add(discography);
+                        }
+                    }
+
                 } else {
                     Log.d("getDiscographyByCategoryID", "No matching documents");
                     taskCompletionSource.setResult(null);
                 }
+
             } else {
                 Log.d("getDiscographyByCategoryID", "Error getting documents: " + task.getException());
-                taskCompletionSource.setException(task.getException());
-            }
-        });
-
-        return taskCompletionSource.getTask();
-    }
-
-    /**
-     * Get a list of discography formats by a discographyID
-     *
-     * @param discographyID
-     * @return Task<List<DiscographyForm>> with the discography formats avaliable for that discography
-     */
-    @Override
-    public Task<List<DiscographyForm>> getDiscographyHardMediaForm(String discographyID) {
-        TaskCompletionSource<List<DiscographyForm>> taskCompletionSource = new TaskCompletionSource<>();
-
-        Query query = discographyCollection.whereEqualTo("discographyID", discographyID);
-
-        query.get().addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                QuerySnapshot querySnapshot = task.getResult();
-                List<DiscographyForm> hardMediaFormats = new ArrayList<>();
-
-                for (DocumentSnapshot documentSnapshot : querySnapshot.getDocuments()) {
-                    DiscographyForm form = documentSnapshot.toObject(DiscographyForm.class);
-                    hardMediaFormats.add(form);
-                }
-
-                taskCompletionSource.setResult(hardMediaFormats);
-
-            } else {
-                Log.d("getDiscographyHardMediaForm", "Error getting documents: " + task.getException());
                 taskCompletionSource.setException(task.getException());
             }
         });
