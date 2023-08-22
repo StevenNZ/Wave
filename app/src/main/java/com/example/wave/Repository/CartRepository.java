@@ -43,24 +43,7 @@ public class CartRepository implements CartProvider {
      */
     @Override
     public void createCart(String userID) {
-        String orderID = userID + "Cart";
-        List<String> discographyFormIDList = null;
-        String orderDate = null;
-        Order cart = new Order(orderID, userID, discographyFormIDList, orderDate);
-        cartsCollection.document(userID)
-                .set(cart)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.d(TAG, "Cart successfully created!");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "Error writing document", e);
-                    }
-                });
+
     }
 
     /**

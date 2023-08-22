@@ -10,6 +10,8 @@ public class Order {
     private String type;
     private String userID;
 
+    private String discographyID;
+
 
 
     /**
@@ -19,13 +21,83 @@ public class Order {
      * @param userID
      * @param orderDate
      */
-    public Order(String orderID, String type, String userID, String orderDate) {
+    public Order(String orderID, String type, String userID, String discographyID) {
         this.userID = userID;
         this.type = type;
         this.orderID = orderID;
+        this.discographyID = discographyID;
 
     }
 
+    /**
+     * Default constructor for Order class
+     */
+    public Order() {
+    }
+
+    /**
+     * Getter for orderID
+     * @return orderID
+     */
+    public String getOrderID() {
+        return orderID;
+    }
+
+    /**
+     * Setter for orderID
+     * @param orderID
+     */
+    public void setOrderID(String orderID) {
+        this.orderID = orderID;
+    }
+
+    /**
+     * Getter for type
+     * @return type
+     */
+    public String getType() {
+        return type;
+    }
+
+    /**
+     * Setter for type
+     * @param type
+     */
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    /**
+     * Getter for userID
+     * @return userID
+     */
+    public String getUserID() {
+        return userID;
+    }
+
+    /**
+     * Setter for userID
+     * @param userID
+     */
+    public void setUserID(String userID) {
+        this.userID = userID;
+    }
+
+    /**
+     * Getter for discographyID
+     * @return discographyID
+     */
+    public String getDiscographyID() {
+        return discographyID;
+    }
+
+    /**
+     * Setter for discographyID
+     * @param discographyID
+     */
+    public void setDiscographyID(String discographyID) {
+        this.discographyID = discographyID;
+    }
 
     /**
      * equals method for Order class
@@ -55,9 +127,8 @@ public class Order {
         return "Order{" +
                 "orderID='" + orderID + '\'' +
                 ", userID='" + userID + '\'' +
-                ", discographyFormID=" + discographyFormIDList +
-                ", orderDate='" + orderDate + '\'' +
-                ", deliveryStatus=" + deliveryStatus +
+                ", type='" + type + '\'' +
+                ", discographyID='" + discographyID + '\'' +
                 '}';
     }
 }
