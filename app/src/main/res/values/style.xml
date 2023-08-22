@@ -81,6 +81,12 @@
         <item name="android:fontFamily">@font/tektur_regular</item>
         <!-- Add more styling attributes as needed -->
     </style>
+    <style name="tracklistItem">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:fontFamily">@font/tektur_regular</item>
+        <!-- Add more styling attributes as needed -->
+    </style>
     <style name="detailAlbum">
         <item name="android:textColor">@color/black</item>
         <item name="android:textSize">24sp</item>

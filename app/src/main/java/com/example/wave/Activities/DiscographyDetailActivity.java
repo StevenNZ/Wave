@@ -32,10 +32,16 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.appbar.MaterialToolbar;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class DiscographyDetailActivity extends AppCompatActivity {
+
+    private final String cassettePrice = "$15";
+    private final String cdPrice = "$20";
+    private final String vinylPrice = "$40";
 
     private int position = 0;
     private int slide = 0;
@@ -57,6 +63,7 @@ public class DiscographyDetailActivity extends AppCompatActivity {
         ImageButton cd = findViewById(R.id.cdBtn);
         TextView albumTextView = findViewById(R.id.albumTitleText);
         TextView artistTextView = findViewById(R.id.artistText);
+        TextView priceTextView = findViewById(R.id.priceText);
         LinearLayout tracklistLayout = findViewById(R.id.tracklistLayout);
 
         ArrayList<SlideModel> imageList = new ArrayList<>();
@@ -98,7 +105,7 @@ public class DiscographyDetailActivity extends AppCompatActivity {
                         ));
                         String text = i+1 + ". " + trackLists.get(i);
                         textView.setText(text);
-                        textView.setTextAppearance(R.style.tracklist);
+                        textView.setTextAppearance(R.style.tracklistItem);
                         textView.setPadding(0, 0, 0, 20);
 
                         tracklistLayout.addView(textView);
@@ -122,10 +129,13 @@ public class DiscographyDetailActivity extends AppCompatActivity {
                 currentImageButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.white,null)));
                 if (position == 0) {
                     currentImageButton = cassette;
+                    priceTextView.setText(cassettePrice);
                 } else if (position == 1) {
                     currentImageButton = vinyl;
+                    priceTextView.setText(vinylPrice);
                 } else {
                     currentImageButton = cd;
+                    priceTextView.setText(cdPrice);
                 }
                 currentImageButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.gold,null)));
             }
