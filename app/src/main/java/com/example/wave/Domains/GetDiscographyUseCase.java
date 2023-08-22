@@ -9,8 +9,8 @@ import java.util.List;
 
 public class GetDiscographyUseCase implements DiscographyProvider {
     @Override
-    public Task<List<Discography>> getAllDiscography(String discographyID) {
-        return null;
+    public Task<List<Discography>> getAllDiscography() {
+        return DiscographyRepository.getInstance().getAllDiscography();
     }
 
     @Override
