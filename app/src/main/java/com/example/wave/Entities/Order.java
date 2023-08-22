@@ -6,72 +6,24 @@ import java.util.List;
 import java.util.Objects;
 
 public class Order {
-    private final String orderID;
-    private final String userID;
-    private List<String> discographyFormIDList;
-    private String orderDate;
-    private final Status deliveryStatus;
+    private String orderID;
+    private String type;
+    private String userID;
+
+
 
     /**
      * Constructor for Order class
      * @param orderID
+     * @param type
      * @param userID
-     * @param discographyFormID
      * @param orderDate
      */
-    public Order(String orderID, String userID, List<String> discographyFormID, String orderDate) {
-        this.orderID = orderID;
+    public Order(String orderID, String type, String userID, String orderDate) {
         this.userID = userID;
-        this.discographyFormIDList = discographyFormID;
-        this.orderDate = orderDate;
-        this.deliveryStatus = Status.Ordered;
-    }
+        this.type = type;
+        this.orderID = orderID;
 
-    /**
-     * Getter for orderID
-     * @return orderID
-     */
-    public String getOrderID() {
-        return orderID;
-    }
-
-    /**
-     * Getter for userID
-     * @return userID
-     */
-    public String getUserID() {
-        return userID;
-    }
-
-    /**
-     * Getter for discographyFormID
-     * @return discographyFormID
-     */
-    public List<String> getDiscographyFormIDList() {
-        return discographyFormIDList;
-    }
-
-    public void appendDiscographyFormIDList(String discographyFormID) {
-        this.discographyFormIDList.add(discographyFormID);
-    }
-    public void removeDiscographyFormIDList(String discographyFormID) {
-        this.discographyFormIDList.remove(discographyFormID);
-    }
-
-    /**
-     * Getter for orderDate
-     * @return orderDate
-     */
-    public String getOrderDate() {
-        return orderDate;
-    }
-
-    /**
-     * Getter for deliveryStatus
-     * @return deliveryStatus
-     */
-    public Status getDeliveryStatus() {
-        return deliveryStatus;
     }
 
 
