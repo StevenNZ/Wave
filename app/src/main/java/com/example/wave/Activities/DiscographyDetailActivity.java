@@ -98,6 +98,8 @@ public class DiscographyDetailActivity extends AppCompatActivity {
                         ));
                         String text = i+1 + ". " + trackLists.get(i);
                         textView.setText(text);
+                        textView.setTextAppearance(R.style.tracklist);
+                        textView.setPadding(0, 0, 0, 20);
 
                         tracklistLayout.addView(textView);
                     }

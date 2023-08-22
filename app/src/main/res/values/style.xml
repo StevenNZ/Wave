@@ -16,4 +16,8 @@
         <item name="android:textSize">16sp</item>
         "
     </style>
+    <style name="tracklist">
+        <item name="android:textSize">18sp</item>
+        <!-- Add more styling attributes as needed -->
+    </style>
 </resources>
