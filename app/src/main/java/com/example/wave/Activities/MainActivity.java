@@ -40,7 +40,6 @@ public class MainActivity extends AppCompatActivity {
 
 
     private SearchView mainSearch;
-    private TextView searchLabel;
     private int originalSearchWidth;
     private MainViewModel model;
 
@@ -60,10 +59,9 @@ public class MainActivity extends AppCompatActivity {
 //        listView.setAdapter(popularAdapter);
 
         mainSearch = findViewById(R.id.main_search);
-        searchLabel = findViewById(R.id.search_label);
         originalSearchWidth = mainSearch.getLayoutParams().width;
         
-        setupSearchViewListeners();
+//        setupSearchViewListeners();
 
         mainSearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -160,36 +158,34 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private void setupSearchViewListeners() {
-        setupSearchClickListener();
-        setupCloseListener();
-    }
+//    private void setupSearchViewListeners() {
+//        setupSearchClickListener();
+//        setupCloseListener();
+//    }
+//
+//    private void setupCloseListener() {
+//        mainSearch.setOnCloseListener(new SearchView.OnCloseListener() {
+//            @Override
+//            public boolean onClose() {
+//                mainSearch.getLayoutParams().width = originalSearchWidth;
+//                mainSearch.requestLayout();
+//                return false;
+//            }
+//        });
+//    }
 
-    private void setupCloseListener() {
-        mainSearch.setOnCloseListener(new SearchView.OnCloseListener() {
-            @Override
-            public boolean onClose() {
-                searchLabel.setVisibility(View.VISIBLE);
-                mainSearch.getLayoutParams().width = originalSearchWidth;
-                mainSearch.requestLayout();
-                return false;
-            }
-        });
-    }
-
-    private void setupSearchClickListener() {
-        //remove search text and increase width
-        mainSearch.setOnSearchClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                searchLabel.setVisibility(View.GONE);
-                mainSearch.setMaxWidth(600);
-            }
-        });
-
-
-
-    }
+//    private void setupSearchClickListener() {
+//        //remove search text and increase width
+//        mainSearch.setOnSearchClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                mainSearch.setMaxWidth(600);
+//            }
+//        });
+//
+//
+//
+//    }
 
 //    @Override
 //    public void onItemClick(int position) {
