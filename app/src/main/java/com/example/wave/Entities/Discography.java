@@ -12,6 +12,9 @@ public class Discography {
     private String releaseDate;
     private String releaseType;
     private String imageURL;
+    private String cassetteImageUrl;
+    private String vinylImageUrl;
+    private String cdImageUrl;
     private String streamingFigures;
     private List<String> tracklist;
     private List<String> collaborators;
@@ -26,7 +29,7 @@ public class Discography {
      * @param releaseName
      * @param releaseDate
      * @param releaseType
-     * @param releaseArtworkURL
+     * @param imageURL
      * @param streamingFigures
      * @param tracklist
      * @param collaborators
@@ -107,11 +110,35 @@ public class Discography {
     }
 
     /**
-     * Getter for releaseArtworkURL
-     * @return releaseArtworkURL
+     * Getter for imageURL
+     * @return imageURL
      */
     public String getImageURL() {
         return imageURL;
+    }
+
+    /**
+     * Getter for cassetteImageUrl
+     * @return cassetteImageUrl
+     */
+    public String getCassetteImageUrl() {
+        return cassetteImageUrl;
+    }
+
+    /**
+     * Getter for vinylImageUrl
+     * @return vinylImageUrl
+     */
+    public String getVinylImageUrl() {
+        return vinylImageUrl;
+    }
+
+    /**
+     * Getter for cdImageUrl
+     * @return cdImageUrl
+     */
+    public String getCdImageUrl() {
+        return cdImageUrl;
     }
 
     /**
@@ -203,11 +230,35 @@ public class Discography {
     }
 
     /**
-     * Setter for releaseArtworkURL
+     * Setter for imageURL
      * @param imageURL
      */
     public void setImageURL(String imageURL) {
         this.imageURL = imageURL;
+    }
+
+    /**
+     * Setter for cassetteImageUrl
+     * @param cassetteImageUrl
+     */
+    public void setCassetteImageUrl(String cassetteImageUrl) {
+        this.cassetteImageUrl = cassetteImageUrl;
+    }
+
+    /**
+     * Setter for vinylImageUrl
+     * @param vinylImageUrl
+     */
+    public void setVinylImageUrl(String vinylImageUrl) {
+        this.vinylImageUrl = vinylImageUrl;
+    }
+
+    /**
+     * Setter for cdImageUrl
+     * @param cdImageUrl
+     */
+    public void setCdImageUrl(String cdImageUrl) {
+        this.cdImageUrl = cdImageUrl;
     }
 
     /**
@@ -283,6 +334,9 @@ public class Discography {
                 ", releaseDate='" + releaseDate + '\'' +
                 ", releaseType='" + releaseType + '\'' +
                 ", imageURL='" + imageURL + '\'' +
+                ", cassetteImageUrl='" + cassetteImageUrl + '\'' +
+                ", vinylImageUrl='" + vinylImageUrl + '\'' +
+                ", cdImageUrl='" + cdImageUrl + '\'' +
                 ", streamingFigures=" + streamingFigures +
                 ", tracklist=" + tracklist +
                 ", collaborators=" + collaborators +
