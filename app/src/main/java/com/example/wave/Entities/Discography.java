@@ -2,6 +2,7 @@ package com.example.wave.Entities;
 
 import androidx.annotation.Nullable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Discography {
@@ -349,6 +350,17 @@ public class Discography {
                 ", primaryColour='" + primaryColour + '\'' +
                 ", secondaryColour='" + secondaryColour + '\'' +
                 '}';
+    }
+
+    /**
+     * Default method to get the tags of a discography
+     * DO NOT USE THIS METHOD DIRECTLY
+     * USE CHILD IMPLEMENTATION OF METHOD
+     * @return empty string
+     */
+    public List<String> getTags(){
+        List<String> tags = new ArrayList<>();
+        return tags;
     }
 }
 

@@ -17,6 +17,7 @@ public class SearchUseCase {
 
     public static void generateDiscographyResults(String query, String categoryId, DiscographyResultsListener listener) {
 
+        Log.d("SearchDebug", "THIS THE QUERY WE LOOKING FOR DOG = " + query);
         Task<List<Discography>> discographyList;
         if(query.isEmpty()){
             discographyList = DiscographyRepository.getInstance().getDiscographyByCategoryID(categoryId);

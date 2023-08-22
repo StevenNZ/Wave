@@ -1,7 +1,6 @@
 package com.example.wave.Dataproviders;
 
 import com.example.wave.Entities.Discography;
-import com.example.wave.Entities.DiscographyForm;
 import com.example.wave.Repository.DiscographyRepository;
 import com.google.android.gms.tasks.Task;
 
@@ -17,7 +16,6 @@ public interface DiscographyProvider {
     Task<Discography> getDiscographyByDiscographyID(String discographyID);
     Task<List<Discography>> getDiscographyBySearch(String searchString);
     Task<List<Discography>> getDiscographyByCategoryID(String categoryID);
-    Task<Discography> getDiscographyByArtistID(String artistID);
-    Task<List<DiscographyForm>> getDiscographyHardMediaForm(String discographyID);
+    Task<List<Discography>> getDiscographyByArtistID(String artistID);
 }
 

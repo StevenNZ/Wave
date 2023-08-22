@@ -31,12 +31,12 @@
         app:layout_constraintTop_toBottomOf="@id/topAppBarLayout"
         app:layout_constraintBottom_toTopOf="@id/bottomNavigationView">
 
-        <ListView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/result_list_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-        </ListView>
+        </androidx.recyclerview.widget.RecyclerView>
 
     </LinearLayout>
 
