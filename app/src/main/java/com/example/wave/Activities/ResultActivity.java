@@ -35,11 +35,7 @@ import java.util.List;
 public class ResultActivity extends AppCompatActivity {
 
     private SearchView searchView;
-    private PopularAdaptor resultAdapater;
-
-    private GridLayoutManager gridLayoutManager;
-    private LinearLayoutManager linearLayoutManager;
-
+    private PopularAdaptor resultsAdapter;
 
     private List<Popular> results;
     private ResultViewModel model;
@@ -72,7 +68,7 @@ public class ResultActivity extends AppCompatActivity {
                         //LinearLayoutManager layoutManager = new LinearLayoutManager(ResultActivity.this, LinearLayoutManager.VERTICAL, false);
                         recyclerView.setLayoutManager(layoutManager);
 
-                        PopularAdaptor resultsAdapter = new PopularAdaptor(ResultActivity.this, layoutResourceId, resultList, new PopularRecylcerInterface() {
+                        resultsAdapter = new PopularAdaptor(ResultActivity.this, layoutResourceId, resultList, new PopularRecylcerInterface() {
                             @Override
                             public void onItemClick(int position) {
                                 Popular currentDiscography = resultList.get(position);
@@ -232,7 +228,8 @@ public class ResultActivity extends AppCompatActivity {
                 if(!filteredList.isEmpty()){
                     //this makes sure that when the list is empty we don't do anything
                     // can refactor to make better but idc
-                    resultAdapater.setFilteredList(filteredList);
+                    Log.d("SearchDebug", "onQueryTextChange: OnTextChange = " + resultsAdapter);
+                    resultsAdapter.setFilteredList(filteredList);
                 }
                 return true;
             }
