@@ -13,6 +13,8 @@ import java.util.List;
 
 public class SearchUseCase {
 
+    private static String currentArtistName;
+
     public static void generateDiscographyResults(String query, String categoryId, DiscographyResultsListener listener) {
 
         Task<List<Discography>> discographyList;
@@ -31,20 +33,44 @@ public class SearchUseCase {
 
                 for (Discography discography : list) {
                     String discogName = discography.getReleaseName();
-                    String artistName = discography.getArtistID();
                     String discogImage = discography.getImageURL();
                     String discogId = discography.getDiscographyID();
+                    discographyArtistName(discography.getArtistID(), new ArtistNameListener() {
+                        @Override
+                        public void onArtistNameReady(String name) {
+                            Popular res = new Popular(discogName, name, discogImage, discogId);
+                            resultDiscographies.add(res);
 
-                    Popular res = new Popular(discogName, artistName, discogImage, discogId);
-                    resultDiscographies.add(res);
+                            if (resultDiscographies.size() == list.size()) {
+                                // Call the listener with the populated list
+                                listener.onDiscographyResultsReady(resultDiscographies);
+                            }
+                        }
+                    });
                 }
 
                 // Call the listener with the populated list
-                listener.onDiscographyResultsReady(resultDiscographies);
+                //listener.onDiscographyResultsReady(resultDiscographies);
             } else {
                 Exception exception = task.getException();
                 // Handle the exception
             }
         });
     }
+
+
+    private static void discographyArtistName(String artistId, ArtistNameListener listener){
+
+
+        Task<Artist> artistTask = ArtistRepository.getInstance().getArtistByID(artistId);
+
+        artistTask.addOnCompleteListener(task -> {
+            if(task.isSuccessful()){
+                listener.onArtistNameReady(artistTask.getResult().getArtistName());
+            }
+        });
+
+
+    }
+
 }
