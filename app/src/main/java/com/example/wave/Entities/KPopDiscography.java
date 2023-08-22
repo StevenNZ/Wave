@@ -105,4 +105,17 @@ public class KPopDiscography extends Discography{
         tags.add(managementCompany);
         return tags;
     }
+
+    /**
+     * toString method for KPopDiscography class
+     * @return String
+     */
+    @Override
+    public String toString() {
+        return super.toString() + "KPopDiscography{" +
+                "fandomName='" + fandomName + '\'' +
+                ", fandomColour='" + fandomColour + '\'' +
+                ", managementCompany='" + managementCompany + '\'' +
+                '}';
+    }
 }

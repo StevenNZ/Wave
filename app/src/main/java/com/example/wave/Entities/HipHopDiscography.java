@@ -116,5 +116,16 @@ public class HipHopDiscography extends Discography {
         return tags;
     }
 
-
+    /**
+     * toString method for HipHopDiscography class
+     * @return String
+     */
+    @Override
+    public String toString() {
+        return super.toString() + "HipHopDiscography{" +
+                "explictContent=" + explictContent +
+                ", subCategory='" + subCategory + '\'' +
+                ", producerTag='" + producerTag + '\'' +
+                '}';
+    }
 }

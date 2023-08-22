@@ -143,4 +143,19 @@ public class PopDiscography extends Discography{
         tags.add(getChartTopSong());
         return tags;
     }
+
+    /**
+     * toString method for PopDiscography class
+     * @return String
+     */
+    @Override
+    public String toString() {
+        return super.toString() + "PopDiscography{" +
+                "bPM='" + bPM + '\'' +
+                ", remixName='" + remixName + '\'' +
+                ", emotion='" + emotion + '\'' +
+                ", chartTop='" + chartTop + '\'' +
+                ", ChartTopSong='" + ChartTopSong + '\'' +
+                '}';
+    }
 }
