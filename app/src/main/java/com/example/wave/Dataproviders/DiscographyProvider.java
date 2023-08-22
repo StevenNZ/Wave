@@ -12,7 +12,7 @@ public interface DiscographyProvider {
         return null;
     }
 
-    Task<List<Discography>> getAllDiscography(String discographyID);
+    Task<List<Discography>> getAllDiscography();
     Task<Discography> getDiscographyByDiscographyID(String discographyID);
     Task<List<Discography>> getDiscographyBySearch(String searchString);
     Task<List<Discography>> getDiscographyByCategoryID(String categoryID);

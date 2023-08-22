@@ -39,11 +39,10 @@ public class DiscographyRepository implements DiscographyProvider {
     /**
      * Get all discography from the database
      *
-     * @param discographyID
      * @return Task<List<Discography>> with all discography
      */
     @Override
-    public Task<List<Discography>> getAllDiscography(String discographyID) {
+    public Task<List<Discography>> getAllDiscography() {
         Task<QuerySnapshot> queryTask = discographyCollection.get();
 
         return queryTask.continueWith(task -> {
