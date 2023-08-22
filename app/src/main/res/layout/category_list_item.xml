@@ -12,21 +12,38 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal">
-        <ImageView
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/rap_image"
-            android:id="@+id/category_image"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="24dp"
-            android:text="HIP HOP"
-            android:textColor="@color/white"
-            android:textSize="42dp"
-            android:id="@+id/category_text"/>
+            android:layout_gravity="center_vertical"
+            app:cardCornerRadius="30dp">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/rap_image"
+                android:id="@+id/category_image"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="24dp"
+                    android:textAlignment="center"
+                    android:layout_alignParentBottom="true"
+                    android:text="HIP HOP"
+                    android:textColor="@color/white"
+                    android:textSize="42dp"
+                    android:id="@+id/category_text"/>
+            </RelativeLayout>
+
+
+        </androidx.cardview.widget.CardView>
+
+
     </RelativeLayout>
 
 

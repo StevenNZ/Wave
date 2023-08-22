@@ -57,7 +57,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#2B2B2B">
+            android:background="@drawable/categorybg"
+            android:padding="10dp">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/category_recycler_view"

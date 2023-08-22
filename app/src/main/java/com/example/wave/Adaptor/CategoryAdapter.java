@@ -59,7 +59,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
         String categoryID = currentCategory.getCategoryID();
 
         // Set the category name
-        holder.categoryTextView.setText(categoryName);
+        holder.categoryTextView.setText(categoryName.toUpperCase());
 
         // Set the category image
         Glide.with(mContext).load(categoryImageName).into(holder.categoryImageView);
