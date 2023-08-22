@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <solid android:color="#404040"/>
-    <corners android:radius="25dp"/>
-</shape>
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:drawable="@drawable/categorybg4"
+        android:duration="5000"/>
+    <item
+        android:drawable="@drawable/categorybg3"
+        android:duration="5000"/>
+    <item
+        android:drawable="@drawable/categorybg2"
+        android:duration="5000"/>
+    <item
+        android:drawable="@drawable/categorybg1"
+        android:duration="5000"/>
+</animation-list>
