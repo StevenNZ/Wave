@@ -210,8 +210,11 @@ public class ResultActivity extends AppCompatActivity {
                 }
                 //any changes (autocomplete)
 
-                fetchAndDisplay(newText, "");
-
+//                if(newText.length() >2){
+//                    fetchAndDisplay(newText, "");
+//                }else{
+//                    return true;
+//                }
                 List<Popular> filteredList = new ArrayList<>();
 
                 Log.d("SearchDebug", "onQueryTextChange: newText = " + newText);

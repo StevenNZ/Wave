@@ -111,6 +111,7 @@ public class DiscographyRepository implements DiscographyProvider {
 
                     // Perform fuzzy search logic (e.g., check if productName contains searchTerm)
                     if (discography != null && discography.getReleaseName().toLowerCase().contains(searchString.toLowerCase())) {
+
                         matchingDiscography.add(discography);
                     }
                 }
