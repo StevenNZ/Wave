@@ -83,9 +83,9 @@ public class DiscographyDetailActivity extends AppCompatActivity {
 
                     albumTextView.setText(discographyResult.getReleaseName());
 
-                    imageList.add(new SlideModel(discographyResult.getImageURL(), "", ScaleTypes.CENTER_INSIDE));
-                    imageList.add(new SlideModel(discographyResult.getImageURL(), "", ScaleTypes.CENTER_INSIDE));
-                    imageList.add(new SlideModel(discographyResult.getImageURL(), "", ScaleTypes.CENTER_INSIDE));
+                    imageList.add(new SlideModel(discographyResult.getCassetteImageUrl(), "", ScaleTypes.CENTER_INSIDE));
+                    imageList.add(new SlideModel(discographyResult.getVinylImageUrl(), "", ScaleTypes.CENTER_INSIDE));
+                    imageList.add(new SlideModel(discographyResult.getCdImageUrl(), "", ScaleTypes.CENTER_INSIDE));
                     imageSlider.setImageList(imageList);
 
                     trackLists = discographyResult.getTracklist();
