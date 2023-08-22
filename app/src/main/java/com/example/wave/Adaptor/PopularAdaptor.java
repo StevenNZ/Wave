@@ -54,11 +54,12 @@ public class PopularAdaptor extends ArrayAdapter {
             currentListViewItem = LayoutInflater.from(getContext()).inflate(mLayoutId, parent, false);
         }
 
+
+
         Log.d("SearchDebug", "getView: mPopular = " + mPopular);
         Log.d("SearchDebug", "getView: mPopular = " + mPopular.size());
         //Get the Number object for the current position
         Popular currentPopular = mPopular.get(position);
-
         //Set the attributed of list_view_number_item views
         ImageView iconImageView = (ImageView) currentListViewItem.findViewById(R.id.popular_image);
         Glide.with(mContext).load(currentPopular.getAlbumImage()).into(iconImageView);

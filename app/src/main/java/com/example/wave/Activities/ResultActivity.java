@@ -51,8 +51,12 @@ public class ResultActivity extends AppCompatActivity {
                         //display something empty
                         Toast.makeText(getBaseContext(), "NO results found", Toast.LENGTH_SHORT).show();
                     }else{
+
+                        int layoutResourceId = getLayoutResource(categoryId);
+
+                        Log.d("SearchDebug", "Layout resourceID = " + layoutResourceId);
                         results = resultList;
-                        resultAdapater = new PopularAdaptor(ResultActivity.this, R.layout.popular_list_item, resultList);
+                        resultAdapater = new PopularAdaptor(ResultActivity.this, layoutResourceId, resultList);
                         ListView listView = findViewById(R.id.result_list_view);
                         listView.setAdapter(resultAdapater);
                         
@@ -75,6 +79,17 @@ public class ResultActivity extends AppCompatActivity {
 
         }else {
             Toast.makeText(getBaseContext(), "Enter something boss", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private int getLayoutResource(String categoryId) {
+        switch (categoryId) {
+            case "kpop":
+                return (R.layout.kpop_list_item);
+            case "pop":
+                return (R.layout.pop_list_item);
+            default:
+                return (R.layout.popular_list_item);
         }
     }
 
@@ -158,6 +173,8 @@ public class ResultActivity extends AppCompatActivity {
                     return true; // Return early if the results list is not ready
                 }
                 //any changes (autocomplete)
+
+                fetchAndDisplay(newText, "");
 
                 List<Popular> filteredList = new ArrayList<>();
 
