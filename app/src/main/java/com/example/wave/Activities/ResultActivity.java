@@ -3,6 +3,9 @@ package com.example.wave.Activities;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.GridLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -33,6 +37,10 @@ public class ResultActivity extends AppCompatActivity {
     private SearchView searchView;
     private PopularAdaptor resultAdapater;
 
+    private GridLayoutManager gridLayoutManager;
+    private LinearLayoutManager linearLayoutManager;
+
+
     private List<Popular> results;
     private ResultViewModel model;
 
@@ -54,24 +62,47 @@ public class ResultActivity extends AppCompatActivity {
 
                         int layoutResourceId = getLayoutResource(categoryId);
 
+                        RecyclerView.LayoutManager layoutManager = getLayoutManager(categoryId);
+
+
                         Log.d("SearchDebug", "Layout resourceID = " + layoutResourceId);
+                        RecyclerView recyclerView = findViewById(R.id.result_list_view);
                         results = resultList;
-                        resultAdapater = new PopularAdaptor(ResultActivity.this, layoutResourceId, resultList);
-                        ListView listView = findViewById(R.id.result_list_view);
-                        listView.setAdapter(resultAdapater);
-                        
-                        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                        //LinearLayoutManager layoutManager = new LinearLayoutManager(ResultActivity.this, LinearLayoutManager.VERTICAL, false);
+                        recyclerView.setLayoutManager(layoutManager);
+
+                        PopularAdaptor resultsAdapter = new PopularAdaptor(ResultActivity.this, layoutResourceId, resultList, new PopularRecylcerInterface() {
                             @Override
-                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            public void onItemClick(int position) {
                                 Popular currentDiscography = resultList.get(position);
 
                                 Intent intent = new Intent(ResultActivity.this, DiscographyDetailActivity.class);
                                 intent.putExtra("DiscographyId", currentDiscography.getDiscographyId());
                                 intent.putExtra("ArtistName", currentDiscography.getAlbumArtist());
                                 startActivity(intent);
-
                             }
                         });
+
+                        recyclerView.setAdapter(resultsAdapter);
+
+
+//                        resultAdapater = new PopularAdaptor(ResultActivity.this, layoutResourceId, resultList);
+//                        ListView listView = findViewById(R.id.result_list_view);
+//                        listView.setAdapter(resultAdapater);
+//
+//                        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//                            @Override
+//                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                                Popular currentDiscography = resultList.get(position);
+//
+//                                Intent intent = new Intent(ResultActivity.this, DiscographyDetailActivity.class);
+//                                intent.putExtra("DiscographyId", currentDiscography.getDiscographyId());
+//                                intent.putExtra("ArtistName", currentDiscography.getAlbumArtist());
+//                                startActivity(intent);
+//
+//                            }
+//                        });
 
                     }
                 }
@@ -92,6 +123,15 @@ public class ResultActivity extends AppCompatActivity {
                 return (R.layout.popular_list_item);
         }
     }
+
+    private RecyclerView.LayoutManager getLayoutManager(String categoryId) {
+        if ("kpop".equals(categoryId)) {
+            return new GridLayoutManager(ResultActivity.this, 2);
+        } else {
+            return new LinearLayoutManager(ResultActivity.this, LinearLayoutManager.VERTICAL, false);
+        }
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
