@@ -29,8 +29,8 @@ public class HipHopDiscography extends Discography {
      * @param subCategory
      * @param producerTag
      */
-    public HipHopDiscography(String discographyID, String artistID, String categoryID, String releaseName, String releaseDate, String releaseType, String imageURL, String cassetteImageUrl, String vinylImageUrl, String cdImageUrl, String streamingFigures, List<String> tracklist, List<String> collaborators, String primaryColour, String secondaryColour, boolean explictContent, String subCategory, String producerTag) {
-        super(discographyID, artistID, categoryID, releaseName, releaseDate, releaseType, imageURL, cassetteImageUrl, vinylImageUrl, cdImageUrl, streamingFigures, tracklist, collaborators, primaryColour, secondaryColour);
+    public HipHopDiscography(String discographyID, String artistID, String categoryID, String releaseName, String releaseDate, String releaseType, String imageURL, String cassetteImageUrl, String vinylImageUrl, String cdImageUrl, String streamingFigures, List<String> tracklist, List<String> collaborators, String primaryColour, String secondaryColour, boolean explictContent, String subCategory, String producerTag, int views) {
+        super(discographyID, artistID, categoryID, releaseName, releaseDate, releaseType, imageURL, cassetteImageUrl, vinylImageUrl, cdImageUrl, streamingFigures, tracklist, collaborators, primaryColour, secondaryColour, views);
         this.explictContent = explictContent;
         this.subCategory = subCategory;
         this.producerTag = producerTag;
