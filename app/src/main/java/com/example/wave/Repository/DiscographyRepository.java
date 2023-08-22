@@ -254,8 +254,8 @@ public class DiscographyRepository implements DiscographyProvider {
      * @return Task<List<Discography>> with the discography
      */
     @Override
-    public Task<Discography> getDiscographyByArtistID(String artistID) {
-        TaskCompletionSource<Discography> taskCompletionSource = new TaskCompletionSource<>();
+    public Task<List<Discography>> getDiscographyByArtistID(String artistID) {
+        TaskCompletionSource<List<Discography>> taskCompletionSource = new TaskCompletionSource<>();
 
         Query query = discographyCollection.whereEqualTo("artistID", artistID);
 
@@ -264,13 +264,35 @@ public class DiscographyRepository implements DiscographyProvider {
                 QuerySnapshot querySnapshot = task.getResult();
                 if (querySnapshot != null && !querySnapshot.isEmpty()) {
                     // The query returned matching documents
-                    DocumentSnapshot documentSnapshot = querySnapshot.getDocuments().get(0); // Get the first matching document
-                    Discography discography = documentSnapshot.toObject(Discography.class);
-                    taskCompletionSource.setResult(discography);
+                    List<Discography> currentDiscographyList = new ArrayList<>();
+                    for (DocumentSnapshot documentSnapshot : querySnapshot.getDocuments()){
+                        String currentCategoryID = documentSnapshot.getString("categoryID");
+                        if (currentCategoryID != null) {
+                            Discography discography;
+
+                            switch (currentCategoryID) {
+                                case "hiphop":
+                                    discography = documentSnapshot.toObject(HipHopDiscography.class);
+                                    break;
+                                case "kpop":
+                                    discography = documentSnapshot.toObject(KPopDiscography.class);
+                                    break;
+                                case "pop":
+                                    discography = documentSnapshot.toObject(PopDiscography.class);
+                                    break;
+                                default:
+                                    discography = documentSnapshot.toObject(Discography.class);
+                                    break;
+                            }
+                            currentDiscographyList.add(discography);
+                        }
+                    }
+
                 } else {
                     Log.d("getDiscographyByCategoryID", "No matching documents");
                     taskCompletionSource.setResult(null);
                 }
+
             } else {
                 Log.d("getDiscographyByCategoryID", "Error getting documents: " + task.getException());
                 taskCompletionSource.setException(task.getException());
