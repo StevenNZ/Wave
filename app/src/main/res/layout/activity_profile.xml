@@ -19,7 +19,8 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:title="Profile"
-            app:titleCentered="true"/>
+            app:titleCentered="true"
+            app:titleTextAppearance="@style/appBarText"/>
     </com.google.android.material.appbar.AppBarLayout>
 
     <ScrollView
@@ -50,7 +51,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/UserGreet"
                     android:textAlignment="center"
-                    android:textSize="48sp"
+                    style="@style/usernameGreeting"
                     android:lineSpacingExtra="10dp"
                     android:layout_marginBottom="20dp"/>
 
@@ -60,16 +61,17 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/profileUsername"
                     android:text="@string/signOutBtn"
-                    style="@style/Button" />
+                    style="@style/defaultButton" />
 
             </RelativeLayout>
 
             <TextView
+                android:id="@+id/purchaseTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/purchasesTitle"
                 android:layout_below="@id/userLayout"
-                android:textSize="24sp"/>
+                style="@style/profilePurchaseTitle"/>
 
         </RelativeLayout>
     </ScrollView>

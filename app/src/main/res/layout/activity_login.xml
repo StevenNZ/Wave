@@ -74,11 +74,11 @@
 
             <Button
                 android:id="@+id/loginButton"
-                style="@style/Button"
+                style="@style/defaultButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/passwordField"
-                android:layout_marginTop="45dp"
+                android:layout_marginTop="35dp"
                 android:text="@string/loginBtn"/>
 
             <TextView
@@ -89,7 +89,7 @@
                 android:layout_marginTop="20dp"
                 android:text="@string/registerLink"
                 android:textAlignment="center"
-                android:textColor="@color/black" />
+                style="@style/regularOpenSans16" />
 
         </RelativeLayout>
 

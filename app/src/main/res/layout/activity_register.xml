@@ -20,7 +20,8 @@
         android:layout_height="?attr/actionBarSize"
         app:title="Register"
         app:titleCentered="true"
-        app:navigationIcon="@drawable/back_icon"/>
+        app:navigationIcon="@drawable/back_icon"
+        app:titleTextAppearance="@style/appBarText"/>
     </com.google.android.material.appbar.AppBarLayout>
 
     <ScrollView
@@ -48,6 +49,7 @@
                 android:layout_width="match_parent"
                 android:layout_marginTop="30dp"
                 android:layout_marginBottom="30dp"
+                android:hint="@string/emailHint"
                 style="@style/EditText"/>
 
             <TextView
@@ -63,6 +65,7 @@
                 android:layout_below="@id/emailField"
                 android:layout_marginTop="30dp"
                 android:layout_marginBottom="30dp"
+                android:hint="Jane"
                 style="@style/EditText"/>
 
             <TextView
@@ -102,8 +105,9 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/passwordConfirmField"
                 android:layout_marginTop="50dp"
+                android:layout_marginBottom="20dp"
                 android:text="@string/registerBtn"
-                style="@style/Button"/>
+                style="@style/defaultButton"/>
 
         </RelativeLayout>
 

@@ -3,7 +3,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="270dp"
     android:layout_height="270dp"
-    app:cardCornerRadius="12dp"
     app:cardElevation="2dp"
     android:layout_margin="5dp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
@@ -16,7 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
-            app:cardCornerRadius="30dp">
+            app:cardCornerRadius="25dp">
 
             <ImageView
                 android:layout_width="match_parent"
@@ -35,8 +34,7 @@
                     android:textAlignment="center"
                     android:layout_alignParentBottom="true"
                     android:text="HIP HOP"
-                    android:textColor="@color/white"
-                    android:textSize="42dp"
+                    style="@style/categoryTitle"
                     android:id="@+id/category_text"/>
             </RelativeLayout>
 
