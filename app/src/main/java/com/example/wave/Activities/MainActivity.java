@@ -114,10 +114,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void fetchAndDisplayCategories(){
 
-        //this is needed for dependency injdection
-        // Create an instance of the GetCategoriesUseCase using the injected CategoryRepository
-        CategoryRepository categoryRepository = CategoryRepository.getInstance(); // Or create the repository instance as needed
-        GetCategoriesUseCase getCategoriesUseCase = new GetCategoriesUseCase(categoryRepository);
+        GetCategoriesUseCase getCategoriesUseCase = new GetCategoriesUseCase();
 
         getCategoriesUseCase.getCategoryDetails(new CategoryResultsListener() {
             @Override
