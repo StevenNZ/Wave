@@ -21,13 +21,7 @@
             android:exported="false" />
         <activity
             android:name=".Activities.MainActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:exported="false"/>
         <activity
             android:name=".Activities.RegisterActivity"
             android:exported="false" />
@@ -44,10 +38,19 @@
             android:name=".Activities.LoginActivity"
             android:exported="false"
             android:label="Login"/>
-
         <activity
             android:name=".Activities.SearchActivity"
             android:exported="false"/>
+
+        <activity
+            android:name=".Activities.SplashScreenActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
 
 
     </application>

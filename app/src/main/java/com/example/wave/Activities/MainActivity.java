@@ -47,12 +47,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        String temp = "The College Dropout";
-        String sub = "the";
-
-        Log.d("SearchDebug", "onQueryTextChange: TO LOWER " + temp.toLowerCase() );
-        Log.d("SearchDebug", "onQueryTextChange: TO LOWER SUB " + sub.toLowerCase());
-        Log.d("SearchDebug", "onQueryTextChange: TO LOWER SUB " + temp.toLowerCase().contains(sub.toLowerCase()));
         model = new ViewModelProvider(this).get(MainViewModel.class);
         fetchAndDisplayCategories();
 
@@ -120,10 +114,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void fetchAndDisplayCategories(){
 
-        //this is needed for dependency injdection
-        // Create an instance of the GetCategoriesUseCase using the injected CategoryRepository
-        CategoryRepository categoryRepository = CategoryRepository.getInstance(); // Or create the repository instance as needed
-        GetCategoriesUseCase getCategoriesUseCase = new GetCategoriesUseCase(categoryRepository);
+        GetCategoriesUseCase getCategoriesUseCase = new GetCategoriesUseCase();
 
         getCategoriesUseCase.getCategoryDetails(new CategoryResultsListener() {
             @Override
