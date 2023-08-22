@@ -345,4 +345,57 @@ public class DiscographyRepository implements DiscographyProvider {
 
     }
 
+    /**
+     * Get 5 Discography with the most views
+     * @return Task<List <Discography>> with the discography
+     */
+    @Override
+    public Task<List<Discography>> getPopularDiscography(){
+        TaskCompletionSource<List<Discography>> taskCompletionSource = new TaskCompletionSource<>();
+
+        Query query = discographyCollection.orderBy("views", Query.Direction.DESCENDING).limit(5);
+
+        query.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                QuerySnapshot querySnapshot = task.getResult();
+                if (querySnapshot != null && !querySnapshot.isEmpty()) {
+                    // The query returned matching documents
+                    List<Discography> currentDiscographyList = new ArrayList<>();
+                    for (DocumentSnapshot documentSnapshot : querySnapshot.getDocuments()) {
+                        String currentCategoryID = documentSnapshot.getString("categoryID");
+                        if (currentCategoryID != null) {
+                            Discography discography;
+
+                            switch (currentCategoryID) {
+                                case "hiphop":
+                                    discography = documentSnapshot.toObject(HipHopDiscography.class);
+                                    break;
+                                case "kpop":
+                                    discography = documentSnapshot.toObject(KPopDiscography.class);
+                                    break;
+                                case "pop":
+                                    discography = documentSnapshot.toObject(PopDiscography.class);
+                                    break;
+                                default:
+                                    discography = documentSnapshot.toObject(Discography.class);
+                                    break;
+                            }
+                            currentDiscographyList.add(discography);
+                        }
+                    }
+                    taskCompletionSource.setResult(currentDiscographyList);
+                } else {
+                    Log.d("getDiscographyByCategoryID", "No matching documents");
+                    taskCompletionSource.setResult(null);
+                }
+
+            } else {
+                Log.d("getDiscographyByCategoryID", "Error getting documents: " + task.getException());
+                taskCompletionSource.setException(task.getException());
+            }
+        });
+
+        return taskCompletionSource.getTask();
+    }
+
 }
