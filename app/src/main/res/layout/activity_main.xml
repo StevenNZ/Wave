@@ -78,8 +78,8 @@
             android:textColor="#000000"
             android:textSize="36dp" />
 
-        <ListView
-            android:id="@+id/popular_list_view"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/popular_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="379dp" />
 

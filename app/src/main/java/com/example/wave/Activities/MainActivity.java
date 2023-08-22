@@ -11,24 +11,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.wave.Activities.CategoryDataProvider;
-import com.example.wave.Activities.CategoryRecyclerInterface;
-import com.example.wave.Activities.Popular;
-import com.example.wave.Activities.ResultActivity;
+import com.example.wave.Adaptor.PopularAdaptor;
 import com.example.wave.Domains.GetCategoriesUseCase;
-import com.example.wave.Entities.Category;
+import com.example.wave.Domains.GetPopularProductsUseCase;
 import com.example.wave.R;
 import com.example.wave.Adaptor.CategoryAdapter;
-import com.example.wave.Adaptor.PopularAdaptor;
-import com.example.wave.Repository.CategoryRepository;
 import com.example.wave.ViewModel.MainViewModel;
-import com.example.wave.ViewModel.RegisterViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.List;
@@ -48,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         model = new ViewModelProvider(this).get(MainViewModel.class);
+        fetchAndDisplayPopular();
         fetchAndDisplayCategories();
 
 
@@ -112,6 +104,38 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    private void fetchAndDisplayPopular(){
+
+        GetPopularProductsUseCase getPopularProductsUseCase = new GetPopularProductsUseCase();
+
+        getPopularProductsUseCase.getPopularDiscography(new DiscographyResultsListener() {
+            @Override
+            public void onDiscographyResultsReady(List<Popular> resultList) {
+
+                RecyclerView recyclerView = findViewById(R.id.popular_recycler_view);
+                // Set up the RecyclerView with a LinearLayoutManager
+                LinearLayoutManager layoutManager = new LinearLayoutManager(MainActivity.this, LinearLayoutManager.VERTICAL, false);
+                recyclerView.setLayoutManager(layoutManager);
+
+                PopularAdaptor popularAdaptor = new PopularAdaptor(MainActivity.this, R.layout.popular_list_item, resultList, new PopularRecylcerInterface() {
+                    @Override
+                    public void onItemClick(int position) {
+                        Popular currentDiscography = resultList.get(position);
+                        Log.d("SearchDebug", "currentDiscog = " + currentDiscography);
+
+                        Intent intent = new Intent(MainActivity.this, DiscographyDetailActivity.class);
+                        intent.putExtra("DiscographyId", currentDiscography.getDiscographyId());
+                        intent.putExtra("ArtistName", currentDiscography.getAlbumArtist());
+                        startActivity(intent);
+                    }
+                });
+                recyclerView.setAdapter(popularAdaptor);
+            }
+        });
+
+
+
+    }
     private void fetchAndDisplayCategories(){
 
         GetCategoriesUseCase getCategoriesUseCase = new GetCategoriesUseCase();
