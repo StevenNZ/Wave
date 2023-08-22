@@ -19,6 +19,7 @@ import android.widget.GridLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.example.wave.Dataproviders.DiscographyProvider;
 import com.example.wave.Entities.Discography;
 import com.example.wave.R;
@@ -40,6 +41,8 @@ public class ResultActivity extends AppCompatActivity {
 
     private BottomNavigationView bottomNavigationView;
 
+    private RecyclerView recyclerView;
+
     private MenuItem resultsMenu;
 
     private List<Popular> results;
@@ -54,20 +57,16 @@ public class ResultActivity extends AppCompatActivity {
             SearchUseCase.generateDiscographyResults(query, categoryId, new DiscographyResultsListener() {
                 @Override
                 public void onDiscographyResultsReady(List<Popular> resultList) {
-                    Log.d("SearchDebug", "total Result list = " + resultList);
-
                     if(resultList.isEmpty()){
                         //display something empty
-                        Toast.makeText(getBaseContext(), "NO results found", Toast.LENGTH_SHORT).show();
-                    }else{
+                        Toast.makeText(ResultActivity.this, "Not working",Toast.LENGTH_SHORT).show();
 
+                    }else{
                         int layoutResourceId = getLayoutResource(categoryId);
 
                         RecyclerView.LayoutManager layoutManager = getLayoutManager(categoryId);
 
-
-                        Log.d("SearchDebug", "Layout resourceID = " + layoutResourceId);
-                        RecyclerView recyclerView = findViewById(R.id.result_list_view);
+                        recyclerView = findViewById(R.id.result_list_view);
                         results = resultList;
 
                         //LinearLayoutManager layoutManager = new LinearLayoutManager(ResultActivity.this, LinearLayoutManager.VERTICAL, false);
@@ -88,22 +87,7 @@ public class ResultActivity extends AppCompatActivity {
                         recyclerView.setAdapter(resultsAdapter);
 
 
-//                        resultAdapater = new PopularAdaptor(ResultActivity.this, layoutResourceId, resultList);
-//                        ListView listView = findViewById(R.id.result_list_view);
-//                        listView.setAdapter(resultAdapater);
 //
-//                        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//                            @Override
-//                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                                Popular currentDiscography = resultList.get(position);
-//
-//                                Intent intent = new Intent(ResultActivity.this, DiscographyDetailActivity.class);
-//                                intent.putExtra("DiscographyId", currentDiscography.getDiscographyId());
-//                                intent.putExtra("ArtistName", currentDiscography.getAlbumArtist());
-//                                startActivity(intent);
-//
-//                            }
-//                        });
 
                     }
                 }
@@ -132,7 +116,6 @@ public class ResultActivity extends AppCompatActivity {
             return new LinearLayoutManager(ResultActivity.this, LinearLayoutManager.VERTICAL, false);
         }
     }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
