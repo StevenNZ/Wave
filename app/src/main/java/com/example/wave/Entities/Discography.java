@@ -30,6 +30,9 @@ public class Discography {
      * @param releaseDate
      * @param releaseType
      * @param imageURL
+     * @param cassetteImageUrl
+     * @param vinylImageUrl
+     * @param cdImageUrl
      * @param streamingFigures
      * @param tracklist
      * @param collaborators
@@ -37,7 +40,7 @@ public class Discography {
      * @param secondaryColour
      */
     public Discography(String discographyID, String artistID, String categoryID, String releaseName,
-                        String releaseDate, String releaseType, String imageURL,
+                        String releaseDate, String releaseType, String imageURL, String cassetteImageUrl, String vinylImageUrl, String cdImageUrl,
                         String streamingFigures, List<String> tracklist, List<String> collaborators,
                         String primaryColour, String secondaryColour) {
         this.discographyID = discographyID;
@@ -47,6 +50,9 @@ public class Discography {
         this.releaseDate = releaseDate;
         this.releaseType = releaseType;
         this.imageURL = imageURL;
+        this.cassetteImageUrl = cassetteImageUrl;
+        this.vinylImageUrl = vinylImageUrl;
+        this.cdImageUrl = cdImageUrl;
         this.streamingFigures = streamingFigures;
         this.tracklist = tracklist;
         this.collaborators = collaborators;
