@@ -25,6 +25,7 @@ import android.widget.TextView;
 import com.denzcoskun.imageslider.ImageSlider;
 import com.denzcoskun.imageslider.interfaces.ItemChangeListener;
 import com.denzcoskun.imageslider.models.SlideModel;
+import com.example.wave.Domains.GetDiscographyUseCase;
 import com.example.wave.Entities.Discography;
 import com.example.wave.R;
 import com.example.wave.ViewModel.DiscographyDetailViewModel;
@@ -55,6 +56,7 @@ public class DiscographyDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
+
         ConstraintLayout constraintLayout = findViewById(R.id.detailLayout);
         MaterialToolbar toolbar = findViewById(R.id.topAppBar);
         imageSlider = findViewById(R.id.imageSlider);
@@ -76,6 +78,11 @@ public class DiscographyDetailActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         String discographyId = intent.getStringExtra("DiscographyId");
+
+        //add view to discography
+        GetDiscographyUseCase getDiscographyUseCase = new GetDiscographyUseCase();
+        getDiscographyUseCase.addViewToDiscography(discographyId);
+
 
         artistTextView.setText(intent.getStringExtra("ArtistName"));
 
