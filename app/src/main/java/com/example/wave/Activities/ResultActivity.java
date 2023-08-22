@@ -1,5 +1,6 @@
 package com.example.wave.Activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.lifecycle.ViewModelProvider;
@@ -36,6 +37,10 @@ public class ResultActivity extends AppCompatActivity {
 
     private SearchView searchView;
     private PopularAdaptor resultsAdapter;
+
+    private BottomNavigationView bottomNavigationView;
+
+    private MenuItem resultsMenu;
 
     private List<Popular> results;
     private ResultViewModel model;
@@ -136,7 +141,7 @@ public class ResultActivity extends AppCompatActivity {
 
         model = new ViewModelProvider(this).get(ResultViewModel.class);
 
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
+        bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setSelectedItemId(R.id.bottom_search);
 
         topAppBar = findViewById(R.id.topAppBar);
@@ -186,13 +191,17 @@ public class ResultActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.results_menu, menu);
 
-        MenuItem resultsMenu = menu.findItem(R.id.result_search_view);
+        resultsMenu = menu.findItem(R.id.result_search_view);
         searchView = (SearchView) resultsMenu.getActionView();
         setupSearchViewListener();
+
 
         return true;
     }
     private void setupSearchViewListener() {
+        setupSearchClickListener();
+        //setupCloseListener();
+
         if (searchView != null) {
             searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -239,5 +248,38 @@ public class ResultActivity extends AppCompatActivity {
         });
         }
     }
+
+    private void setupSearchClickListener() {
+        resultsMenu.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
+            @Override
+            public boolean onMenuItemActionExpand(MenuItem item) {
+                bottomNavigationView.setVisibility(View.GONE);
+                // Called when the action view (SearchView) is expanded (opened)
+                return true; // Return true to allow expanding the view
+            }
+
+            @Override
+            public boolean onMenuItemActionCollapse(MenuItem item) {
+                // Called when the action view (SearchView) is collapsed (closed)
+                bottomNavigationView.setVisibility(View.VISIBLE);
+                return true; // Return true to allow collapsing the view
+            }
+        });
+    }
+    @Override
+    public void onBackPressed() {
+        if (bottomNavigationView.getVisibility() == View.GONE) {
+            resultsMenu.collapseActionView();
+            bottomNavigationView.setVisibility(View.VISIBLE);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+
+
+
+
+
 
 }
