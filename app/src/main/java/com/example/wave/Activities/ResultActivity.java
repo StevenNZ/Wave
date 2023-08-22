@@ -159,6 +159,8 @@ public class ResultActivity extends AppCompatActivity {
                 }
                 //any changes (autocomplete)
 
+                fetchAndDisplay(newText, "");
+
                 List<Popular> filteredList = new ArrayList<>();
 
                 Log.d("SearchDebug", "onQueryTextChange: newText = " + newText);
