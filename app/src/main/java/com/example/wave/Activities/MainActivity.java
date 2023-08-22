@@ -26,6 +26,7 @@ import com.example.wave.Entities.Category;
 import com.example.wave.R;
 import com.example.wave.Adaptor.CategoryAdapter;
 import com.example.wave.Adaptor.PopularAdaptor;
+import com.example.wave.Repository.CategoryRepository;
 import com.example.wave.ViewModel.MainViewModel;
 import com.example.wave.ViewModel.RegisterViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -46,15 +47,20 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        String temp = "The College Dropout";
+        String sub = "the";
 
+        Log.d("SearchDebug", "onQueryTextChange: TO LOWER " + temp.toLowerCase() );
+        Log.d("SearchDebug", "onQueryTextChange: TO LOWER SUB " + sub.toLowerCase());
+        Log.d("SearchDebug", "onQueryTextChange: TO LOWER SUB " + temp.toLowerCase().contains(sub.toLowerCase()));
         model = new ViewModelProvider(this).get(MainViewModel.class);
         fetchAndDisplayCategories();
 
 
-        List<Popular> popularList = Popular.PopularDataProvider.getPopular();
-        PopularAdaptor popularAdapter = new PopularAdaptor (this, R.layout.popular_list_item, popularList);
-        ListView listView = findViewById(R.id.popular_list_view);
-        listView.setAdapter(popularAdapter);
+//        List<Popular> popularList = Popular.PopularDataProvider.getPopular();
+//        PopularAdaptor popularAdapter = new PopularAdaptor (this, R.layout.popular_list_item, popularList);
+//        ListView listView = findViewById(R.id.popular_list_view);
+//        listView.setAdapter(popularAdapter);
 
         mainSearch = findViewById(R.id.main_search);
         searchLabel = findViewById(R.id.search_label);
@@ -76,7 +82,6 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                //
                 return false;
             }
         });
@@ -114,7 +119,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void fetchAndDisplayCategories(){
-        GetCategoriesUseCase.getCategoryDetails(new CategoryResultsListener() {
+
+        //this is needed for dependency injdection
+        // Create an instance of the GetCategoriesUseCase using the injected CategoryRepository
+        CategoryRepository categoryRepository = CategoryRepository.getInstance(); // Or create the repository instance as needed
+        GetCategoriesUseCase getCategoriesUseCase = new GetCategoriesUseCase(categoryRepository);
+
+        getCategoriesUseCase.getCategoryDetails(new CategoryResultsListener() {
             @Override
             public void onCategoryResultsReady(List<CategoryBreakdown> resultList) {
                 Log.d("SearchDebug", "total Result list = " + resultList);

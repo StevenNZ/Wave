@@ -2,6 +2,7 @@ package com.example.wave.Entities;
 
 import androidx.annotation.Nullable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Discography {
@@ -12,6 +13,9 @@ public class Discography {
     private String releaseDate;
     private String releaseType;
     private String imageURL;
+    private String cassetteImageUrl;
+    private String vinylImageUrl;
+    private String cdImageUrl;
     private String streamingFigures;
     private List<String> tracklist;
     private List<String> collaborators;
@@ -26,7 +30,10 @@ public class Discography {
      * @param releaseName
      * @param releaseDate
      * @param releaseType
-     * @param releaseArtworkURL
+     * @param imageURL
+     * @param cassetteImageUrl
+     * @param vinylImageUrl
+     * @param cdImageUrl
      * @param streamingFigures
      * @param tracklist
      * @param collaborators
@@ -34,7 +41,7 @@ public class Discography {
      * @param secondaryColour
      */
     public Discography(String discographyID, String artistID, String categoryID, String releaseName,
-                        String releaseDate, String releaseType, String imageURL,
+                        String releaseDate, String releaseType, String imageURL, String cassetteImageUrl, String vinylImageUrl, String cdImageUrl,
                         String streamingFigures, List<String> tracklist, List<String> collaborators,
                         String primaryColour, String secondaryColour) {
         this.discographyID = discographyID;
@@ -44,6 +51,9 @@ public class Discography {
         this.releaseDate = releaseDate;
         this.releaseType = releaseType;
         this.imageURL = imageURL;
+        this.cassetteImageUrl = cassetteImageUrl;
+        this.vinylImageUrl = vinylImageUrl;
+        this.cdImageUrl = cdImageUrl;
         this.streamingFigures = streamingFigures;
         this.tracklist = tracklist;
         this.collaborators = collaborators;
@@ -107,11 +117,35 @@ public class Discography {
     }
 
     /**
-     * Getter for releaseArtworkURL
-     * @return releaseArtworkURL
+     * Getter for imageURL
+     * @return imageURL
      */
     public String getImageURL() {
         return imageURL;
+    }
+
+    /**
+     * Getter for cassetteImageUrl
+     * @return cassetteImageUrl
+     */
+    public String getCassetteImageUrl() {
+        return cassetteImageUrl;
+    }
+
+    /**
+     * Getter for vinylImageUrl
+     * @return vinylImageUrl
+     */
+    public String getVinylImageUrl() {
+        return vinylImageUrl;
+    }
+
+    /**
+     * Getter for cdImageUrl
+     * @return cdImageUrl
+     */
+    public String getCdImageUrl() {
+        return cdImageUrl;
     }
 
     /**
@@ -203,11 +237,35 @@ public class Discography {
     }
 
     /**
-     * Setter for releaseArtworkURL
+     * Setter for imageURL
      * @param imageURL
      */
     public void setImageURL(String imageURL) {
         this.imageURL = imageURL;
+    }
+
+    /**
+     * Setter for cassetteImageUrl
+     * @param cassetteImageUrl
+     */
+    public void setCassetteImageUrl(String cassetteImageUrl) {
+        this.cassetteImageUrl = cassetteImageUrl;
+    }
+
+    /**
+     * Setter for vinylImageUrl
+     * @param vinylImageUrl
+     */
+    public void setVinylImageUrl(String vinylImageUrl) {
+        this.vinylImageUrl = vinylImageUrl;
+    }
+
+    /**
+     * Setter for cdImageUrl
+     * @param cdImageUrl
+     */
+    public void setCdImageUrl(String cdImageUrl) {
+        this.cdImageUrl = cdImageUrl;
     }
 
     /**
@@ -283,12 +341,26 @@ public class Discography {
                 ", releaseDate='" + releaseDate + '\'' +
                 ", releaseType='" + releaseType + '\'' +
                 ", imageURL='" + imageURL + '\'' +
+                ", cassetteImageUrl='" + cassetteImageUrl + '\'' +
+                ", vinylImageUrl='" + vinylImageUrl + '\'' +
+                ", cdImageUrl='" + cdImageUrl + '\'' +
                 ", streamingFigures=" + streamingFigures +
                 ", tracklist=" + tracklist +
                 ", collaborators=" + collaborators +
                 ", primaryColour='" + primaryColour + '\'' +
                 ", secondaryColour='" + secondaryColour + '\'' +
                 '}';
+    }
+
+    /**
+     * Default method to get the tags of a discography
+     * DO NOT USE THIS METHOD DIRECTLY
+     * USE CHILD IMPLEMENTATION OF METHOD
+     * @return empty string
+     */
+    public List<String> getTags(){
+        List<String> tags = new ArrayList<>();
+        return tags;
     }
 }
 

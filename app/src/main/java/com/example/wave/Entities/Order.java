@@ -18,7 +18,6 @@ public class Order {
      * @param userID
      * @param discographyFormID
      * @param orderDate
-     * @param deliveryStatus
      */
     public Order(String orderID, String userID, List<String> discographyFormID, String orderDate) {
         this.orderID = orderID;

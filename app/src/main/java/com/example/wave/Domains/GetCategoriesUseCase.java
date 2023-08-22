@@ -17,8 +17,14 @@ import java.util.List;
 
 public class GetCategoriesUseCase {
 
+    private final CategoryRepository categoryRepository;
 
-    public static void getCategoryDetails(CategoryResultsListener listener){
+    public GetCategoriesUseCase(CategoryRepository categoryRepository) {
+        this.categoryRepository = categoryRepository;
+    }
+
+
+    public void getCategoryDetails(CategoryResultsListener listener){
         Task<List<Category>> categoryList = CategoryRepository.getInstance().getAllCategories();
 
         categoryList.addOnCompleteListener(task -> {

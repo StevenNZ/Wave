@@ -3,6 +3,9 @@ package com.example.wave.Activities;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.GridLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -31,7 +35,7 @@ import java.util.List;
 public class ResultActivity extends AppCompatActivity {
 
     private SearchView searchView;
-    private PopularAdaptor resultAdapater;
+    private PopularAdaptor resultsAdapter;
 
     private List<Popular> results;
     private ResultViewModel model;
@@ -51,23 +55,50 @@ public class ResultActivity extends AppCompatActivity {
                         //display something empty
                         Toast.makeText(getBaseContext(), "NO results found", Toast.LENGTH_SHORT).show();
                     }else{
+
+                        int layoutResourceId = getLayoutResource(categoryId);
+
+                        RecyclerView.LayoutManager layoutManager = getLayoutManager(categoryId);
+
+
+                        Log.d("SearchDebug", "Layout resourceID = " + layoutResourceId);
+                        RecyclerView recyclerView = findViewById(R.id.result_list_view);
                         results = resultList;
-                        resultAdapater = new PopularAdaptor(ResultActivity.this, R.layout.popular_list_item, resultList);
-                        ListView listView = findViewById(R.id.result_list_view);
-                        listView.setAdapter(resultAdapater);
-                        
-                        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                        //LinearLayoutManager layoutManager = new LinearLayoutManager(ResultActivity.this, LinearLayoutManager.VERTICAL, false);
+                        recyclerView.setLayoutManager(layoutManager);
+
+                        resultsAdapter = new PopularAdaptor(ResultActivity.this, layoutResourceId, resultList, new PopularRecylcerInterface() {
                             @Override
-                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            public void onItemClick(int position) {
                                 Popular currentDiscography = resultList.get(position);
 
                                 Intent intent = new Intent(ResultActivity.this, DiscographyDetailActivity.class);
                                 intent.putExtra("DiscographyId", currentDiscography.getDiscographyId());
                                 intent.putExtra("ArtistName", currentDiscography.getAlbumArtist());
                                 startActivity(intent);
-
                             }
                         });
+
+                        recyclerView.setAdapter(resultsAdapter);
+
+
+//                        resultAdapater = new PopularAdaptor(ResultActivity.this, layoutResourceId, resultList);
+//                        ListView listView = findViewById(R.id.result_list_view);
+//                        listView.setAdapter(resultAdapater);
+//
+//                        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//                            @Override
+//                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                                Popular currentDiscography = resultList.get(position);
+//
+//                                Intent intent = new Intent(ResultActivity.this, DiscographyDetailActivity.class);
+//                                intent.putExtra("DiscographyId", currentDiscography.getDiscographyId());
+//                                intent.putExtra("ArtistName", currentDiscography.getAlbumArtist());
+//                                startActivity(intent);
+//
+//                            }
+//                        });
 
                     }
                 }
@@ -77,6 +108,26 @@ public class ResultActivity extends AppCompatActivity {
             Toast.makeText(getBaseContext(), "Enter something boss", Toast.LENGTH_SHORT).show();
         }
     }
+
+    private int getLayoutResource(String categoryId) {
+        switch (categoryId) {
+            case "kpop":
+                return (R.layout.kpop_list_item);
+            case "pop":
+                return (R.layout.pop_list_item);
+            default:
+                return (R.layout.popular_list_item);
+        }
+    }
+
+    private RecyclerView.LayoutManager getLayoutManager(String categoryId) {
+        if ("kpop".equals(categoryId)) {
+            return new GridLayoutManager(ResultActivity.this, 2);
+        } else {
+            return new LinearLayoutManager(ResultActivity.this, LinearLayoutManager.VERTICAL, false);
+        }
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -159,6 +210,11 @@ public class ResultActivity extends AppCompatActivity {
                 }
                 //any changes (autocomplete)
 
+//                if(newText.length() >2){
+//                    fetchAndDisplay(newText, "");
+//                }else{
+//                    return true;
+//                }
                 List<Popular> filteredList = new ArrayList<>();
 
                 Log.d("SearchDebug", "onQueryTextChange: newText = " + newText);
@@ -175,7 +231,8 @@ public class ResultActivity extends AppCompatActivity {
                 if(!filteredList.isEmpty()){
                     //this makes sure that when the list is empty we don't do anything
                     // can refactor to make better but idc
-                    resultAdapater.setFilteredList(filteredList);
+                    Log.d("SearchDebug", "onQueryTextChange: OnTextChange = " + resultsAdapter);
+                    resultsAdapter.setFilteredList(filteredList);
                 }
                 return true;
             }
