@@ -124,7 +124,9 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/popular_recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="379dp" />
+            android:layout_height="wrap_content"
+            android:paddingBottom="10dp"
+            android:paddingRight="25dp"/>
 
 
     </LinearLayout>
