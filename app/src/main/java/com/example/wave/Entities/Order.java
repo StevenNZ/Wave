@@ -19,7 +19,7 @@ public class Order {
      * @param orderID
      * @param type
      * @param userID
-     * @param orderDate
+     * @param discographyID
      */
     public Order(String orderID, String type, String userID, String discographyID) {
         this.userID = userID;

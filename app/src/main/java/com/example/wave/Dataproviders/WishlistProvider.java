@@ -12,6 +12,7 @@ public interface WishlistProvider {
     }
 
     Task<List<Order>> getWishlist(String userID);
+    Task<Boolean> checkItemOnWishlist(String userID, String orderID);
     void appendWishlist(String userID, Order wishlistOrder);
-    Task<List<Order>> removeFromWishlist(String userID, String orderID);
+    Task<List<Order>> removeFromWishlistByOrderID(String userID, String orderID);
 }

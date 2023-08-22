@@ -29,7 +29,7 @@ public class WishlistRepository implements WishlistProvider {
     private WishlistRepository() {
     }
 
-    public static synchronized WishlistRepository getInstance() {
+    public static WishlistRepository getInstance() {
         if (instance == null) {
             instance = new WishlistRepository();
         }
@@ -103,6 +103,34 @@ public class WishlistRepository implements WishlistProvider {
         });
     }
 
+    /**
+     * check if an item is on the wishlist
+     * @param userID
+     * @param orderID
+     * @return
+     */
+    @Override
+    public Task<Boolean> checkItemOnWishlist(String userID, String orderID) {
+        checkUserWishList(userID);
+        wishlistCollection = db.collection(userID);
+        Task<QuerySnapshot> queryTask = wishlistCollection.document("wishlist").collection("orders").get();
+
+        return queryTask.continueWith(task -> {
+            if (task.isSuccessful()) {
+                QuerySnapshot querySnapshot = task.getResult();
+                List<DocumentSnapshot> documents = querySnapshot.getDocuments();
+                for (DocumentSnapshot document : documents) {
+                    Order existingOrder = document.toObject(Order.class);
+                    if (existingOrder != null && existingOrder.getOrderID().equals(orderID)) {
+                        return true;
+                    }
+                }
+                return false;
+            }
+            return null;
+        });
+    }
+
 
     /**
      * append an order item to the wishlist
@@ -134,7 +162,7 @@ public class WishlistRepository implements WishlistProvider {
 
                 if (!orderExists) {
                     // Wishlist does not contain the order, add it
-                    wishlistCollection.document("wishlist").collection("orders").add(wishlistOrder)
+                    wishlistCollection.document("wishlist").collection("orders").document(wishlistOrder.getOrderID()).set(wishlistOrder)
                             .addOnCompleteListener(addTask -> {
                                 if (addTask.isSuccessful()) {
                                     Log.d("wishlist", "Order added to wishlist");
@@ -160,7 +188,7 @@ public class WishlistRepository implements WishlistProvider {
      * @return
      */
     @Override
-    public Task<List<Order>> removeFromWishlist(String userID, String orderID) {
+    public Task<List<Order>> removeFromWishlistByOrderID(String userID, String orderID) {
         checkUserWishList(userID);
         wishlistCollection = db.collection(userID);
 
@@ -191,5 +219,8 @@ public class WishlistRepository implements WishlistProvider {
             }
         });
     }
+
+
+
 
 }

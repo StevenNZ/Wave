@@ -42,4 +42,14 @@ public class AuthenticationUserUseCase implements UserProvider {
     public void resetAuthenticationError() {
 
     }
+
+    public boolean isLogin() {
+        return (this.getAuthenticatedUser().getValue() != null);
+    }
+
+    public String getUserID() {
+        // can return null
+        return (this.getAuthenticatedUser().getValue().getUid());
+    }
+
 }
