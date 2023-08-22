@@ -19,7 +19,8 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:title="Cart"
-            app:titleCentered="true"/>
+            app:titleCentered="true"
+            app:titleTextAppearance="@style/appBarText"/>
     </com.google.android.material.appbar.AppBarLayout>
 
     <ScrollView
@@ -77,7 +78,7 @@
                         android:id="@+id/cartTotal"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="$000.00 NZD"
+                        android:text="$00.00 NZD"
                         android:textSize="20sp"
                         android:layout_alignParentEnd="true"/>
 

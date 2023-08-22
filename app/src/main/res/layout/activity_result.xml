@@ -19,7 +19,8 @@
             android:layout_height="?attr/actionBarSize"
             app:title="Search"
             app:titleCentered="true"
-            app:menu="@menu/results_menu"/>
+            app:menu="@menu/results_menu"
+            app:titleTextAppearance="@style/appBarText"/>
     </com.google.android.material.appbar.AppBarLayout>
 
     <LinearLayout
