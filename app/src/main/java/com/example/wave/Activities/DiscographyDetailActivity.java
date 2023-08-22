@@ -25,6 +25,7 @@ import android.widget.TextView;
 import com.denzcoskun.imageslider.ImageSlider;
 import com.denzcoskun.imageslider.interfaces.ItemChangeListener;
 import com.denzcoskun.imageslider.models.SlideModel;
+import com.example.wave.Domains.GetDiscographyUseCase;
 import com.example.wave.Entities.Discography;
 import com.example.wave.R;
 import com.example.wave.ViewModel.DiscographyDetailViewModel;
@@ -72,7 +73,8 @@ public class DiscographyDetailActivity extends AppCompatActivity {
         String discographyId = intent.getStringExtra("DiscographyId");
 
         //add view to discography
-        model.addViewToDiscography(discographyId);
+        GetDiscographyUseCase getDiscographyUseCase = new GetDiscographyUseCase();
+        getDiscographyUseCase.addViewToDiscography(discographyId);
 
 
         artistTextView.setText(intent.getStringExtra("ArtistName"));
