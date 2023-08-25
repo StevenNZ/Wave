@@ -7,6 +7,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.RelativeLayout;
 
 import com.example.wave.Adaptor.PopularAdaptor;
 import com.example.wave.Domains.GetPopularProductsUseCase;
@@ -22,6 +24,8 @@ public class WishlistActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private PopularAdaptor popularAdapter;
 
+    private RelativeLayout relativeLayout;
+
     private List<Popular> wishlist;
 
     @Override
@@ -29,7 +33,7 @@ public class WishlistActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wishlist);
 
-        recyclerView = findViewById(R.id.wishlit_recycler);
+        recyclerView = findViewById(R.id.wishlist_recycler);
         LinearLayoutManager layoutManager = new LinearLayoutManager(WishlistActivity.this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
         setBottomNavBar();
@@ -71,13 +75,25 @@ public class WishlistActivity extends AppCompatActivity {
         AuthenticationViewModel authenticationViewModel = new AuthenticationViewModel();
         WishListOperationsUseCase wishListOperationsUseCase = new WishListOperationsUseCase();
 
-        wishListOperationsUseCase.getUserWishlist(authenticationViewModel.getUserID(), this::updateWishlist);
+        wishListOperationsUseCase.getUserWishlist(authenticationViewModel.getUserID(), this::showWishList);
     }
 
-    private void updateWishlist(List<Popular> resultList) {
+    private void showWishList(List<Popular> resultList) {
         PopularAdaptor popularAdaptor = new PopularAdaptor(WishlistActivity.this, R.layout.popular_list_item, resultList, this::onItemClick);
+        relativeLayout = findViewById(R.id.cart_details);
         wishlist = resultList;
-        recyclerView.setAdapter(popularAdaptor);
+        Log.d("SearchDebug", "WISHLIST SHOULD BE HERE = " + resultList);
+
+        if(wishlist.isEmpty()){
+            relativeLayout.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.GONE);
+
+        }else{
+            relativeLayout.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.VISIBLE);
+            recyclerView.setAdapter(popularAdaptor);
+        }
+
     }
 
     private void onItemClick(int position) {

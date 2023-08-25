@@ -43,6 +43,11 @@ public class WishListOperationsUseCase implements WishlistProvider {
         List<Popular> wishlist = new ArrayList<>();
         int totalOrders = orders.size();
 
+        if(totalOrders == 0){
+            listener.onDiscographyResultsReady(wishlist);
+            return;
+        }
+
 
         for (Order order : orders) {
             fetchDiscographyById(order.getDiscographyID(), (discography, artistName) -> {
@@ -67,7 +72,6 @@ public class WishListOperationsUseCase implements WishlistProvider {
                 fetchArtistName(discography.getArtistID(), artistName -> {
                     listener.onWishlistReady(discography, artistName);
                 });
-
 
             }
         });
