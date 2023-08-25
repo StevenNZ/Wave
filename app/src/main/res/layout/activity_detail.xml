@@ -53,7 +53,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/imageSlider"
-            android:layout_marginBottom="20dp">
+            android:layout_marginBottom="20dp"
+            android:baselineAligned="false">
 
             <RelativeLayout
                 android:layout_width="0dp"
@@ -189,13 +190,47 @@
 
         </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/quantityLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/amountLayout"
+            android:orientation="horizontal"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/quantity_bg">
 
+            <ImageButton
+                android:id="@+id/incrementBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/minus_icon"
+                android:background="@drawable/quantity_btn"
+                android:contentDescription="Decrease quantity" />
+
+            <TextView
+                android:id="@+id/quantityField"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginHorizontal="10dp"
+                android:text="0"
+                style="@style/regularOpenSans16"/>
+
+            <ImageButton
+                android:id="@+id/decrementBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/add_icon"
+                android:background="@drawable/quantity_btn"
+                android:contentDescription="Increase quantity" />
+
+        </LinearLayout>
 
         <Button
             android:id="@+id/cartBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/amountLayout"
+            android:layout_below="@id/quantityLayout"
             android:layout_marginTop="15dp"
             android:drawableLeft="@drawable/cart_add_icon"
             android:text="Add To Cart"
