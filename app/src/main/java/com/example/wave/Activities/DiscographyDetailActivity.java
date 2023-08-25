@@ -25,13 +25,18 @@ import android.widget.TextView;
 import com.denzcoskun.imageslider.ImageSlider;
 import com.denzcoskun.imageslider.interfaces.ItemChangeListener;
 import com.denzcoskun.imageslider.models.SlideModel;
+import com.example.wave.Domains.AuthenticationUserUseCase;
 import com.example.wave.Domains.GetDiscographyUseCase;
+import com.example.wave.Domains.GetWishlistUseCase;
 import com.example.wave.Entities.Discography;
+import com.example.wave.Entities.Order;
 import com.example.wave.R;
 import com.example.wave.ViewModel.DiscographyDetailViewModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.appbar.MaterialToolbar;
+import com.like.LikeButton;
+import com.like.OnLikeListener;
 
 import org.w3c.dom.Text;
 
@@ -43,6 +48,8 @@ public class DiscographyDetailActivity extends AppCompatActivity {
     private final String cassettePrice = "$15";
     private final String cdPrice = "$20";
     private final String vinylPrice = "$40";
+
+    private GetWishlistUseCase getWishlistUseCase = new GetWishlistUseCase();
 
     private int position = 0;
     private int slide = 0;
@@ -63,6 +70,7 @@ public class DiscographyDetailActivity extends AppCompatActivity {
         ImageButton cassette = findViewById(R.id.cassetteBtn);
         ImageButton vinyl = findViewById(R.id.vinylBtn);
         ImageButton cd = findViewById(R.id.cdBtn);
+        LikeButton wishlistButton = findViewById(R.id.heartIcon);
         TextView albumTextView = findViewById(R.id.albumTitleText);
         TextView artistTextView = findViewById(R.id.artistText);
         TextView priceTextView = findViewById(R.id.priceText);
@@ -71,6 +79,8 @@ public class DiscographyDetailActivity extends AppCompatActivity {
         ArrayList<SlideModel> imageList = new ArrayList<>();
         currentImageButton = cassette;
 
+
+
         AnimationDrawable animationDrawable = (AnimationDrawable) constraintLayout.getBackground();
         animationDrawable.setEnterFadeDuration(1750);
         animationDrawable.setExitFadeDuration(3500);
@@ -78,6 +88,27 @@ public class DiscographyDetailActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         String discographyId = intent.getStringExtra("DiscographyId");
+
+        AuthenticationUserUseCase authenticationUserUseCase = new AuthenticationUserUseCase();
+
+        if (authenticationUserUseCase.isLogin()) {
+            String userId = authenticationUserUseCase.getUserID();
+            getWishlistUseCase.checkItemOnWishlist(userId, discographyId) //check if item is on wishlist
+                    .addOnCompleteListener(new OnCompleteListener<Boolean>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Boolean> task) {
+                            if (!task.isSuccessful()) {
+                                Log.d(TAG, "onComplete: check item on wishlist query not successful");
+                            } else {
+                                Boolean result = task.getResult();
+                                if (result) {
+                                    wishlistButton.setLiked(true);
+                                }
+                            }
+                        }
+                    });
+        }
+
 
         //add view to discography
         GetDiscographyUseCase getDiscographyUseCase = new GetDiscographyUseCase();
@@ -186,6 +217,33 @@ public class DiscographyDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 onBackPressed();
+            }
+        });
+
+        wishlistButton.setOnLikeListener(new OnLikeListener() {
+            @Override
+            public void liked(LikeButton likeButton) {
+                AuthenticationUserUseCase authenticationUserUseCase = new AuthenticationUserUseCase();
+                    if (authenticationUserUseCase.isLogin()) {
+                        String userID = authenticationUserUseCase.getUserID();
+                        Order wishlistOrder = new Order(discographyId, "wishlist", userID, discographyId);
+                        getWishlistUseCase.appendWishlist(userID, wishlistOrder);
+                    } else {
+                        Intent intent = new Intent(getBaseContext(), LoginActivity.class);
+                        startActivity(intent);
+                    }
+                }
+
+            @Override
+            public void unLiked(LikeButton likeButton) {
+                AuthenticationUserUseCase authenticationUserUseCase = new AuthenticationUserUseCase();
+                if (authenticationUserUseCase.isLogin()) {
+                    String userID = authenticationUserUseCase.getUserID();
+                    getWishlistUseCase.removeFromWishlistByOrderID(userID, discographyId);
+                } else {
+                    Intent intent = new Intent(getBaseContext(), LoginActivity.class);
+                    startActivity(intent);
+                }
             }
         });
     }

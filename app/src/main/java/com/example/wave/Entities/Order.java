@@ -6,25 +6,33 @@ import java.util.List;
 import java.util.Objects;
 
 public class Order {
-    private final String orderID;
-    private final String userID;
-    private List<String> discographyFormIDList;
-    private String orderDate;
-    private final Status deliveryStatus;
+    private String orderID;
+    private String type;
+    private String userID;
+
+    private String discographyID;
+
+
 
     /**
      * Constructor for Order class
      * @param orderID
+     * @param type
      * @param userID
-     * @param discographyFormID
-     * @param orderDate
+     * @param discographyID
      */
-    public Order(String orderID, String userID, List<String> discographyFormID, String orderDate) {
-        this.orderID = orderID;
+    public Order(String orderID, String type, String userID, String discographyID) {
         this.userID = userID;
-        this.discographyFormIDList = discographyFormID;
-        this.orderDate = orderDate;
-        this.deliveryStatus = Status.Ordered;
+        this.type = type;
+        this.orderID = orderID;
+        this.discographyID = discographyID;
+
+    }
+
+    /**
+     * Default constructor for Order class
+     */
+    public Order() {
     }
 
     /**
@@ -36,6 +44,30 @@ public class Order {
     }
 
     /**
+     * Setter for orderID
+     * @param orderID
+     */
+    public void setOrderID(String orderID) {
+        this.orderID = orderID;
+    }
+
+    /**
+     * Getter for type
+     * @return type
+     */
+    public String getType() {
+        return type;
+    }
+
+    /**
+     * Setter for type
+     * @param type
+     */
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    /**
      * Getter for userID
      * @return userID
      */
@@ -44,36 +76,28 @@ public class Order {
     }
 
     /**
-     * Getter for discographyFormID
-     * @return discographyFormID
+     * Setter for userID
+     * @param userID
      */
-    public List<String> getDiscographyFormIDList() {
-        return discographyFormIDList;
-    }
-
-    public void appendDiscographyFormIDList(String discographyFormID) {
-        this.discographyFormIDList.add(discographyFormID);
-    }
-    public void removeDiscographyFormIDList(String discographyFormID) {
-        this.discographyFormIDList.remove(discographyFormID);
+    public void setUserID(String userID) {
+        this.userID = userID;
     }
 
     /**
-     * Getter for orderDate
-     * @return orderDate
+     * Getter for discographyID
+     * @return discographyID
      */
-    public String getOrderDate() {
-        return orderDate;
+    public String getDiscographyID() {
+        return discographyID;
     }
 
     /**
-     * Getter for deliveryStatus
-     * @return deliveryStatus
+     * Setter for discographyID
+     * @param discographyID
      */
-    public Status getDeliveryStatus() {
-        return deliveryStatus;
+    public void setDiscographyID(String discographyID) {
+        this.discographyID = discographyID;
     }
-
 
     /**
      * equals method for Order class
@@ -103,9 +127,8 @@ public class Order {
         return "Order{" +
                 "orderID='" + orderID + '\'' +
                 ", userID='" + userID + '\'' +
-                ", discographyFormID=" + discographyFormIDList +
-                ", orderDate='" + orderDate + '\'' +
-                ", deliveryStatus=" + deliveryStatus +
+                ", type='" + type + '\'' +
+                ", discographyID='" + discographyID + '\'' +
                 '}';
     }
 }

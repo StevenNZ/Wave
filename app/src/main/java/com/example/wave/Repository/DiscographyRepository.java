@@ -26,8 +26,6 @@ public class DiscographyRepository implements DiscographyProvider {
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private final CollectionReference discographyCollection = db.collection("Discography");
 
-    private final CollectionReference discographyFormCollection = db.collection("DiscographyForm");
-
     private DiscographyRepository() {
     }
 

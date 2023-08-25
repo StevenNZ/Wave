@@ -36,11 +36,19 @@
             android:paddingBottom="10dp"
             android:paddingHorizontal="30dp">
 
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/wishlist_recycler"
+                android:visibility="visible"/>
+
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="80dp">
+                android:layout_marginTop="80dp"
+                android:id="@+id/cart_details"
+                android:visibility="gone">
 
                 <ImageView
                     android:id="@+id/cartImage"
