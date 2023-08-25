@@ -47,6 +47,7 @@ public class DiscographyDetailActivity extends AppCompatActivity {
 
     private int position = 0;
     private int slide = 0;
+    private boolean isSlide = true;
     private ImageSlider imageSlider;
     private ImageButton currentImageButton;
     private DiscographyDetailViewModel model;
@@ -142,14 +143,21 @@ public class DiscographyDetailActivity extends AppCompatActivity {
                 currentImageButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.white,null)));
                 if (position == 0) {
                     currentImageButton = cassette;
-                    priceTextView.setText(cassettePrice);
+                    if (isSlide) {
+                        priceTextView.setText(cassettePrice);
+                    }
                 } else if (position == 1) {
                     currentImageButton = vinyl;
-                    priceTextView.setText(vinylPrice);
+                    if (isSlide) {
+                        priceTextView.setText(vinylPrice);
+                    }
                 } else {
                     currentImageButton = cd;
-                    priceTextView.setText(cdPrice);
+                    if (isSlide) {
+                        priceTextView.setText(cdPrice);
+                    }
                 }
+                isSlide = true;
                 currentImageButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.gold,null)));
             }
         });
@@ -159,6 +167,7 @@ public class DiscographyDetailActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (position == 1) {
                     startSlide(2);
+                    isSlide = false;
                 } else if (position == 2) {
                     startSlide(1);
                 }
@@ -169,6 +178,7 @@ public class DiscographyDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (position == 2) {
+                    isSlide = false;
                     startSlide(2);
                 } else if (position == 0) {
                     startSlide(1);
@@ -180,6 +190,7 @@ public class DiscographyDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (position == 0) {
+                    isSlide = false;
                     startSlide(2);
                 } else if (position == 1) {
                     startSlide(1);
