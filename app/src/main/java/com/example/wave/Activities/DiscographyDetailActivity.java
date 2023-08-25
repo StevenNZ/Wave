@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -50,6 +51,7 @@ public class DiscographyDetailActivity extends AppCompatActivity {
     private ImageButton currentImageButton;
     private DiscographyDetailViewModel model;
     private List<String> trackLists;
+    private int quantity = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +69,10 @@ public class DiscographyDetailActivity extends AppCompatActivity {
         TextView artistTextView = findViewById(R.id.artistText);
         TextView priceTextView = findViewById(R.id.priceText);
         LinearLayout tracklistLayout = findViewById(R.id.tracklistLayout);
+        ImageButton decrementBtn = findViewById(R.id.decrementBtn);
+        ImageButton incrementBtn = findViewById(R.id.incrementBtn);
+        TextView quantityField = findViewById(R.id.quantityField);
+        Button cartBtn = findViewById(R.id.cartBtn);
 
         ArrayList<SlideModel> imageList = new ArrayList<>();
         currentImageButton = cassette;
@@ -181,11 +187,35 @@ public class DiscographyDetailActivity extends AppCompatActivity {
             }
         });
 
-
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();
+            }
+        });
+
+        incrementBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                quantity++;
+                quantityField.setText(String.valueOf(quantity));
+            }
+        });
+
+        decrementBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (quantity > 1) {
+                    quantity--;
+                    quantityField.setText(String.valueOf(quantity));
+                }
+            }
+        });
+
+        cartBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //does cart adding stuff
             }
         });
     }
