@@ -8,31 +8,31 @@ import com.example.wave.Domains.AuthenticationUserUseCase;
 import com.google.firebase.auth.FirebaseUser;
 
 public class AuthenticationViewModel extends ViewModel {
-    protected AuthenticationUserUseCase authenticationUserUseCase;
-    protected AuthenticationErrorUseCase authenticationErrorUseCase;
+    private AuthenticationUserUseCase authenticationUserUseCase;
+    private AuthenticationErrorUseCase authenticationErrorUseCase;
+
+    public AuthenticationViewModel() {
+        authenticationUserUseCase = new AuthenticationUserUseCase();
+        authenticationErrorUseCase = new AuthenticationErrorUseCase();
+    }
 
     public LiveData<FirebaseUser> getAuthenticatedUser() {
-        authenticationUserUseCase = new AuthenticationUserUseCase();
         return authenticationUserUseCase.getAuthenticatedUser();
     }
 
     public LiveData<String> getAuthenticationError() {
-        authenticationErrorUseCase = new AuthenticationErrorUseCase();
         return authenticationErrorUseCase.getAuthenticationError();
     }
 
     public void resetAuthenticationError() {
-        authenticationErrorUseCase = new AuthenticationErrorUseCase();
         authenticationErrorUseCase.resetAuthenticationError();
     }
 
     public boolean isLogin() {
-        authenticationUserUseCase = new AuthenticationUserUseCase();
         return (authenticationUserUseCase.getAuthenticatedUser().getValue() != null);
     }
 
     public String getUserID() {
-        authenticationUserUseCase = new AuthenticationUserUseCase();
         // can return null
         return (authenticationUserUseCase.getAuthenticatedUser().getValue().getUid());
     }

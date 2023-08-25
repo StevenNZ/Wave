@@ -10,17 +10,15 @@ public class DiscographyDetailViewModel extends ViewModel {
 
     private GetDiscographyUseCase getDiscographyUseCase;
 
+    public DiscographyDetailViewModel() {
+        getDiscographyUseCase = new GetDiscographyUseCase();
+    }
+
     public Task<Discography> getDiscographyDetail(String id) {
-        if (getDiscographyUseCase == null) {
-            getDiscographyUseCase = new GetDiscographyUseCase();
-        }
         return getDiscographyUseCase.getDiscographyByDiscographyID(id);
     }
 
     public void addViewToDiscography(String discographyID) {
-        if (getDiscographyUseCase == null) {
-            getDiscographyUseCase = new GetDiscographyUseCase();
-        }
         getDiscographyUseCase.addViewToDiscography(discographyID);
     }
 }
