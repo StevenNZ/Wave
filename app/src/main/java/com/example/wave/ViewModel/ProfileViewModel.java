@@ -6,22 +6,23 @@ import androidx.lifecycle.ViewModel;
 import com.example.wave.Domains.SignOutUseCase;
 import com.google.firebase.auth.FirebaseUser;
 
+import javax.inject.Inject;
+
 public class ProfileViewModel extends ViewModel {
     private SignOutUseCase signOutUseCase;
     private AuthenticationViewModel authenticationViewModel;
 
+    public ProfileViewModel() {
+        authenticationViewModel = new AuthenticationViewModel();
+        signOutUseCase = new SignOutUseCase();
+    }
+
     public void signOutUser() {
-        if (signOutUseCase == null) {
-            signOutUseCase = new SignOutUseCase();
-        }
         signOutUseCase.signOutUser();
     }
 
 
     public LiveData<FirebaseUser> getAuthenticatedUser() {
-        if (authenticationViewModel == null) {
-            authenticationViewModel = new AuthenticationViewModel();
-        }
         return authenticationViewModel.getAuthenticatedUser();
     }
 }

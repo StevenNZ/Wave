@@ -2,12 +2,17 @@ package com.example.wave.ViewModel;
 
 import androidx.lifecycle.ViewModel;
 
+import javax.inject.Inject;
+
 public class MainViewModel extends ViewModel {
 
-    protected AuthenticationViewModel authenticationViewModel;
+    private AuthenticationViewModel authenticationViewModel;
+
+    public MainViewModel() {
+        authenticationViewModel = new AuthenticationViewModel();
+    }
 
     public boolean isLogin() {
-        authenticationViewModel = new AuthenticationViewModel();
         return authenticationViewModel.isLogin();
     }
 }
