@@ -1,5 +1,6 @@
 package com.example.wave.Adaptor;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,15 +10,19 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.wave.Activities.Popular;
 import com.example.wave.Activities.PopularRecylcerInterface;
+import com.example.wave.Activities.WishlistActivity;
 import com.example.wave.Domains.AuthenticationUserUseCase;
 import com.example.wave.Domains.GetWishlistUseCase;
 import com.example.wave.Entities.Order;
 import com.example.wave.R;
+import com.example.wave.ViewModel.WishlistViewModel;
 import com.like.LikeButton;
 import com.like.OnLikeListener;
 import java.util.List;
@@ -29,6 +34,7 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.ViewHo
     private int mLayoutId;
     private PopularRecylcerInterface popularRecylcerInterface;
     private GetWishlistUseCase getWishlistUseCase = new GetWishlistUseCase();
+    private WishlistViewModel model;
 
 
     public interface OnItemClickListener {
@@ -36,11 +42,13 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.ViewHo
     }
 
 
-    public WishlistAdapter(Context context, int resource, @NonNull List objects, PopularRecylcerInterface popularRecylcerInterface) {
+    public WishlistAdapter(Context context, int resource, @NonNull List objects, PopularRecylcerInterface popularRecylcerInterface, ViewModel model) {
         this.context = context;
         mLayoutId = resource;
         wishlistItems = objects;
         this.popularRecylcerInterface = popularRecylcerInterface;
+
+        this.model = (WishlistViewModel) model;
     }
 
     @NonNull
@@ -51,7 +59,7 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.ViewHo
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         Order currentItem = wishlistItems.get(position);
 
         String name = currentItem.getDiscographyID();
@@ -79,6 +87,9 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.ViewHo
                 if (authenticationUserUseCase.isLogin()) {
                     String userID = authenticationUserUseCase.getUserID();
                     getWishlistUseCase.removeFromWishlistByOrderID(userID, discographyId);
+                    wishlistItems.remove(position);
+                    model.updateWishlist(wishlistItems);
+
                 }
 
             }

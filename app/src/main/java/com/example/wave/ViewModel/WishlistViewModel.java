@@ -4,27 +4,24 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.wave.Activities.Popular;
+import com.example.wave.Entities.Order;
 
 import java.util.List;
 
 public class WishlistViewModel extends ViewModel{
 
-    private MutableLiveData<List<Popular>> wishlistLiveData = new MutableLiveData<>();
+    private MutableLiveData<List<Order>> wishlistLiveData = new MutableLiveData<>();
 
     public WishlistViewModel() {
 
     }
 
 
-    public LiveData<List<Popular>> getWishlistLiveData(){
-        if (wishlistLiveData.getValue() == null) {
-            wishlistLiveData.setValue(null);
-        }
+    public LiveData<List<Order>> getWishlistLiveData(){
         return wishlistLiveData;
     }
 
-    public void updateWishlist(List<Popular> wishlist) {
+    public void updateWishlist(List<Order> wishlist) {
         wishlistLiveData.setValue(wishlist);
     }
 
