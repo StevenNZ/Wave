@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -53,10 +54,12 @@ public class DiscographyDetailActivity extends AppCompatActivity {
 
     private int position = 0;
     private int slide = 0;
+    private boolean isSlide = true;
     private ImageSlider imageSlider;
     private ImageButton currentImageButton;
     private DiscographyDetailViewModel model;
     private List<String> trackLists;
+    private int quantity = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +78,10 @@ public class DiscographyDetailActivity extends AppCompatActivity {
         TextView artistTextView = findViewById(R.id.artistText);
         TextView priceTextView = findViewById(R.id.priceText);
         LinearLayout tracklistLayout = findViewById(R.id.tracklistLayout);
+        ImageButton decrementBtn = findViewById(R.id.decrementBtn);
+        ImageButton incrementBtn = findViewById(R.id.incrementBtn);
+        TextView quantityField = findViewById(R.id.quantityField);
+        Button cartBtn = findViewById(R.id.cartBtn);
 
         ArrayList<SlideModel> imageList = new ArrayList<>();
         currentImageButton = cassette;
@@ -167,14 +174,21 @@ public class DiscographyDetailActivity extends AppCompatActivity {
                 currentImageButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.white,null)));
                 if (position == 0) {
                     currentImageButton = cassette;
-                    priceTextView.setText(cassettePrice);
+                    if (isSlide) {
+                        priceTextView.setText(cassettePrice);
+                    }
                 } else if (position == 1) {
                     currentImageButton = vinyl;
-                    priceTextView.setText(vinylPrice);
+                    if (isSlide) {
+                        priceTextView.setText(vinylPrice);
+                    }
                 } else {
                     currentImageButton = cd;
-                    priceTextView.setText(cdPrice);
+                    if (isSlide) {
+                        priceTextView.setText(cdPrice);
+                    }
                 }
+                isSlide = true;
                 currentImageButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.gold,null)));
             }
         });
@@ -184,6 +198,7 @@ public class DiscographyDetailActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (position == 1) {
                     startSlide(2);
+                    isSlide = false;
                 } else if (position == 2) {
                     startSlide(1);
                 }
@@ -194,6 +209,7 @@ public class DiscographyDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (position == 2) {
+                    isSlide = false;
                     startSlide(2);
                 } else if (position == 0) {
                     startSlide(1);
@@ -205,13 +221,13 @@ public class DiscographyDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (position == 0) {
+                    isSlide = false;
                     startSlide(2);
                 } else if (position == 1) {
                     startSlide(1);
                 }
             }
         });
-
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -220,6 +236,30 @@ public class DiscographyDetailActivity extends AppCompatActivity {
             }
         });
 
+        incrementBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                quantity++;
+                quantityField.setText(String.valueOf(quantity));
+            }
+        });
+
+        decrementBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (quantity > 1) {
+                    quantity--;
+                    quantityField.setText(String.valueOf(quantity));
+                }
+            }
+        });
+
+        cartBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //does cart adding stuff
+            }
+        });
         wishlistButton.setOnLikeListener(new OnLikeListener() {
             @Override
             public void liked(LikeButton likeButton) {

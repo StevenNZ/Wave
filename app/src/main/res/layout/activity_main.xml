@@ -149,6 +149,6 @@
         app:itemPaddingBottom="4dp"
         app:itemPaddingTop="3dp"
         app:itemRippleColor="@android:color/transparent"
-        app:labelVisibilityMode="selected" />
+        app:labelVisibilityMode="unlabeled" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
