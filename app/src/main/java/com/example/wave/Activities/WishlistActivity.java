@@ -16,6 +16,8 @@ import com.example.wave.Domains.WishListOperationsUseCase;
 import com.example.wave.R;
 import com.example.wave.ViewModel.AuthenticationViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.like.LikeButton;
+import com.like.OnLikeListener;
 
 import java.util.List;
 
@@ -38,9 +40,27 @@ public class WishlistActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
         setBottomNavBar();
 
+        //setLikeListener();
+
         fetchAndDisplayWishlist();
 
 
+
+
+    }
+
+    private void setLikeListener() {
+        LikeButton heartButton = findViewById(R.id.heartIcon);
+        heartButton.setOnLikeListener(new OnLikeListener() {
+            @Override
+            public void liked(LikeButton likeButton) {
+                Log.d("SEARCH DEBUG", "LIKED IT BROTHER");
+            }
+            @Override
+            public void unLiked(LikeButton likeButton) {
+                Log.d("SEARCH DEBUG", "unLIKED IT BROTHER");
+            }
+        });
     }
 
     private void setBottomNavBar() {
@@ -79,7 +99,7 @@ public class WishlistActivity extends AppCompatActivity {
     }
 
     private void showWishList(List<Popular> resultList) {
-        PopularAdaptor popularAdaptor = new PopularAdaptor(WishlistActivity.this, R.layout.popular_list_item, resultList, this::onItemClick);
+        PopularAdaptor popularAdaptor = new PopularAdaptor(WishlistActivity.this, R.layout.wishlist_list_item, resultList, this::onItemClick);
         relativeLayout = findViewById(R.id.cart_details);
         wishlist = resultList;
         Log.d("SearchDebug", "WISHLIST SHOULD BE HERE = " + resultList);
