@@ -5,6 +5,7 @@ import static android.content.ContentValues.TAG;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.denzcoskun.imageslider.constants.AnimationTypes;
 import com.denzcoskun.imageslider.constants.ScaleTypes;
@@ -124,7 +125,7 @@ public class DiscographyDetailActivity extends AppCompatActivity {
 
         artistTextView.setText(intent.getStringExtra("ArtistName"));
 
-        model = new DiscographyDetailViewModel();
+        model = new ViewModelProvider(this).get(DiscographyDetailViewModel.class);
         model.getDiscographyDetail(discographyId).addOnCompleteListener(new OnCompleteListener<Discography>() {
             @Override
             public void onComplete(@NonNull Task<Discography> task) {
