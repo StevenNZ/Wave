@@ -14,6 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.wave.Activities.Popular;
 import com.example.wave.Activities.PopularRecylcerInterface;
+import com.example.wave.Domains.AuthenticationUserUseCase;
+import com.example.wave.Domains.GetWishlistUseCase;
 import com.example.wave.R;
 import com.like.LikeButton;
 import com.like.OnLikeListener;
@@ -25,6 +27,8 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.ViewHo
     private Context context;
     private int mLayoutId;
     private PopularRecylcerInterface popularRecylcerInterface;
+    private GetWishlistUseCase getWishlistUseCase = new GetWishlistUseCase();
+
 
     public interface OnItemClickListener {
         void onItemClick(int position);
@@ -52,6 +56,7 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.ViewHo
         String name = currentItem.getAlbumName();
         String image = currentItem.getAlbumImage();
         String artist = currentItem.getAlbumArtist();
+        String discographyId = currentItem.getDiscographyId();
 
         // Set the category name
         holder.discogName.setText(name);
@@ -64,20 +69,19 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.ViewHo
         holder.heartButton.setOnLikeListener(new OnLikeListener() {
             @Override
             public void liked(LikeButton likeButton) {
-                Log.d("Search DEBUG", "WE LIKED IT BROTHER");
+                Log.d("WISHLIST LIKE DEBUG", "THIS SHOULD NOT BE POSSIBLE");
             }
 
             @Override
             public void unLiked(LikeButton likeButton) {
-                Log.d("Search DEBUG", "WE UNLIKED IT BROTHER");
+                AuthenticationUserUseCase authenticationUserUseCase = new AuthenticationUserUseCase();
+                if (authenticationUserUseCase.isLogin()) {
+                    String userID = authenticationUserUseCase.getUserID();
+                    getWishlistUseCase.removeFromWishlistByOrderID(userID, discographyId);
+                }
 
             }
         });
-
-
-
-
-
     }
 
     @Override
