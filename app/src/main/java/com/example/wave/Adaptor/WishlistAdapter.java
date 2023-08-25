@@ -19,10 +19,15 @@ import com.example.wave.Activities.Popular;
 import com.example.wave.Activities.PopularRecylcerInterface;
 import com.example.wave.Activities.WishlistActivity;
 import com.example.wave.Domains.AuthenticationUserUseCase;
+import com.example.wave.Domains.GetArtistUseCase;
+import com.example.wave.Domains.GetDiscographyUseCase;
 import com.example.wave.Domains.GetWishlistUseCase;
+import com.example.wave.Entities.Artist;
+import com.example.wave.Entities.Discography;
 import com.example.wave.Entities.Order;
 import com.example.wave.R;
 import com.example.wave.ViewModel.WishlistViewModel;
+import com.google.android.gms.tasks.Task;
 import com.like.LikeButton;
 import com.like.OnLikeListener;
 import java.util.List;
@@ -62,36 +67,55 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.ViewHo
     public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         Order currentItem = wishlistItems.get(position);
 
-        String name = currentItem.getDiscographyID();
-        String image = currentItem.getDiscographyID();
-        String artist = currentItem.getDiscographyID();
-        String discographyId = currentItem.getDiscographyID();
+        GetDiscographyUseCase getDiscographyUseCase = new GetDiscographyUseCase();
 
-        // Set the category name
-        holder.discogName.setText(name);
+        String currentDiscographyID = currentItem.getDiscographyID();
 
-        holder.discogArtist.setText(artist);
 
-        // Set the category image
-        Glide.with(context).load(image).into(holder.discogImage);
+        getDiscographyUseCase.getDiscographyByDiscographyID(currentDiscographyID).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
 
-        holder.heartButton.setOnLikeListener(new OnLikeListener() {
-            @Override
-            public void liked(LikeButton likeButton) {
-                Log.d("WISHLIST LIKE DEBUG", "THIS SHOULD NOT BE POSSIBLE");
-            }
+                Discography discography = task.getResult();
+                String name = discography.getReleaseName();
+                String image = discography.getImageURL();
+                String discographyId = discography.getDiscographyID();
 
-            @Override
-            public void unLiked(LikeButton likeButton) {
-                AuthenticationUserUseCase authenticationUserUseCase = new AuthenticationUserUseCase();
-                if (authenticationUserUseCase.isLogin()) {
-                    String userID = authenticationUserUseCase.getUserID();
-                    getWishlistUseCase.removeFromWishlistByOrderID(userID, discographyId);
-                    wishlistItems.remove(position);
-                    model.updateWishlist(wishlistItems);
+                GetArtistUseCase getArtistUseCase = new GetArtistUseCase();
+                getArtistUseCase.getArtistByID(discography.getArtistID()).addOnCompleteListener(task1 -> {
+                    if(task1.isSuccessful()) {
+                        Artist artist = task1.getResult();
+                        String artistName = artist.getArtistName();
+                        holder.discogArtist.setText(artistName);
+                    }
+                });
 
-                }
 
+                // Set the category name
+                holder.discogName.setText(name);
+
+
+                // Set the category image
+                Glide.with(context).load(image).into(holder.discogImage);
+
+                holder.heartButton.setOnLikeListener(new OnLikeListener() {
+                    @Override
+                    public void liked(LikeButton likeButton) {
+                        Log.d("WISHLIST LIKE DEBUG", "THIS SHOULD NOT BE POSSIBLE");
+                    }
+
+                    @Override
+                    public void unLiked(LikeButton likeButton) {
+                        AuthenticationUserUseCase authenticationUserUseCase = new AuthenticationUserUseCase();
+                        if (authenticationUserUseCase.isLogin()) {
+                            String userID = authenticationUserUseCase.getUserID();
+                            getWishlistUseCase.removeFromWishlistByOrderID(userID, discographyId);
+                            wishlistItems.remove(position);
+                            model.updateWishlist(wishlistItems);
+
+                        }
+
+                    }
+                });
             }
         });
     }
