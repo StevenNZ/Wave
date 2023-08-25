@@ -4,5 +4,5 @@ import com.example.wave.Entities.Discography;
 
 public interface WishlistListener {
 
-    void onWishlistReady(Discography discography);
+    void onWishlistReady(Discography discography, String artistName);
 }

@@ -34,7 +34,7 @@ public class WishlistActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
         setBottomNavBar();
 
-        fetchAndDisplayPopular();
+        fetchAndDisplayWishlist();
 
 
     }
@@ -67,14 +67,14 @@ public class WishlistActivity extends AppCompatActivity {
         });
     }
 
-    private void fetchAndDisplayPopular() {
+    private void fetchAndDisplayWishlist() {
         AuthenticationViewModel authenticationViewModel = new AuthenticationViewModel();
         WishListOperationsUseCase wishListOperationsUseCase = new WishListOperationsUseCase();
 
-        wishListOperationsUseCase.getUserWishlist(authenticationViewModel.getUserID(), this::updatePopularList);
+        wishListOperationsUseCase.getUserWishlist(authenticationViewModel.getUserID(), this::updateWishlist);
     }
 
-    private void updatePopularList(List<Popular> resultList) {
+    private void updateWishlist(List<Popular> resultList) {
         PopularAdaptor popularAdaptor = new PopularAdaptor(WishlistActivity.this, R.layout.popular_list_item, resultList, this::onItemClick);
         wishlist = resultList;
         recyclerView.setAdapter(popularAdaptor);

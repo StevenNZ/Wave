@@ -27,45 +27,61 @@ public class WishListOperationsUseCase implements WishlistProvider {
 
         wishList.addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
-                List<Order> list = task.getResult();
-                List<Popular> popularResults = new ArrayList<>();
+                List<Order> orders = task.getResult();
+                fetchWishListResults(orders, listener);
 
-                Log.d("SearchDebug", "from returned = " + list);
-
-                for (Order order : list) {
-                    discographyId(order.getDiscographyID(), new WishlistListener() {
-                        @Override
-                        public void onWishlistReady(Discography discography) {
-                            Popular res = new Popular(discography.getReleaseName(), discography.getArtistID(), discography.getCassetteImageUrl(), discography.getDiscographyID());
-                            popularResults.add(res);
-
-                            if (popularResults.size() == list.size()) {
-                                // Call the listener with the populated list
-                                listener.onDiscographyResultsReady(popularResults);
-                            }
-                        }
-                    });
-                }
             } else {
                 Exception exception = task.getException();
                 // Handle the exception
             }
         });
 
-    };
+    }
 
-    private static void discographyId(String discogId, WishlistListener listener){
+    private void fetchWishListResults(List<Order> orders, DiscographyResultsListener listener) {
+
+        List<Popular> wishlist = new ArrayList<>();
+        int totalOrders = orders.size();
 
 
+        for (Order order : orders) {
+            fetchDiscographyById(order.getDiscographyID(), (discography, artistName) -> {
+                Popular res = new Popular(discography.getReleaseName(), artistName, discography.getImageURL(), discography.getDiscographyID());
+                wishlist.add(res);
+
+                if (wishlist.size() == totalOrders) {
+                    listener.onDiscographyResultsReady(wishlist);
+                }
+            });
+        }
+    }
+
+    private void fetchDiscographyById(String discogId, WishlistListener listener) {
         Task<Discography> discographyTask = DiscographyRepository.getInstance().getDiscographyByDiscographyID(discogId);
 
         discographyTask.addOnCompleteListener(task -> {
-            if(task.isSuccessful()){
-                listener.onWishlistReady(discographyTask.getResult());
+            if (task.isSuccessful()) {
+                Discography discography = task.getResult();
+                //returns a discography to fetchWishList results method via a listener
+
+                fetchArtistName(discography.getArtistID(), artistName -> {
+                    listener.onWishlistReady(discography, artistName);
+                });
+
+
             }
         });
+    }
 
+    private void fetchArtistName(String artistID, ArtistNameListener artistNameListener) {
 
+        Task<Artist> artist = ArtistRepository.getInstance().getArtistByID(artistID);
+
+        artist.addOnCompleteListener(task -> {
+            if(task.isSuccessful()){
+                artistNameListener.onArtistNameReady(artist.getResult().getArtistName());
+            }
+        });
     }
 
 
