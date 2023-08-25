@@ -81,7 +81,7 @@
                         android:layout_centerInParent="true"
                         app:anim_scale_factor="2"
                         app:icon_size="15dp"
-                        app:icon_type="heart"
+                        app:liked="true"
                         android:paddingRight="2dp"/>
 
 
