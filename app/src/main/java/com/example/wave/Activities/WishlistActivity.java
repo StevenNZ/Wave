@@ -11,11 +11,14 @@ import android.view.View;
 import android.widget.RelativeLayout;
 
 import com.example.wave.Adaptor.PopularAdaptor;
+import com.example.wave.Adaptor.WishlistAdapter;
 import com.example.wave.Domains.GetPopularProductsUseCase;
 import com.example.wave.Domains.WishListOperationsUseCase;
 import com.example.wave.R;
 import com.example.wave.ViewModel.AuthenticationViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.like.LikeButton;
+import com.like.OnLikeListener;
 
 import java.util.List;
 
@@ -38,7 +41,10 @@ public class WishlistActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
         setBottomNavBar();
 
+
         fetchAndDisplayWishlist();
+
+
 
 
     }
@@ -79,7 +85,7 @@ public class WishlistActivity extends AppCompatActivity {
     }
 
     private void showWishList(List<Popular> resultList) {
-        PopularAdaptor popularAdaptor = new PopularAdaptor(WishlistActivity.this, R.layout.popular_list_item, resultList, this::onItemClick);
+        WishlistAdapter wishlistAdapter = new WishlistAdapter(WishlistActivity.this, R.layout.wishlist_list_item, resultList, this::onItemClick);
         relativeLayout = findViewById(R.id.cart_details);
         wishlist = resultList;
         Log.d("SearchDebug", "WISHLIST SHOULD BE HERE = " + resultList);
@@ -91,7 +97,7 @@ public class WishlistActivity extends AppCompatActivity {
         }else{
             relativeLayout.setVisibility(View.GONE);
             recyclerView.setVisibility(View.VISIBLE);
-            recyclerView.setAdapter(popularAdaptor);
+            recyclerView.setAdapter(wishlistAdapter);
         }
 
     }
