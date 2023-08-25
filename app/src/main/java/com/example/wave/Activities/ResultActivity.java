@@ -75,7 +75,12 @@ public class ResultActivity extends AppCompatActivity {
                         resultsAdapter = new PopularAdaptor(ResultActivity.this, layoutResourceId, resultList, new PopularRecylcerInterface() {
                             @Override
                             public void onItemClick(int position) {
-                                Popular currentDiscography = resultList.get(position);
+                                Popular currentDiscography = results.get(position);
+
+                                Log.d("SearchDebug", "CURRENT ONE BRO = " + currentDiscography);
+                                Log.d("SearchDebug", "CURRENT ONE BRO = " + currentDiscography.getAlbumName());
+                                Log.d("SearchDebug", "CURRENT ONE BRO = " + currentDiscography.getDiscographyId());
+
 
                                 Intent intent = new Intent(ResultActivity.this, DiscographyDetailActivity.class);
                                 intent.putExtra("DiscographyId", currentDiscography.getDiscographyId());
@@ -224,6 +229,8 @@ public class ResultActivity extends AppCompatActivity {
                     //this makes sure that when the list is empty we don't do anything
                     // can refactor to make better but idc
                     Log.d("SearchDebug", "onQueryTextChange: OnTextChange = " + resultsAdapter);
+                    results = filteredList;
+                    Log.d("SearchDebug", "onQueryTextChange: OnTextChange = " + results);
                     resultsAdapter.setFilteredList(filteredList);
                 }
                 return true;
