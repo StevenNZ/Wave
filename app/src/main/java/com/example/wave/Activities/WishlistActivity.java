@@ -49,7 +49,7 @@ public class WishlistActivity extends AppCompatActivity {
             public void onChanged(List<Order> updatedWishlist) {
                 // Update your UI with the new data
                 // This code will be executed whenever the LiveData changes
-                fetchAndDisplayWishlist();
+                showWishList(updatedWishlist);
             }
         });
     }
