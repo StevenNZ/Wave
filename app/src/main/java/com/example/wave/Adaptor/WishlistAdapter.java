@@ -16,6 +16,7 @@ import com.example.wave.Activities.Popular;
 import com.example.wave.Activities.PopularRecylcerInterface;
 import com.example.wave.Domains.AuthenticationUserUseCase;
 import com.example.wave.Domains.GetWishlistUseCase;
+import com.example.wave.Entities.Order;
 import com.example.wave.R;
 import com.like.LikeButton;
 import com.like.OnLikeListener;
@@ -23,7 +24,7 @@ import java.util.List;
 
 public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.ViewHolder> {
 
-    private List<Popular> wishlistItems;
+    private List<Order> wishlistItems;
     private Context context;
     private int mLayoutId;
     private PopularRecylcerInterface popularRecylcerInterface;
@@ -51,12 +52,12 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Popular currentItem = wishlistItems.get(position);
+        Order currentItem = wishlistItems.get(position);
 
-        String name = currentItem.getAlbumName();
-        String image = currentItem.getAlbumImage();
-        String artist = currentItem.getAlbumArtist();
-        String discographyId = currentItem.getDiscographyId();
+        String name = currentItem.getDiscographyID();
+        String image = currentItem.getDiscographyID();
+        String artist = currentItem.getDiscographyID();
+        String discographyId = currentItem.getDiscographyID();
 
         // Set the category name
         holder.discogName.setText(name);
