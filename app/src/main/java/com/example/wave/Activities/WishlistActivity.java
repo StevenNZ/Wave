@@ -1,6 +1,8 @@
 package com.example.wave.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -12,13 +14,12 @@ import android.widget.RelativeLayout;
 
 import com.example.wave.Adaptor.PopularAdaptor;
 import com.example.wave.Adaptor.WishlistAdapter;
-import com.example.wave.Domains.GetPopularProductsUseCase;
-import com.example.wave.Domains.WishListOperationsUseCase;
+import com.example.wave.Domains.GetWishlistUseCase;
+import com.example.wave.Entities.Order;
 import com.example.wave.R;
 import com.example.wave.ViewModel.AuthenticationViewModel;
+import com.example.wave.ViewModel.WishlistViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.like.LikeButton;
-import com.like.OnLikeListener;
 
 import java.util.List;
 
@@ -26,10 +27,10 @@ public class WishlistActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private PopularAdaptor popularAdapter;
-
     private RelativeLayout relativeLayout;
+    private List<Order> wishlist;
 
-    private List<Popular> wishlist;
+    private WishlistViewModel model;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,12 +42,16 @@ public class WishlistActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
         setBottomNavBar();
 
-
+        model = new ViewModelProvider(this).get(WishlistViewModel.class);
         fetchAndDisplayWishlist();
-
-
-
-
+        model.getWishlistLiveData().observe(this, new Observer<List<Order>>() {
+            @Override
+            public void onChanged(List<Order> updatedWishlist) {
+                // Update your UI with the new data
+                // This code will be executed whenever the LiveData changes
+                showWishList(updatedWishlist);
+            }
+        });
     }
 
     private void setBottomNavBar() {
@@ -79,13 +84,21 @@ public class WishlistActivity extends AppCompatActivity {
 
     private void fetchAndDisplayWishlist() {
         AuthenticationViewModel authenticationViewModel = new AuthenticationViewModel();
-        WishListOperationsUseCase wishListOperationsUseCase = new WishListOperationsUseCase();
+        GetWishlistUseCase getWishlistUseCase = new GetWishlistUseCase();
+        getWishlistUseCase.getWishlist(authenticationViewModel.getUserID()).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                List<Order> orders = task.getResult();
+                showWishList(orders);
 
-        wishListOperationsUseCase.getUserWishlist(authenticationViewModel.getUserID(), this::showWishList);
+            } else {
+                Exception exception = task.getException();
+                // Handle the exception
+            }
+        });
     }
 
-    private void showWishList(List<Popular> resultList) {
-        WishlistAdapter wishlistAdapter = new WishlistAdapter(WishlistActivity.this, R.layout.wishlist_list_item, resultList, this::onItemClick);
+    private void showWishList(List<Order> resultList) {
+        WishlistAdapter wishlistAdapter = new WishlistAdapter(WishlistActivity.this, R.layout.wishlist_list_item, resultList, this::onItemClick, model);
         relativeLayout = findViewById(R.id.cart_details);
         wishlist = resultList;
         Log.d("SearchDebug", "WISHLIST SHOULD BE HERE = " + resultList);
@@ -103,14 +116,14 @@ public class WishlistActivity extends AppCompatActivity {
     }
 
     private void onItemClick(int position) {
-        Popular currentItem = wishlist.get(position);
+        Order currentItem = wishlist.get(position);
         openDiscographyDetail(currentItem);
     }
 
-    private void openDiscographyDetail(Popular discography) {
+    private void openDiscographyDetail(Order order) {
         Intent intent = new Intent(WishlistActivity.this, DiscographyDetailActivity.class);
-        intent.putExtra("DiscographyId", discography.getDiscographyId());
-        intent.putExtra("ArtistName", discography.getAlbumArtist());
+        intent.putExtra("DiscographyId", order.getDiscographyID());
+        intent.putExtra("ArtistName", order.getOrderID());
         startActivity(intent);
     }
 

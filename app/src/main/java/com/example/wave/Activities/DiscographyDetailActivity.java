@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.denzcoskun.imageslider.constants.AnimationTypes;
 import com.denzcoskun.imageslider.constants.ScaleTypes;
@@ -27,6 +28,7 @@ import android.widget.TextView;
 import com.denzcoskun.imageslider.ImageSlider;
 import com.denzcoskun.imageslider.interfaces.ItemChangeListener;
 import com.denzcoskun.imageslider.models.SlideModel;
+import com.example.wave.Adaptor.ImageSliderAdapter;
 import com.example.wave.Domains.AuthenticationUserUseCase;
 import com.example.wave.Domains.GetCartUseCase;
 import com.example.wave.Domains.GetDiscographyUseCase;
@@ -60,6 +62,8 @@ public class DiscographyDetailActivity extends AppCompatActivity {
     private int slide = 0;
     private boolean isSlide = true;
     private ImageSlider imageSlider;
+    private ViewPager2 viewPager2;
+    private ArrayList<String> viewPagerItemArray;
     private ImageButton currentImageButton;
     private DiscographyDetailViewModel model;
     private List<String> trackLists;
@@ -74,7 +78,7 @@ public class DiscographyDetailActivity extends AppCompatActivity {
 
         ConstraintLayout constraintLayout = findViewById(R.id.detailLayout);
         MaterialToolbar toolbar = findViewById(R.id.topAppBar);
-        imageSlider = findViewById(R.id.imageSlider);
+        viewPager2 = findViewById(R.id.imageSlider);
         ImageButton cassette = findViewById(R.id.cassetteBtn);
         ImageButton vinyl = findViewById(R.id.vinylBtn);
         ImageButton cd = findViewById(R.id.cdBtn);
@@ -87,8 +91,6 @@ public class DiscographyDetailActivity extends AppCompatActivity {
         ImageButton incrementBtn = findViewById(R.id.incrementBtn);
         TextView quantityField = findViewById(R.id.quantityField);
         Button cartBtn = findViewById(R.id.cartBtn);
-
-        ArrayList<SlideModel> imageList = new ArrayList<>();
         currentImageButton = cassette;
 
 
@@ -159,10 +161,13 @@ public class DiscographyDetailActivity extends AppCompatActivity {
 
                     albumTextView.setText(discographyResult.getReleaseName());
 
-                    imageList.add(new SlideModel(discographyResult.getCassetteImageUrl(), "", ScaleTypes.CENTER_INSIDE));
-                    imageList.add(new SlideModel(discographyResult.getVinylImageUrl(), "", ScaleTypes.CENTER_INSIDE));
-                    imageList.add(new SlideModel(discographyResult.getCdImageUrl(), "", ScaleTypes.CENTER_INSIDE));
-                    imageSlider.setImageList(imageList);
+                    viewPagerItemArray = new ArrayList<>();
+                    viewPagerItemArray.add(discographyResult.getCassetteImageUrl());
+                    viewPagerItemArray.add(discographyResult.getVinylImageUrl());
+                    viewPagerItemArray.add(discographyResult.getCdImageUrl());
+
+                    ImageSliderAdapter imageSliderAdapter = new ImageSliderAdapter(getBaseContext(), viewPagerItemArray, viewPager2);
+                    viewPager2.setAdapter(imageSliderAdapter);
 
                     trackLists = discographyResult.getTracklist();
                     for (int i = 0; i < trackLists.size(); i++) {
@@ -182,44 +187,29 @@ public class DiscographyDetailActivity extends AppCompatActivity {
                 }
             }
         });
-        imageSlider.setSlideAnimation(AnimationTypes.DEPTH_SLIDE);
-        imageSlider.setItemChangeListener(new ItemChangeListener() {
+
+        viewPager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
-            public void onItemChanged(int i) {
-                position = i;
-
-                if (slide == 2) {
-                    slide--;
-                } else if (slide == 1) {
-                    slide--;
-                    imageSlider.stopSliding();
-                }
-
+            public void onPageSelected(int position) {
                 currentImageButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.white,null)));
-                String denoter = "$";
+
                 if (position == 0) {
                     currentImageButton = cassette;
-                    if (isSlide) {
-                        priceTextView.setText(denoter + cassettePrice);
-                        currentFormat = "cassette";
-                        currentPrice = cassettePrice;
-                    }
+                    priceTextView.setText(cassettePrice);
+                    currentFormat = "cassette";
+                    currentPrice = cassettePrice;
                 } else if (position == 1) {
                     currentImageButton = vinyl;
-                    if (isSlide) {
-                        priceTextView.setText(denoter + vinylPrice);
-                        currentFormat = "vinyl";
-                        currentPrice = vinylPrice;
-                    }
+                    priceTextView.setText(vinylPrice);
+                    currentFormat = "vinyl";
+                    currentPrice = vinylPrice;
                 } else {
                     currentImageButton = cd;
-                    if (isSlide) {
-                        priceTextView.setText(denoter + cdPrice);
-                        currentFormat = "cd";
-                        currentPrice = cdPrice;
-                    }
+                    priceTextView.setText(cdPrice);
+                    currentFormat = "cd";
+                    currentPrice = cdPrice;
+
                 }
-                isSlide = true;
                 currentImageButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.gold,null)));
             }
         });
@@ -227,36 +217,21 @@ public class DiscographyDetailActivity extends AppCompatActivity {
         cassette.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (position == 1) {
-                    startSlide(2);
-                    isSlide = false;
-                } else if (position == 2) {
-                    startSlide(1);
-                }
+                viewPager2.setCurrentItem(0, true);
             }
         });
 
         vinyl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (position == 2) {
-                    isSlide = false;
-                    startSlide(2);
-                } else if (position == 0) {
-                    startSlide(1);
-                }
+                viewPager2.setCurrentItem(1, true);
             }
         });
 
         cd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (position == 0) {
-                    isSlide = false;
-                    startSlide(2);
-                } else if (position == 1) {
-                    startSlide(1);
-                }
+                viewPager2.setCurrentItem(2, true);
             }
         });
 
@@ -290,15 +265,14 @@ public class DiscographyDetailActivity extends AppCompatActivity {
                         cartBtn.setEnabled(true);
                     }
                 }
-                else if (quantity == 1) {
-                    quantity--;
-                    quantityField.setText(String.valueOf(quantity));
-                    if (inCart){
+                else if (quantity == 1 && inCart){
+                        quantity--;
+                        quantityField.setText(String.valueOf(quantity));
                         cartBtn.setText("Remove from Cart");
                         cartBtn.setEnabled(true);
                     }
                 }
-            }
+
         });
 
         cartBtn.setOnClickListener(new View.OnClickListener() {
@@ -378,10 +352,5 @@ public class DiscographyDetailActivity extends AppCompatActivity {
                 }
             }
         });
-    }
-
-    private void startSlide(int slideNumber) {
-        imageSlider.startSliding(10);
-        slide = slideNumber;
     }
 }

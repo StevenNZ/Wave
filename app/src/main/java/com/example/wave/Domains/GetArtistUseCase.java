@@ -14,7 +14,7 @@ public class GetArtistUseCase implements ArtistProvider {
     }
 
     @Override
-    public Task<Artist> getArtistByID(String categoryID) {
-        return null;
+    public Task<Artist> getArtistByID(String artistID) {
+        return ArtistRepository.getInstance().getArtistByID(artistID);
     }
 }
