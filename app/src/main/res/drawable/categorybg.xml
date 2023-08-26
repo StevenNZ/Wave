@@ -2,14 +2,14 @@
 <animation-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:drawable="@drawable/categorybg4"
-        android:duration="5000"/>
+        android:duration="3000"/>
     <item
         android:drawable="@drawable/categorybg3"
-        android:duration="5000"/>
+        android:duration="3000"/>
     <item
         android:drawable="@drawable/categorybg2"
-        android:duration="5000"/>
+        android:duration="3000"/>
     <item
         android:drawable="@drawable/categorybg1"
-        android:duration="5000"/>
+        android:duration="3000"/>
 </animation-list>
