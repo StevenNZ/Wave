@@ -66,6 +66,7 @@ public class ResultActivity extends AppCompatActivity {
                         recyclerView = findViewById(R.id.result_list_view);
                         recyclerView.setLayoutManager(layoutManager);
 
+
                         resultsAdapter = new DiscographyAdapter(ResultActivity.this, layoutResourceId, resultList, new PopularRecylcerInterface() {
                             @Override
                             public void onItemClick(int position) {
@@ -80,6 +81,12 @@ public class ResultActivity extends AppCompatActivity {
                                 startActivity(intent);
                             }
                         });
+
+                        if(query.isEmpty()){
+                            resultsAdapter.setIsearchResults(false);
+                        }else{
+                            resultsAdapter.setIsearchResults(true);
+                        }
 
                         recyclerView.setAdapter(resultsAdapter);
                     }
@@ -159,6 +166,7 @@ public class ResultActivity extends AppCompatActivity {
         if(query != null && categoryId == null){
             // only if not null
             fetchAndDisplay(query, "");
+
         } else if (query == null && categoryId != null) {
             //clicked a valid category
             fetchAndDisplay("", categoryId);
