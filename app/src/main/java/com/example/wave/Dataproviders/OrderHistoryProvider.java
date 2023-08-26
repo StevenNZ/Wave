@@ -1,5 +1,6 @@
 package com.example.wave.Dataproviders;
 
+import com.example.wave.Entities.CartOrder;
 import com.example.wave.Entities.Order;
 import com.example.wave.Repository.OrderHistoryRepository;
 
@@ -10,7 +11,7 @@ public interface OrderHistoryProvider {
         return null;
     }
 
-    List<List<Order>> getOrderHistory(String userID);
-    void addOrder(String userID, List<Order> checkoutCart);
+    List<List<CartOrder>> getOrderHistory(String userID);
+    void addOrder(String userID, List<CartOrder> checkoutCart);
 }
 

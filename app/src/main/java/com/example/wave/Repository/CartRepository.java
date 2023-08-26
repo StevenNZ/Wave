@@ -8,7 +8,7 @@ import androidx.annotation.NonNull;
 
 import com.example.wave.Dataproviders.CartProvider;
 import com.example.wave.Dataproviders.OrderHistoryProvider;
-import com.example.wave.Entities.Order;
+import com.example.wave.Entities.CartOrder;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -100,10 +100,10 @@ public class CartRepository implements CartProvider {
      * Gets a cart from the database based on a userID
      *
      * @param userID
-     * @return Task<Order> with the cart
+     * @return Task<CartOrder> with the cart
      */
     @Override
-    public Task<List<Order>> getCart(String userID) {
+    public Task<List<CartOrder>> getCart(String userID) {
         checkUserCart(userID);
         cartCollection = db.collection(userID);
         Task<QuerySnapshot> queryTask = cartCollection.document("cart").collection("orders").get();
@@ -112,9 +112,9 @@ public class CartRepository implements CartProvider {
             if (task.isSuccessful()) {
                 QuerySnapshot querySnapshot = task.getResult();
                 List<DocumentSnapshot> documents = querySnapshot.getDocuments();
-                List<Order> wishlistList = new ArrayList<>();
+                List<CartOrder> wishlistList = new ArrayList<>();
                 for (DocumentSnapshot document : documents) {
-                    wishlistList.add(document.toObject(Order.class));
+                    wishlistList.add(document.toObject(CartOrder.class));
                 }
                 return wishlistList;
             } else {
@@ -129,15 +129,18 @@ public class CartRepository implements CartProvider {
      * Adds a discographyFormID to the cart of a user
      */
     @Override
-    public void addCartItems(String userID, Order cartOrder) {
+    public void addCartItems(String userID, CartOrder cartOrder) {
         checkUserCart(userID);
         cartCollection = db.collection(userID);
 
-        // Wishlist does not contain the order, add it
+
+        Log.d("cart", "addCartItems: " + cartOrder.toString());
+
+        // Add the order to the cart
         cartCollection.document("cart").collection("orders").document(cartOrder.getOrderID()).set(cartOrder)
                 .addOnCompleteListener(addTask -> {
                     if (addTask.isSuccessful()) {
-                        Log.d("cart", "Order added to cart");
+                        Log.d("cart", "CartOrder added to cart");
 
                     } else {
                         Log.d("cart", "Error adding order to cart: " + addTask.getException());
@@ -149,7 +152,7 @@ public class CartRepository implements CartProvider {
      * Removes a discographyFormID from the cart of a user
      */
     @Override
-    public Task<List<Order>> removeFromCartByOrderID(String userID, String orderID) {
+    public Task<List<CartOrder>> removeFromCartByOrderID(String userID, String orderID) {
         checkUserCart(userID);
         cartCollection = db.collection(userID);
 
@@ -166,9 +169,9 @@ public class CartRepository implements CartProvider {
                             if (task.isSuccessful()) {
                                 QuerySnapshot querySnapshot = task.getResult();
                                 List<DocumentSnapshot> documents = querySnapshot.getDocuments();
-                                List<Order> cartList = new ArrayList<>();
+                                List<CartOrder> cartList = new ArrayList<>();
                                 for (DocumentSnapshot document : documents) {
-                                    cartList.add(document.toObject(Order.class));
+                                    cartList.add(document.toObject(CartOrder.class));
                                 }
                                 return cartList;
                             } else {
@@ -195,7 +198,7 @@ public class CartRepository implements CartProvider {
 
         this.getCart(userID).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
-                List<Order> cart = task.getResult();
+                List<CartOrder> cart = task.getResult();
                 orderHistoryRepository.addOrder(userID, cart);
 
                 // Delete the cart document after adding it to the order history
@@ -231,7 +234,7 @@ public class CartRepository implements CartProvider {
                 QuerySnapshot querySnapshot = task.getResult();
                 List<DocumentSnapshot> documents = querySnapshot.getDocuments();
                 for (DocumentSnapshot document : documents) {
-                    Order existingOrder = document.toObject(Order.class);
+                    CartOrder existingOrder = document.toObject(CartOrder.class);
                     if (existingOrder != null && existingOrder.getOrderID().equals(orderID)) {
                         return true;
                     }

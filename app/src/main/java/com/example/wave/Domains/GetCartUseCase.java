@@ -1,7 +1,7 @@
 package com.example.wave.Domains;
 
 import com.example.wave.Dataproviders.CartProvider;
-import com.example.wave.Entities.Order;
+import com.example.wave.Entities.CartOrder;
 import com.example.wave.Repository.CartRepository;
 import com.google.android.gms.tasks.Task;
 
@@ -10,18 +10,18 @@ import java.util.List;
 public class GetCartUseCase implements CartProvider {
 
     @Override
-    public Task<List<Order>> getCart(String userID) {
+    public Task<List<CartOrder>> getCart(String userID) {
         return CartRepository.getInstance().getCart(userID);
     }
 
     @Override
-    public void addCartItems(String userID, Order cartOrder) {
+    public void addCartItems(String userID, CartOrder cartOrder) {
         CartRepository.getInstance().addCartItems(userID, cartOrder);
 
     }
 
     @Override
-    public Task<List<Order>> removeFromCartByOrderID(String userID, String orderID) {
+    public Task<List<CartOrder>> removeFromCartByOrderID(String userID, String orderID) {
         return CartRepository.getInstance().removeFromCartByOrderID(userID, orderID);
     }
 
