@@ -113,8 +113,8 @@ public class DiscographyDetailActivity extends AppCompatActivity {
                                 Log.d(TAG, "onComplete: check item in cart query not successful");
                             } else {
                                 Boolean result = task.getResult();
+                                inCart = result;
                                 if (result) {
-                                    inCart = true;
                                     cartBtn.setText("Added to Cart");
                                     cartBtn.setEnabled(false);
                                     wishlistButton.setEnabled(false);
@@ -309,7 +309,7 @@ public class DiscographyDetailActivity extends AppCompatActivity {
                     AuthenticationUserUseCase authenticationUserUseCase = new AuthenticationUserUseCase();
                     if (authenticationUserUseCase.isLogin()) {
                         String userID = authenticationUserUseCase.getUserID();
-
+                        inCart = true;
                         CartOrder cartOrder = new CartOrder(discographyId, "cart", userID, discographyId, currentFormat, String.valueOf(quantity), currentPrice);
                         getCartUseCase.addCartItems(userID, cartOrder);
                         getWishlistUseCase.removeFromWishlistByOrderID(userID, discographyId);
@@ -340,6 +340,9 @@ public class DiscographyDetailActivity extends AppCompatActivity {
                         cartBtn.setText("Add To Cart");
                         cartBtn.setEnabled(true);
                         wishlistButton.setEnabled(true);
+                        quantity++;
+                        quantityField.setText(String.valueOf(quantity));
+                        inCart = false;
                     } else {
                         Intent intent = new Intent(getBaseContext(), LoginActivity.class);
                         startActivity(intent);
