@@ -12,11 +12,9 @@ public interface CartProvider {
     static CartRepository getInstance() {
         return null;
     }
-
-    void createCart(String userID);
-    Task<Order> getCart(String userID);
-    void addCartItems(String userID, String discographyFormID);
-    void removeCartItems(String userID, String discographyFormID);
+    Task<List<Order>>  getCart(String userID);
+    void addCartItems(String userID, Order cartOrder);
+    Task<List<Order>> removeFromCartByOrderID(String userID, String orderID);
     void checkoutCart(String userID);
 }
 
