@@ -28,6 +28,7 @@ import com.denzcoskun.imageslider.ImageSlider;
 import com.denzcoskun.imageslider.interfaces.ItemChangeListener;
 import com.denzcoskun.imageslider.models.SlideModel;
 import com.example.wave.Domains.AuthenticationUserUseCase;
+import com.example.wave.Domains.GetCartUseCase;
 import com.example.wave.Domains.GetDiscographyUseCase;
 import com.example.wave.Domains.GetWishlistUseCase;
 import com.example.wave.Entities.Discography;
@@ -52,6 +53,8 @@ public class DiscographyDetailActivity extends AppCompatActivity {
     private final String vinylPrice = "$40";
 
     private GetWishlistUseCase getWishlistUseCase = new GetWishlistUseCase();
+
+    private GetCartUseCase getCartUseCase = new GetCartUseCase();
 
     private int position = 0;
     private int slide = 0;
@@ -258,7 +261,20 @@ public class DiscographyDetailActivity extends AppCompatActivity {
         cartBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //does cart adding stuff
+                AuthenticationUserUseCase authenticationUserUseCase = new AuthenticationUserUseCase();
+                if (authenticationUserUseCase.isLogin()) {
+                    String userID = authenticationUserUseCase.getUserID();
+                    Order cartOrder = new Order(discographyId, "cart", userID, discographyId);
+                    getCartUseCase.addCartItems(userID, cartOrder);
+                    getWishlistUseCase.removeFromWishlistByOrderID(userID, discographyId);
+                    wishlistButton.setLiked(false);
+                    cartBtn.setText("Added to Cart");
+                    cartBtn.setEnabled(false);
+
+                } else {
+                    Intent intent = new Intent(getBaseContext(), LoginActivity.class);
+                    startActivity(intent);
+                }
             }
         });
         wishlistButton.setOnLikeListener(new OnLikeListener() {
