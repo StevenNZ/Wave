@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.example.wave.Adaptor.CartAdaptor;
 import com.example.wave.Domains.GetCartUseCase;
@@ -76,7 +77,8 @@ public class CartActivity extends AppCompatActivity {
         getCartOrders()
                 .addOnSuccessListener(cartOrders -> {
                     cart = cartOrders;
-                    CartAdaptor cartAdaptor = new CartAdaptor(this, R.layout.cart_list_item, cart, this::onItemClick);
+                    TextView cartTotal = findViewById(R.id.cartTotal);
+                    CartAdaptor cartAdaptor = new CartAdaptor(this, R.layout.cart_list_item, cart, this::onItemClick, cartTotal);
                     relativeLayout = findViewById(R.id.cartEmptyLayout);
                     if(cart.isEmpty()){
                         relativeLayout.setVisibility(View.VISIBLE);

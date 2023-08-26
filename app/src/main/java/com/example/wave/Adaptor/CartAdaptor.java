@@ -38,11 +38,14 @@ public class CartAdaptor extends RecyclerView.Adapter<CartAdaptor.ViewHolder> {
     private PopularRecylcerInterface popularRecylcerInterface;
     private GetWishlistUseCase getWishlistUseCase = new GetWishlistUseCase();
 
-    public CartAdaptor(Context context, int resource, @NonNull List objects, PopularRecylcerInterface popularRecylcerInterface) {
+    private TextView cartTotal;
+
+    public CartAdaptor(Context context, int resource, @NonNull List objects, PopularRecylcerInterface popularRecylcerInterface, TextView cartTotal) {
         this.context = context;
         mLayoutId = resource;
         cartOrdersList = objects;
         this.popularRecylcerInterface = popularRecylcerInterface;
+        this.cartTotal = cartTotal;
     }
 
     @NonNull
@@ -85,10 +88,17 @@ public class CartAdaptor extends RecyclerView.Adapter<CartAdaptor.ViewHolder> {
                 // Set the category image
                 Glide.with(context).load(image).into(holder.discogImage);
 
-                String totalItemPrice = "$" + String.valueOf(Integer.parseInt(currentCartOrder.getPrice()) * Integer.parseInt(currentCartOrder.getQuantity()));
+                int totalItemPrice = Integer.parseInt(currentCartOrder.getPrice()) * Integer.parseInt(currentCartOrder.getQuantity());
+                String totalItemPriceString = "$" + String.valueOf(totalItemPrice);
 
-                holder.discogPrice.setText(totalItemPrice);
+                int currentTotal = Integer.parseInt(cartTotal.getText().toString().substring(1));
+
+                cartTotal.setText("$" + String.valueOf(currentTotal + totalItemPrice));
+
+                holder.discogPrice.setText(totalItemPriceString);
                 holder.discogQuantity.setText(String.valueOf(currentCartOrder.getQuantity()));
+
+
 
                 holder.increaseQuantityButton.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -99,8 +109,13 @@ public class CartAdaptor extends RecyclerView.Adapter<CartAdaptor.ViewHolder> {
                         quantity++;
                         currentCartOrder.setQuantity(String.valueOf(quantity));
                         holder.discogQuantity.setText(String.valueOf(quantity));
-                        String totalItemPrice = "$" + String.valueOf(Integer.parseInt(currentCartOrder.getPrice()) * Integer.parseInt(currentCartOrder.getQuantity()));
-                        holder.discogPrice.setText(totalItemPrice);
+
+                        int totalItemPrice = Integer.parseInt(currentCartOrder.getPrice()) * Integer.parseInt(currentCartOrder.getQuantity());
+                        String totalItemPriceString = "$" + String.valueOf(totalItemPrice);
+                        int currentTotal = Integer.parseInt(cartTotal.getText().toString().substring(1));
+                        cartTotal.setText("$" + String.valueOf(currentTotal + Integer.parseInt(currentCartOrder.getPrice())));
+
+                        holder.discogPrice.setText(totalItemPriceString);
                         if (authenticationUserUseCase.isLogin()) {
                             getCartUseCase.updateQuantityByOrderID(authenticationUserUseCase.getUserID(), currentCartOrder.getOrderID(), String.valueOf(quantity));
                         }
@@ -118,8 +133,13 @@ public class CartAdaptor extends RecyclerView.Adapter<CartAdaptor.ViewHolder> {
                             quantity--;
                             currentCartOrder.setQuantity(String.valueOf(quantity));
                             holder.discogQuantity.setText(String.valueOf(quantity));
-                            String totalItemPrice = "$" + String.valueOf(Integer.parseInt(currentCartOrder.getPrice()) * Integer.parseInt(currentCartOrder.getQuantity()));
-                            holder.discogPrice.setText(totalItemPrice);
+
+                            int totalItemPrice = Integer.parseInt(currentCartOrder.getPrice()) * Integer.parseInt(currentCartOrder.getQuantity());
+                            String totalItemPriceString = "$" + String.valueOf(totalItemPrice);
+                            int currentTotal = Integer.parseInt(cartTotal.getText().toString().substring(1));
+                            cartTotal.setText("$" + String.valueOf(currentTotal - Integer.parseInt(currentCartOrder.getPrice())));
+
+                            holder.discogPrice.setText(totalItemPriceString);
                             if (authenticationUserUseCase.isLogin()) {
                                 getCartUseCase.updateQuantityByOrderID(authenticationUserUseCase.getUserID(), currentCartOrder.getOrderID(), String.valueOf(quantity));
                             }
@@ -129,8 +149,11 @@ public class CartAdaptor extends RecyclerView.Adapter<CartAdaptor.ViewHolder> {
                                 getCartUseCase.removeFromCartByOrderID(authenticationUserUseCase.getUserID(), currentCartOrder.getOrderID());
                             }
                             cartOrdersList.remove(position);
+                            int currentTotal = Integer.parseInt(cartTotal.getText().toString().substring(1));
+                            cartTotal.setText("$" + String.valueOf(currentTotal - Integer.parseInt(currentCartOrder.getPrice())));
                             notifyItemRemoved(position);
                             notifyItemRangeChanged(position, cartOrdersList.size());
+
                         }
 
 
@@ -156,7 +179,6 @@ public class CartAdaptor extends RecyclerView.Adapter<CartAdaptor.ViewHolder> {
     public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView discogImage;
         TextView discogName, discogArtist, discogPrice, discogQuantity;
-        Button removeButton;
         ImageButton increaseQuantityButton, decreaseQuantityButton;
 
         public ViewHolder(View itemView, PopularRecylcerInterface popularRecylcerInterface) {
