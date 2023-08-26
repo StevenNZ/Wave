@@ -34,10 +34,16 @@ public class DiscographyAdapter extends RecyclerView.Adapter<DiscographyAdapter.
 
     private int mLayoutId;
 
+    private boolean isSearchResults = true;
+
     private static final int VIEW_TYPE_KPOP = 0;
     private static final int VIEW_TYPE_POP = 1;
     private static final int VIEW_TYPE_HIP_HOP = 2;
 
+
+    public void setIsearchResults(boolean isSearchResults){
+        this.isSearchResults = isSearchResults;
+    }
 
     public void setFilteredList(List<Discography> filteredList){
         Log.d("SearchDebug", "onQueryTextChange: filteredList = " + filteredList);
@@ -74,13 +80,20 @@ public class DiscographyAdapter extends RecyclerView.Adapter<DiscographyAdapter.
 
         Discography currentItem = discographyList.get(position);
 
-        if (holder instanceof KPopViewHolder) {
-            ((KPopViewHolder) holder).bindData(currentItem);
-        } else if (holder instanceof PopViewHolder) {
-            ((PopViewHolder) holder).bindData(currentItem);
-        } else if (holder instanceof HipHopViewHolder) {
-            ((HipHopViewHolder) holder).bindData(currentItem);
+
+        if(isSearchResults){
+            holder.bindCommonData(currentItem);
+        }else{
+            if (holder instanceof KPopViewHolder) {
+                ((KPopViewHolder) holder).bindData(currentItem);
+            } else if (holder instanceof PopViewHolder) {
+                ((PopViewHolder) holder).bindData(currentItem);
+            } else if (holder instanceof HipHopViewHolder) {
+                ((HipHopViewHolder) holder).bindData(currentItem);
+            }
         }
+
+
     }
 
     @Override
@@ -154,7 +167,7 @@ public class DiscographyAdapter extends RecyclerView.Adapter<DiscographyAdapter.
             // For example, setting text and images specific to KPop category
             KPopDiscography kPopDiscography = (KPopDiscography) discography;
             fandomName.setText(kPopDiscography.getFandomName());
-
+            Log.d("SEARCH DEBUG", "IS THIS KPOP?? " + discography.getClass());
 
         }
 

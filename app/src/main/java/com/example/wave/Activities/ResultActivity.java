@@ -169,90 +169,90 @@ public class ResultActivity extends AppCompatActivity {
 
         resultsMenu = menu.findItem(R.id.result_search_view);
         searchView = (SearchView) resultsMenu.getActionView();
-        //setupSearchViewListener();
+        setupSearchViewListener();
 
 
         return true;
     }
-//    private void setupSearchViewListener() {
-//        //setupSearchClickListener();
-//        //setupCloseListener();
-//
-//        if (searchView != null) {
-//            searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-//            @Override
-//            public boolean onQueryTextSubmit(String query) {
-//                Log.d("SearchDebug", "IS THIS BEING CALLED = " + query);
-//                //when the user presses enter what happens.
-//                fetchAndDisplay(query, "");
-//                return false;
-//            }
-//            @Override
-//            public boolean onQueryTextChange(String newText) {
-//
-//                if (results == null || results.isEmpty()) {
-//                    return true; // Return early if the results list is not ready
+    private void setupSearchViewListener() {
+        setupSearchClickListener();
+        //setupCloseListener();
+
+        if (searchView != null) {
+            searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                Log.d("SearchDebug", "IS THIS BEING CALLED = " + query);
+                //when the user presses enter what happens.
+                fetchAndDisplay(query, "");
+                return false;
+            }
+            @Override
+            public boolean onQueryTextChange(String newText) {
+
+                if (results == null || results.isEmpty()) {
+                    return true; // Return early if the results list is not ready
+                }
+                //any changes (autocomplete)
+
+//                if(newText.length() >2){
+//                    fetchAndDisplay(newText, "");
+//                }else{
+//                    return true;
 //                }
-//                //any changes (autocomplete)
-//
-////                if(newText.length() >2){
-////                    fetchAndDisplay(newText, "");
-////                }else{
-////                    return true;
-////                }
-//                List<Popular> filteredList = new ArrayList<>();
-//
-//                Log.d("SearchDebug", "onQueryTextChange: newText = " + newText);
-//                Log.d("SearchDebug", "onQueryTextChange: OnTextChange = " + results);
-//
-//
-//                for (Popular popular: results){
-//                    //if album name in newText or artist name in new text
-//                    if(popular.getAlbumName().toLowerCase().contains(newText.toLowerCase())
-//                    || popular.getAlbumArtist().toLowerCase().contains(newText.toLowerCase())){
-//                        filteredList.add(popular);
-//                    }
-//                }
-//                if(!filteredList.isEmpty()){
-//                    //this makes sure that when the list is empty we don't do anything
-//                    // can refactor to make better but idc
-//                    Log.d("SearchDebug", "onQueryTextChange: OnTextChange = " + resultsAdapter);
-//                    results = filteredList;
-//                    Log.d("SearchDebug", "onQueryTextChange: OnTextChange = " + results);
-//                    resultsAdapter.setFilteredList(filteredList);
-//                }
-//                return true;
-//            }
-//        });
-//        }
-//    }
-//
-//    private void setupSearchClickListener() {
-//        resultsMenu.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
-//            @Override
-//            public boolean onMenuItemActionExpand(MenuItem item) {
-//                bottomNavigationView.setVisibility(View.GONE);
-//                // Called when the action view (SearchView) is expanded (opened)
-//                return true; // Return true to allow expanding the view
-//            }
-//
-//            @Override
-//            public boolean onMenuItemActionCollapse(MenuItem item) {
-//                // Called when the action view (SearchView) is collapsed (closed)
-//                bottomNavigationView.setVisibility(View.VISIBLE);
-//                return true; // Return true to allow collapsing the view
-//            }
-//        });
-//    }
-//    @Override
-//    public void onBackPressed() {
-//        if (bottomNavigationView.getVisibility() == View.GONE) {
-//            resultsMenu.collapseActionView();
-//            bottomNavigationView.setVisibility(View.VISIBLE);
-//        } else {
-//            super.onBackPressed();
-//        }
-//    }
+                List<Discography> filteredList = new ArrayList<>();
+
+                Log.d("SearchDebug", "onQueryTextChange: newText = " + newText);
+                Log.d("SearchDebug", "onQueryTextChange: OnTextChange = " + results);
+
+
+                for (Discography discography: results){
+                    //if album name in newText or artist name in new text
+                    if(discography.getReleaseName().toLowerCase().contains(newText.toLowerCase())
+                    || discography.getArtistID().toLowerCase().contains(newText.toLowerCase())){
+                        filteredList.add(discography);
+                    }
+                }
+                if(!filteredList.isEmpty()){
+                    //this makes sure that when the list is empty we don't do anything
+                    // can refactor to make better but idc
+                    Log.d("SearchDebug", "onQueryTextChange: OnTextChange = " + resultsAdapter);
+                    results = filteredList;
+                    Log.d("SearchDebug", "onQueryTextChange: OnTextChange = " + results);
+                    resultsAdapter.setFilteredList(filteredList);
+                }
+                return true;
+            }
+        });
+        }
+    }
+
+    private void setupSearchClickListener() {
+        resultsMenu.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
+            @Override
+            public boolean onMenuItemActionExpand(MenuItem item) {
+                bottomNavigationView.setVisibility(View.GONE);
+                // Called when the action view (SearchView) is expanded (opened)
+                return true; // Return true to allow expanding the view
+            }
+
+            @Override
+            public boolean onMenuItemActionCollapse(MenuItem item) {
+                // Called when the action view (SearchView) is collapsed (closed)
+                bottomNavigationView.setVisibility(View.VISIBLE);
+                return true; // Return true to allow collapsing the view
+            }
+        });
+    }
+    @Override
+    public void onBackPressed() {
+        if (bottomNavigationView.getVisibility() == View.GONE) {
+            resultsMenu.collapseActionView();
+            bottomNavigationView.setVisibility(View.VISIBLE);
+        } else {
+            super.onBackPressed();
+        }
+    }
 
 
 
