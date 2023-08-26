@@ -78,8 +78,9 @@ public class CartActivity extends AppCompatActivity {
                 .addOnSuccessListener(cartOrders -> {
                     cart = cartOrders;
                     TextView cartTotal = findViewById(R.id.cartTotal);
-                    CartAdaptor cartAdaptor = new CartAdaptor(this, R.layout.cart_list_item, cart, this::onItemClick, cartTotal);
                     relativeLayout = findViewById(R.id.cartEmptyLayout);
+                    CartAdaptor cartAdaptor = new CartAdaptor(this, R.layout.cart_list_item, cart, this::onItemClick, cartTotal, relativeLayout, recyclerView);
+
                     if(cart.isEmpty()){
                         relativeLayout.setVisibility(View.VISIBLE);
                         recyclerView.setVisibility(View.GONE);

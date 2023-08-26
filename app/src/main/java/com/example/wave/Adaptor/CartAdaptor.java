@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -37,15 +38,19 @@ public class CartAdaptor extends RecyclerView.Adapter<CartAdaptor.ViewHolder> {
     private int mLayoutId;
     private PopularRecylcerInterface popularRecylcerInterface;
     private GetWishlistUseCase getWishlistUseCase = new GetWishlistUseCase();
-
     private TextView cartTotal;
+    private RelativeLayout emptyCartLayout;
 
-    public CartAdaptor(Context context, int resource, @NonNull List objects, PopularRecylcerInterface popularRecylcerInterface, TextView cartTotal) {
+    private RecyclerView cartRecycler;
+
+    public CartAdaptor(Context context, int resource, @NonNull List objects, PopularRecylcerInterface popularRecylcerInterface, TextView cartTotal, RelativeLayout emptyCartLayout, RecyclerView cartRecycler) {
         this.context = context;
         mLayoutId = resource;
         cartOrdersList = objects;
         this.popularRecylcerInterface = popularRecylcerInterface;
         this.cartTotal = cartTotal;
+        this.emptyCartLayout = emptyCartLayout;
+        this.cartRecycler = cartRecycler;
     }
 
     @NonNull
@@ -153,6 +158,10 @@ public class CartAdaptor extends RecyclerView.Adapter<CartAdaptor.ViewHolder> {
                             cartTotal.setText("$" + String.valueOf(currentTotal - Integer.parseInt(currentCartOrder.getPrice())));
                             notifyItemRemoved(position);
                             notifyItemRangeChanged(position, cartOrdersList.size());
+                            if(cartOrdersList.isEmpty()){
+                                emptyCartLayout.setVisibility(View.VISIBLE);
+                                cartRecycler.setVisibility(View.GONE);
+                            }
 
                         }
 
