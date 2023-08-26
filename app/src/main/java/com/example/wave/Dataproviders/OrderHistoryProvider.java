@@ -6,10 +6,11 @@ import com.example.wave.Repository.OrderHistoryRepository;
 import java.util.List;
 
 public interface OrderHistoryProvider {
-    OrderHistoryRepository getInstance();
-    List<List<Order>> getOrderHistory();
-    List<Order> getOrder(String orderID);
-    List<Order> addOrder(Order checkoutCart);
-    List<Order> cancelOrder(String orderID);
+    static OrderHistoryRepository getInstance() {
+        return null;
+    }
+
+    List<List<Order>> getOrderHistory(String userID);
+    void addOrder(String userID, List<Order> checkoutCart);
 }
 
