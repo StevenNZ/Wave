@@ -20,6 +20,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.example.wave.Adaptor.DiscographyAdapter;
 import com.example.wave.Dataproviders.DiscographyProvider;
 import com.example.wave.Entities.Discography;
 import com.example.wave.R;
@@ -37,7 +38,7 @@ import java.util.List;
 public class ResultActivity extends AppCompatActivity {
 
     private SearchView searchView;
-    private PopularAdaptor resultsAdapter;
+    private DiscographyAdapter resultsAdapter;
 
     private BottomNavigationView bottomNavigationView;
 
@@ -45,63 +46,50 @@ public class ResultActivity extends AppCompatActivity {
 
     private MenuItem resultsMenu;
 
-    private List<Popular> results;
+    private List<Discography> results;
     private ResultViewModel model;
 
     private MaterialToolbar topAppBar;
 
     //might have to put this into viewModel , ask Gurjot
-    private void fetchAndDisplay(String query, String categoryId){
-
-        if(!query.isEmpty() || !categoryId.isEmpty()){
-            SearchUseCase.generateDiscographyResults(query, categoryId, new DiscographyResultsListener() {
+    private void fetchAndDisplay(String query, String categoryId) {
+        if (!query.isEmpty() || !categoryId.isEmpty()) {
+            SearchUseCase.generateDiscographyResults(query, categoryId, new TempResultListener() {
                 @Override
-                public void onDiscographyResultsReady(List<Popular> resultList) {
-                    if(resultList.isEmpty()){
-                        //display something empty
-                        Toast.makeText(ResultActivity.this, "Not working",Toast.LENGTH_SHORT).show();
-
-                    }else{
+                public void onTempReady(List<Discography> resultList) {
+                    if (resultList.isEmpty()) {
+                        Toast.makeText(ResultActivity.this, "No results found", Toast.LENGTH_SHORT).show();
+                    } else {
                         int layoutResourceId = getLayoutResource(categoryId);
-
                         RecyclerView.LayoutManager layoutManager = getLayoutManager(categoryId);
 
                         recyclerView = findViewById(R.id.result_list_view);
-                        results = resultList;
-
-                        //LinearLayoutManager layoutManager = new LinearLayoutManager(ResultActivity.this, LinearLayoutManager.VERTICAL, false);
                         recyclerView.setLayoutManager(layoutManager);
 
-                        resultsAdapter = new PopularAdaptor(ResultActivity.this, layoutResourceId, resultList, new PopularRecylcerInterface() {
+                        resultsAdapter = new DiscographyAdapter(ResultActivity.this, layoutResourceId, resultList, new PopularRecylcerInterface() {
                             @Override
                             public void onItemClick(int position) {
-                                Popular currentDiscography = results.get(position);
-
-                                Log.d("SearchDebug", "CURRENT ONE BRO = " + currentDiscography);
-                                Log.d("SearchDebug", "CURRENT ONE BRO = " + currentDiscography.getAlbumName());
-                                Log.d("SearchDebug", "CURRENT ONE BRO = " + currentDiscography.getDiscographyId());
-
+                                // Handle item click here if needed
+                                Discography selectedDiscography = resultList.get(position);
+                                String discographyId = selectedDiscography.getDiscographyID();
+                                String artistName = selectedDiscography.getArtistID();
 
                                 Intent intent = new Intent(ResultActivity.this, DiscographyDetailActivity.class);
-                                intent.putExtra("DiscographyId", currentDiscography.getDiscographyId());
-                                intent.putExtra("ArtistName", currentDiscography.getAlbumArtist());
+                                intent.putExtra("DiscographyId", discographyId);
+                                intent.putExtra("ArtistName", artistName);
                                 startActivity(intent);
                             }
                         });
 
                         recyclerView.setAdapter(resultsAdapter);
-
-
-//
-
                     }
                 }
             });
-
-        }else {
+        } else {
             Toast.makeText(getBaseContext(), "Enter something boss", Toast.LENGTH_SHORT).show();
         }
     }
+
 
     private int getLayoutResource(String categoryId) {
         switch (categoryId) {
@@ -181,90 +169,90 @@ public class ResultActivity extends AppCompatActivity {
 
         resultsMenu = menu.findItem(R.id.result_search_view);
         searchView = (SearchView) resultsMenu.getActionView();
-        setupSearchViewListener();
+        //setupSearchViewListener();
 
 
         return true;
     }
-    private void setupSearchViewListener() {
-        setupSearchClickListener();
-        //setupCloseListener();
-
-        if (searchView != null) {
-            searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                Log.d("SearchDebug", "IS THIS BEING CALLED = " + query);
-                //when the user presses enter what happens.
-                fetchAndDisplay(query, "");
-                return false;
-            }
-            @Override
-            public boolean onQueryTextChange(String newText) {
-
-                if (results == null || results.isEmpty()) {
-                    return true; // Return early if the results list is not ready
-                }
-                //any changes (autocomplete)
-
-//                if(newText.length() >2){
-//                    fetchAndDisplay(newText, "");
-//                }else{
-//                    return true;
+//    private void setupSearchViewListener() {
+//        //setupSearchClickListener();
+//        //setupCloseListener();
+//
+//        if (searchView != null) {
+//            searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+//            @Override
+//            public boolean onQueryTextSubmit(String query) {
+//                Log.d("SearchDebug", "IS THIS BEING CALLED = " + query);
+//                //when the user presses enter what happens.
+//                fetchAndDisplay(query, "");
+//                return false;
+//            }
+//            @Override
+//            public boolean onQueryTextChange(String newText) {
+//
+//                if (results == null || results.isEmpty()) {
+//                    return true; // Return early if the results list is not ready
 //                }
-                List<Popular> filteredList = new ArrayList<>();
-
-                Log.d("SearchDebug", "onQueryTextChange: newText = " + newText);
-                Log.d("SearchDebug", "onQueryTextChange: OnTextChange = " + results);
-
-
-                for (Popular popular: results){
-                    //if album name in newText or artist name in new text
-                    if(popular.getAlbumName().toLowerCase().contains(newText.toLowerCase())
-                    || popular.getAlbumArtist().toLowerCase().contains(newText.toLowerCase())){
-                        filteredList.add(popular);
-                    }
-                }
-                if(!filteredList.isEmpty()){
-                    //this makes sure that when the list is empty we don't do anything
-                    // can refactor to make better but idc
-                    Log.d("SearchDebug", "onQueryTextChange: OnTextChange = " + resultsAdapter);
-                    results = filteredList;
-                    Log.d("SearchDebug", "onQueryTextChange: OnTextChange = " + results);
-                    resultsAdapter.setFilteredList(filteredList);
-                }
-                return true;
-            }
-        });
-        }
-    }
-
-    private void setupSearchClickListener() {
-        resultsMenu.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
-            @Override
-            public boolean onMenuItemActionExpand(MenuItem item) {
-                bottomNavigationView.setVisibility(View.GONE);
-                // Called when the action view (SearchView) is expanded (opened)
-                return true; // Return true to allow expanding the view
-            }
-
-            @Override
-            public boolean onMenuItemActionCollapse(MenuItem item) {
-                // Called when the action view (SearchView) is collapsed (closed)
-                bottomNavigationView.setVisibility(View.VISIBLE);
-                return true; // Return true to allow collapsing the view
-            }
-        });
-    }
-    @Override
-    public void onBackPressed() {
-        if (bottomNavigationView.getVisibility() == View.GONE) {
-            resultsMenu.collapseActionView();
-            bottomNavigationView.setVisibility(View.VISIBLE);
-        } else {
-            super.onBackPressed();
-        }
-    }
+//                //any changes (autocomplete)
+//
+////                if(newText.length() >2){
+////                    fetchAndDisplay(newText, "");
+////                }else{
+////                    return true;
+////                }
+//                List<Popular> filteredList = new ArrayList<>();
+//
+//                Log.d("SearchDebug", "onQueryTextChange: newText = " + newText);
+//                Log.d("SearchDebug", "onQueryTextChange: OnTextChange = " + results);
+//
+//
+//                for (Popular popular: results){
+//                    //if album name in newText or artist name in new text
+//                    if(popular.getAlbumName().toLowerCase().contains(newText.toLowerCase())
+//                    || popular.getAlbumArtist().toLowerCase().contains(newText.toLowerCase())){
+//                        filteredList.add(popular);
+//                    }
+//                }
+//                if(!filteredList.isEmpty()){
+//                    //this makes sure that when the list is empty we don't do anything
+//                    // can refactor to make better but idc
+//                    Log.d("SearchDebug", "onQueryTextChange: OnTextChange = " + resultsAdapter);
+//                    results = filteredList;
+//                    Log.d("SearchDebug", "onQueryTextChange: OnTextChange = " + results);
+//                    resultsAdapter.setFilteredList(filteredList);
+//                }
+//                return true;
+//            }
+//        });
+//        }
+//    }
+//
+//    private void setupSearchClickListener() {
+//        resultsMenu.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
+//            @Override
+//            public boolean onMenuItemActionExpand(MenuItem item) {
+//                bottomNavigationView.setVisibility(View.GONE);
+//                // Called when the action view (SearchView) is expanded (opened)
+//                return true; // Return true to allow expanding the view
+//            }
+//
+//            @Override
+//            public boolean onMenuItemActionCollapse(MenuItem item) {
+//                // Called when the action view (SearchView) is collapsed (closed)
+//                bottomNavigationView.setVisibility(View.VISIBLE);
+//                return true; // Return true to allow collapsing the view
+//            }
+//        });
+//    }
+//    @Override
+//    public void onBackPressed() {
+//        if (bottomNavigationView.getVisibility() == View.GONE) {
+//            resultsMenu.collapseActionView();
+//            bottomNavigationView.setVisibility(View.VISIBLE);
+//        } else {
+//            super.onBackPressed();
+//        }
+//    }
 
 
 
