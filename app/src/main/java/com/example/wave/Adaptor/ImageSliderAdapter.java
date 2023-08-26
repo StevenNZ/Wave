@@ -1,5 +1,6 @@
 package com.example.wave.Adaptor;
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,6 +37,7 @@ public class ImageSliderAdapter extends RecyclerView.Adapter<ImageSliderAdapter.
         String imageUrl = imageUrls.get(position);
         Glide.with(context)
                 .load(imageUrl)
+                .placeholder(R.drawable.wavelogo)
                 .into(holder.imageView);
     }
 
