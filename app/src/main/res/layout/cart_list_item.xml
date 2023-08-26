@@ -64,51 +64,40 @@
                         android:text="Artist Name" />
 
                     <TextView
-                        android:id="@+id/priceText"
+                        android:id="@+id/priceTextBox"
+                        style="@style/itemArtist"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/popular_artist"
                         android:layout_marginTop="4dp"
-                        android:hint="Price"
-                        android:inputType="numberDecimal" />
+                        android:hint="Price" />
 
                 </RelativeLayout>
 
                 <LinearLayout
-                    android:layout_width="132dp"
-                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_horizontal|center_vertical"
                     android:orientation="vertical">
 
-                    <RelativeLayout
-                        android:id="@+id/amountLayout"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center">
-
-                        <!-- Replace LikeButton with Remove from Cart Button -->
-                        <Button
-                            android:id="@+id/removeFromCartButton"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:padding="2dp"
-                            android:text="Remove" />
-
-                    </RelativeLayout>
 
                     <LinearLayout
                         android:id="@+id/quantityLayout"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="97dp"
+                        android:layout_height="42dp"
                         android:layout_below="@id/amountLayout"
+                        android:layout_gravity="center_horizontal"
                         android:layout_marginTop="2dp"
                         android:background="@drawable/quantity_bg"
-                        android:orientation="horizontal"
-                        android:layout_gravity="center_horizontal">
+                        android:gravity="center_horizontal|center_vertical"
+                        android:orientation="horizontal">
 
                         <ImageButton
                             android:id="@+id/decrementBtn"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_weight="1"
                             android:background="@drawable/quantity_btn"
                             android:contentDescription="Decrease quantity"
                             android:src="@drawable/minus_icon" />
@@ -117,14 +106,16 @@
                             android:id="@+id/quantityField"
                             style="@style/regularOpenSans16"
                             android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
+                            android:layout_height="wrap_content"
                             android:layout_marginHorizontal="10dp"
+                            android:layout_weight="1"
                             android:text="1" />
 
                         <ImageButton
                             android:id="@+id/incrementBtn"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_weight="1"
                             android:background="@drawable/quantity_btn"
                             android:contentDescription="Increase quantity"
                             android:src="@drawable/add_icon" />
