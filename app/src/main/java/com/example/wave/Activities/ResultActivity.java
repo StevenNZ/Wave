@@ -66,7 +66,6 @@ public class ResultActivity extends AppCompatActivity {
                         recyclerView = findViewById(R.id.result_list_view);
                         recyclerView.setLayoutManager(layoutManager);
 
-
                         resultsAdapter = new DiscographyAdapter(ResultActivity.this, layoutResourceId, resultList, new PopularRecylcerInterface() {
                             @Override
                             public void onItemClick(int position) {
