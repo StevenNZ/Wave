@@ -38,15 +38,11 @@
         android:layout_height="wrap_content"
         android:paddingHorizontal="25dp">
 
-        <com.denzcoskun.imageslider.ImageSlider
+        <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/imageSlider"
             android:layout_width="match_parent"
             android:layout_height="350dp"
-            app:iss_delay="0"
-            android:padding="5dp"
-            android:layout_marginVertical="20dp"
-            app:iss_text_align="CENTER"
-            app:iss_title_background="@android:color/transparent"/>
+            android:padding="5dp"/>
 
         <LinearLayout
             android:id="@+id/artistDescLayout"
