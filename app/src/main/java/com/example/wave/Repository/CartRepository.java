@@ -106,7 +106,7 @@ public class CartRepository implements CartProvider {
     public Task<List<Order>> getCart(String userID) {
         checkUserCart(userID);
         cartCollection = db.collection(userID);
-        Task<QuerySnapshot> queryTask = cartCollection.document("wishlist").collection("orders").get();
+        Task<QuerySnapshot> queryTask = cartCollection.document("cart").collection("orders").get();
 
         return queryTask.continueWith(task -> {
             if (task.isSuccessful()) {
@@ -118,7 +118,7 @@ public class CartRepository implements CartProvider {
                 }
                 return wishlistList;
             } else {
-                Log.d("wishlist", "getWishlist: " + task.getException());
+                Log.d("cart", "getWishlist: " + task.getException());
                 return Collections.emptyList(); // Return an empty list in case of error
             }
         });
@@ -132,19 +132,17 @@ public class CartRepository implements CartProvider {
     public void addCartItems(String userID, Order cartOrder) {
         checkUserCart(userID);
         cartCollection = db.collection(userID);
-        //It should be impossible to
 
         // Wishlist does not contain the order, add it
-        cartCollection.document("wishlist").collection("orders").document(cartOrder.getOrderID()).set(cartOrder)
+        cartCollection.document("cart").collection("orders").document(cartOrder.getOrderID()).set(cartOrder)
                 .addOnCompleteListener(addTask -> {
                     if (addTask.isSuccessful()) {
-                        Log.d("wishlist", "Order added to wishlist");
+                        Log.d("cart", "Order added to cart");
 
                     } else {
-                        Log.d("wishlist", "Error adding order to wishlist: " + addTask.getException());
+                        Log.d("cart", "Error adding order to cart: " + addTask.getException());
                     }
                 });
-
     }
 
     /**
@@ -156,14 +154,14 @@ public class CartRepository implements CartProvider {
         cartCollection = db.collection(userID);
 
         // Get the reference to the order document that needs to be removed
-        DocumentReference orderReference = cartCollection.document("wishlist")
+        DocumentReference orderReference = cartCollection.document("cart")
                 .collection("orders").document(orderID);
 
         // Delete the order document
         return orderReference.delete().continueWithTask(deleteTask -> {
             if (deleteTask.isSuccessful()) {
                 // After deleting the order, fetch and return the updated wishlist
-                return cartCollection.document("wishlist").collection("orders").get()
+                return cartCollection.document("cart").collection("orders").get()
                         .continueWith(task -> {
                             if (task.isSuccessful()) {
                                 QuerySnapshot querySnapshot = task.getResult();
