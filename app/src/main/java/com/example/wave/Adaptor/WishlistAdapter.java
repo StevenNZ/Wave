@@ -110,7 +110,9 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.ViewHo
                             String userID = authenticationUserUseCase.getUserID();
                             getWishlistUseCase.removeFromWishlistByOrderID(userID, discographyId);
                             wishlistItems.remove(position);
-                            model.updateWishlist(wishlistItems);
+                            //model.updateWishlist(wishlistItems);
+                            notifyItemRemoved(position);
+                            notifyItemRangeChanged(position, wishlistItems.size());
 
                         }
 
