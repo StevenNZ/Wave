@@ -31,6 +31,7 @@ import com.example.wave.Domains.AuthenticationUserUseCase;
 import com.example.wave.Domains.GetCartUseCase;
 import com.example.wave.Domains.GetDiscographyUseCase;
 import com.example.wave.Domains.GetWishlistUseCase;
+import com.example.wave.Entities.CartOrder;
 import com.example.wave.Entities.Discography;
 import com.example.wave.Entities.Order;
 import com.example.wave.R;
@@ -48,9 +49,13 @@ import java.util.List;
 
 public class DiscographyDetailActivity extends AppCompatActivity {
 
-    private final String cassettePrice = "$15";
-    private final String cdPrice = "$20";
-    private final String vinylPrice = "$40";
+    private final String cassettePrice = "15";
+    private final String cdPrice = "20";
+    private final String vinylPrice = "40";
+
+    private String currentPrice = cassettePrice;
+
+    private String currentFormat = "cassette";
 
     private GetWishlistUseCase getWishlistUseCase = new GetWishlistUseCase();
 
@@ -195,20 +200,27 @@ public class DiscographyDetailActivity extends AppCompatActivity {
                 }
 
                 currentImageButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.white,null)));
+                String denoter = "$";
                 if (position == 0) {
                     currentImageButton = cassette;
                     if (isSlide) {
-                        priceTextView.setText(cassettePrice);
+                        priceTextView.setText(denoter + cassettePrice);
+                        currentFormat = "cassette";
+                        currentPrice = cassettePrice;
                     }
                 } else if (position == 1) {
                     currentImageButton = vinyl;
                     if (isSlide) {
-                        priceTextView.setText(vinylPrice);
+                        priceTextView.setText(denoter + vinylPrice);
+                        currentFormat = "vinyl";
+                        currentPrice = vinylPrice;
                     }
                 } else {
                     currentImageButton = cd;
                     if (isSlide) {
-                        priceTextView.setText(cdPrice);
+                        priceTextView.setText(denoter + cdPrice);
+                        currentFormat = "cd";
+                        currentPrice = cdPrice;
                     }
                 }
                 isSlide = true;
@@ -283,7 +295,10 @@ public class DiscographyDetailActivity extends AppCompatActivity {
                 AuthenticationUserUseCase authenticationUserUseCase = new AuthenticationUserUseCase();
                 if (authenticationUserUseCase.isLogin()) {
                     String userID = authenticationUserUseCase.getUserID();
-                    Order cartOrder = new Order(discographyId, "cart", userID, discographyId);
+
+                    Log.d(TAG, "onClick: " + discographyId + " " + quantity + " " + priceTextView.getText().toString() + " " + userID + "");
+
+                    CartOrder cartOrder = new CartOrder(discographyId, "cart", userID, discographyId, currentFormat, String.valueOf(quantity), currentPrice);
                     getCartUseCase.addCartItems(userID, cartOrder);
                     getWishlistUseCase.removeFromWishlistByOrderID(userID, discographyId);
                     wishlistButton.setLiked(false);

@@ -16,6 +16,7 @@ public interface CartProvider {
     void addCartItems(String userID, CartOrder cartOrder);
     Task<List<CartOrder>> removeFromCartByOrderID(String userID, String orderID);
     void checkoutCart(String userID);
+    void updateQuantityByOrderID(String userID, String orderID, String quantity);
     Task<Boolean> checkItemInCart(String userID, String orderID);
 }
 

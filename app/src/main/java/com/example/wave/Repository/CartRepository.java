@@ -223,6 +223,21 @@ public class CartRepository implements CartProvider {
 
     }
 
+    /**
+     * updates the quantity of an item in the cart
+     * @param userID
+     * @param orderID
+     * @param quantity
+     */
+    @Override
+    public void updateQuantityByOrderID(String userID, String orderID, String quantity) {
+        checkUserCart(userID);
+        cartCollection = db.collection(userID);
+        DocumentReference orderReference = cartCollection.document("cart")
+                .collection("orders").document(orderID);
+        orderReference.update("quantity", quantity);
+    }
+
     @Override
     public Task<Boolean> checkItemInCart(String userID, String orderID) {
         checkUserCart(userID);

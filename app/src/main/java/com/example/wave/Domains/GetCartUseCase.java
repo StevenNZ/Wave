@@ -31,6 +31,11 @@ public class GetCartUseCase implements CartProvider {
     }
 
     @Override
+    public void updateQuantityByOrderID(String userID, String orderID, String quantity) {
+        CartRepository.getInstance().updateQuantityByOrderID(userID, orderID, quantity);
+    }
+
+    @Override
     public Task<Boolean> checkItemInCart(String userID, String orderID) {
         return CartRepository.getInstance().checkItemInCart(userID, orderID);
     }
