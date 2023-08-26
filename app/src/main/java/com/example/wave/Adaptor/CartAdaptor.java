@@ -159,7 +159,6 @@ public class CartAdaptor extends RecyclerView.Adapter<CartAdaptor.ViewHolder> {
             discogArtist = itemView.findViewById(R.id.popular_artist);
             discogPrice = itemView.findViewById(R.id.priceTextBox);
             discogQuantity = itemView.findViewById(R.id.quantityField);
-            removeButton = itemView.findViewById(R.id.removeFromCartButton);
             increaseQuantityButton = itemView.findViewById(R.id.incrementBtn);
             decreaseQuantityButton = itemView.findViewById(R.id.decrementBtn);
 
