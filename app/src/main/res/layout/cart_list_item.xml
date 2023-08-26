@@ -63,15 +63,6 @@
                         android:layout_marginTop="4dp"
                         android:text="Artist Name" />
 
-                    <TextView
-                        android:id="@+id/priceTextBox"
-                        style="@style/itemArtist"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/popular_artist"
-                        android:layout_marginTop="4dp"
-                        android:text="$Test" />
-
                 </RelativeLayout>
 
                 <LinearLayout
@@ -81,6 +72,14 @@
                     android:gravity="center_horizontal|center_vertical"
                     android:orientation="vertical">
 
+
+                    <TextView
+                        android:id="@+id/priceTextBox"
+                        style="@style/itemArtist"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="$Test" />
 
                     <LinearLayout
                         android:id="@+id/quantityLayout"
@@ -109,7 +108,10 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:orientation="vertical"
-                            android:layout_gravity="center_vertical">
+                            android:layout_gravity="center_vertical"
+                            android:paddingLeft="2dp"
+                            android:paddingRight="2dp">
+
 
 
                             <TextView
@@ -118,6 +120,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
+
 
                                 android:text="1" />
                         </LinearLayout>
@@ -132,6 +135,7 @@
                             android:src="@drawable/add_icon" />
 
                     </LinearLayout>
+
                 </LinearLayout>
 
             </LinearLayout>

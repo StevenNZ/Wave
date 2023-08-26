@@ -84,7 +84,10 @@ public class CartAdaptor extends RecyclerView.Adapter<CartAdaptor.ViewHolder> {
                 holder.discogName.setText(name);
                 // Set the category image
                 Glide.with(context).load(image).into(holder.discogImage);
-                holder.discogPrice.setText(String.valueOf(currentCartOrder.getPrice()));
+
+                String totalItemPrice = "$" + String.valueOf(Integer.parseInt(currentCartOrder.getPrice()) * Integer.parseInt(currentCartOrder.getQuantity()));
+
+                holder.discogPrice.setText(totalItemPrice);
                 holder.discogQuantity.setText(String.valueOf(currentCartOrder.getQuantity()));
 
                 holder.increaseQuantityButton.setOnClickListener(new View.OnClickListener() {
@@ -96,6 +99,8 @@ public class CartAdaptor extends RecyclerView.Adapter<CartAdaptor.ViewHolder> {
                         quantity++;
                         currentCartOrder.setQuantity(String.valueOf(quantity));
                         holder.discogQuantity.setText(String.valueOf(quantity));
+                        String totalItemPrice = "$" + String.valueOf(Integer.parseInt(currentCartOrder.getPrice()) * Integer.parseInt(currentCartOrder.getQuantity()));
+                        holder.discogPrice.setText(totalItemPrice);
                         if (authenticationUserUseCase.isLogin()) {
                             getCartUseCase.updateQuantityByOrderID(authenticationUserUseCase.getUserID(), currentCartOrder.getOrderID(), String.valueOf(quantity));
                         }
@@ -113,6 +118,8 @@ public class CartAdaptor extends RecyclerView.Adapter<CartAdaptor.ViewHolder> {
                             quantity--;
                             currentCartOrder.setQuantity(String.valueOf(quantity));
                             holder.discogQuantity.setText(String.valueOf(quantity));
+                            String totalItemPrice = "$" + String.valueOf(Integer.parseInt(currentCartOrder.getPrice()) * Integer.parseInt(currentCartOrder.getQuantity()));
+                            holder.discogPrice.setText(totalItemPrice);
                             if (authenticationUserUseCase.isLogin()) {
                                 getCartUseCase.updateQuantityByOrderID(authenticationUserUseCase.getUserID(), currentCartOrder.getOrderID(), String.valueOf(quantity));
                             }
