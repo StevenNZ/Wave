@@ -179,6 +179,7 @@ public class DiscographyAdapter extends RecyclerView.Adapter<DiscographyAdapter.
          */
         public void bindCommonData(Discography discography) {
             discogName.setText(discography.getReleaseName());
+            //somehow get the name
             discogArtist.setText(discography.getArtistID());
             Glide.with(itemView.getContext()).load(discography.getImageURL()).into(discogImage);
 
@@ -203,6 +204,7 @@ public class DiscographyAdapter extends RecyclerView.Adapter<DiscographyAdapter.
         protected void bindData(Discography discography) {
             super.bindCommonData(discography);
             // Handle KPop category-specific data binding
+            // ensures that each item is shown as a KPOP discography etc
             // For example, fandon name etc
             KPopDiscography kPopDiscography = (KPopDiscography) discography;
             fandomName.setText(kPopDiscography.getFandomName());

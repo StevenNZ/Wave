@@ -60,6 +60,8 @@ public class PopularAdaptor extends RecyclerView.Adapter<PopularAdaptor.ViewHold
         String image = currentItem.getAlbumImage();
         String artist = currentItem.getAlbumArtist();
 
+        holder.fandomName.setVisibility(View.GONE);
+
         // Set the category name
         holder.discogName.setText(name);
 
@@ -78,13 +80,15 @@ public class PopularAdaptor extends RecyclerView.Adapter<PopularAdaptor.ViewHold
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView discogImage;
-        TextView discogName, discogArtist;
+        TextView discogName, discogArtist, fandomName;
 
         public ViewHolder(View itemView, PopularRecylcerInterface popularRecylcerInterface) {
             super(itemView);
             discogImage = itemView.findViewById(R.id.popular_image);
             discogName = itemView.findViewById(R.id.popular_name);
             discogArtist = itemView.findViewById(R.id.popular_artist);
+            fandomName = itemView.findViewById(R.id.kpop_fandom_name);
+
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
