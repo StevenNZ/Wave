@@ -47,6 +47,8 @@ import org.w3c.dom.Text;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.relex.circleindicator.CircleIndicator3;
+
 public class DiscographyDetailActivity extends AppCompatActivity {
 
     private final String cassettePrice = "$15";
@@ -83,6 +85,7 @@ public class DiscographyDetailActivity extends AppCompatActivity {
         TextView quantityField = findViewById(R.id.quantityField);
         Button cartBtn = findViewById(R.id.cartBtn);
         currentImageButton = cassette;
+        CircleIndicator3 indicator = findViewById(R.id.indicator);
 
 
 
@@ -140,6 +143,7 @@ public class DiscographyDetailActivity extends AppCompatActivity {
 
                     ImageSliderAdapter imageSliderAdapter = new ImageSliderAdapter(getBaseContext(), viewPagerItemArray, viewPager2);
                     viewPager2.setAdapter(imageSliderAdapter);
+                    indicator.setViewPager(viewPager2);
 
                     trackLists = discographyResult.getTracklist();
                     for (int i = 0; i < trackLists.size(); i++) {

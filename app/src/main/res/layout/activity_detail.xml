@@ -42,7 +42,15 @@
             android:id="@+id/imageSlider"
             android:layout_width="match_parent"
             android:layout_height="350dp"
-            android:padding="5dp"/>
+            android:layout_margin="10dp"/>
+
+        <me.relex.circleindicator.CircleIndicator3
+            android:id="@+id/indicator"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_alignBottom="@id/imageSlider"
+            app:ci_width="7dp"
+            app:ci_height="7dp"/>
 
         <LinearLayout
             android:id="@+id/artistDescLayout"
