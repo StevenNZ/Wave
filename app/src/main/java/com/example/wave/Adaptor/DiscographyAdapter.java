@@ -41,10 +41,18 @@ public class DiscographyAdapter extends RecyclerView.Adapter<DiscographyAdapter.
     private static final int VIEW_TYPE_HIP_HOP = 2;
 
 
+    /**
+     * setter to to see if got as a search result
+     * @param isSearchResults
+     */
     public void setIsearchResults(boolean isSearchResults){
         this.isSearchResults = isSearchResults;
     }
 
+    /**
+     * Setter to set filtered list when searching
+     * @param filteredList
+     */
     public void setFilteredList(List<Discography> filteredList){
         Log.d("SearchDebug", "onQueryTextChange: filteredList = " + filteredList);
         discographyList = filteredList;
@@ -52,6 +60,13 @@ public class DiscographyAdapter extends RecyclerView.Adapter<DiscographyAdapter.
         notifyDataSetChanged();
     }
 
+    /**
+     * Create discography adapater
+     * @param context
+     * @param resource
+     * @param objects
+     * @param popularRecylcerInterface
+     */
     public DiscographyAdapter(Context context, int resource, @NonNull List objects, PopularRecylcerInterface popularRecylcerInterface){
         mLayoutId = resource;
         discographyList = objects;
@@ -59,6 +74,13 @@ public class DiscographyAdapter extends RecyclerView.Adapter<DiscographyAdapter.
         discographyRecyclerInterface = popularRecylcerInterface;
     }
 
+    /**
+     * Create view holder, based on what type of category selected
+     * @param parent   The ViewGroup into which the new View will be added after it is bound to
+     *                 an adapter position.
+     * @param viewType The view type of the new View.
+     * @return
+     */
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -70,11 +92,18 @@ public class DiscographyAdapter extends RecyclerView.Adapter<DiscographyAdapter.
             case VIEW_TYPE_POP:
                 return new PopViewHolder(view, discographyRecyclerInterface);
             default:
+                //search will be this one as well
                 return new HipHopViewHolder(view, discographyRecyclerInterface);
         }
 
     }
 
+    /**
+     * Binding the view holder to whatever fields we want
+     * @param holder   The ViewHolder which should be updated to represent the contents of the
+     *                 item at the given position in the data set.
+     * @param position The position of the item within the adapter's data set.
+     */
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
@@ -116,6 +145,9 @@ public class DiscographyAdapter extends RecyclerView.Adapter<DiscographyAdapter.
         }
     }
 
+    /**
+     * Creates Viewholders with their specific fields we want
+     */
     public abstract class ViewHolder extends RecyclerView.ViewHolder {
         ImageView discogImage;
         TextView discogName, discogArtist;
@@ -141,6 +173,10 @@ public class DiscographyAdapter extends RecyclerView.Adapter<DiscographyAdapter.
             });
         }
 
+        /**
+         * Common data binding
+         * @param discography
+         */
         public void bindCommonData(Discography discography) {
             discogName.setText(discography.getReleaseName());
             discogArtist.setText(discography.getArtistID());
@@ -151,6 +187,9 @@ public class DiscographyAdapter extends RecyclerView.Adapter<DiscographyAdapter.
         protected abstract void bindData(Discography discography);
     }
 
+    /**
+     * Kpop binding data; specific for KPOP only
+     */
     public class KPopViewHolder extends ViewHolder {
 
         TextView fandomName;
@@ -164,7 +203,7 @@ public class DiscographyAdapter extends RecyclerView.Adapter<DiscographyAdapter.
         protected void bindData(Discography discography) {
             super.bindCommonData(discography);
             // Handle KPop category-specific data binding
-            // For example, setting text and images specific to KPop category
+            // For example, fandon name etc
             KPopDiscography kPopDiscography = (KPopDiscography) discography;
             fandomName.setText(kPopDiscography.getFandomName());
             Log.d("SEARCH DEBUG", "IS THIS KPOP?? " + discography.getClass());
@@ -173,6 +212,9 @@ public class DiscographyAdapter extends RecyclerView.Adapter<DiscographyAdapter.
 
     }
 
+    /**
+     * Pop item specific binding
+     */
     public class PopViewHolder extends ViewHolder {
 
         public PopViewHolder(@NonNull View itemView, PopularRecylcerInterface discographyRecyclerInterface) {
@@ -188,6 +230,9 @@ public class DiscographyAdapter extends RecyclerView.Adapter<DiscographyAdapter.
 
     }
 
+    /**
+     * HipHop item specific binding
+     */
     public class HipHopViewHolder extends ViewHolder {
 
         public HipHopViewHolder(@NonNull View itemView, PopularRecylcerInterface discographyRecyclerInterface) {
