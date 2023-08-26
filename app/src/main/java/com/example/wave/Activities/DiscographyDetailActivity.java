@@ -104,16 +104,35 @@ public class DiscographyDetailActivity extends AppCompatActivity {
 
         if (authenticationUserUseCase.isLogin()) {
             String userId = authenticationUserUseCase.getUserID();
-            getWishlistUseCase.checkItemOnWishlist(userId, discographyId) //check if item is on wishlist
+            getCartUseCase.checkItemInCart(userId, discographyId) //check if item is in cart
                     .addOnCompleteListener(new OnCompleteListener<Boolean>() {
                         @Override
                         public void onComplete(@NonNull Task<Boolean> task) {
                             if (!task.isSuccessful()) {
-                                Log.d(TAG, "onComplete: check item on wishlist query not successful");
+                                Log.d(TAG, "onComplete: check item in cart query not successful");
                             } else {
                                 Boolean result = task.getResult();
                                 if (result) {
-                                    wishlistButton.setLiked(true);
+
+                                    cartBtn.setText("Added to Cart");
+                                    cartBtn.setEnabled(false);
+                                    wishlistButton.setEnabled(false);
+                                }
+                                else {
+                                    getWishlistUseCase.checkItemOnWishlist(userId, discographyId) //check if item is on wishlist
+                                            .addOnCompleteListener(new OnCompleteListener<Boolean>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<Boolean> task) {
+                                                    if (!task.isSuccessful()) {
+                                                        Log.d(TAG, "onComplete: check item on wishlist query not successful");
+                                                    } else {
+                                                        Boolean result = task.getResult();
+                                                        if (result) {
+                                                            wishlistButton.setLiked(true);
+                                                        }
+                                                    }
+                                                }
+                                            });
                                 }
                             }
                         }

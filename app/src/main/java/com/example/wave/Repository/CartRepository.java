@@ -219,4 +219,26 @@ public class CartRepository implements CartProvider {
 
 
     }
+
+    @Override
+    public Task<Boolean> checkItemInCart(String userID, String orderID) {
+        checkUserCart(userID);
+        cartCollection = db.collection(userID);
+        Task<QuerySnapshot> queryTask = cartCollection.document("cart").collection("orders").get();
+
+        return queryTask.continueWith(task -> {
+            if (task.isSuccessful()) {
+                QuerySnapshot querySnapshot = task.getResult();
+                List<DocumentSnapshot> documents = querySnapshot.getDocuments();
+                for (DocumentSnapshot document : documents) {
+                    Order existingOrder = document.toObject(Order.class);
+                    if (existingOrder != null && existingOrder.getOrderID().equals(orderID)) {
+                        return true;
+                    }
+                }
+                return false;
+            }
+            return null;
+        });
+    }
 }

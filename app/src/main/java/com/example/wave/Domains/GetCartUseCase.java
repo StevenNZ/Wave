@@ -29,4 +29,9 @@ public class GetCartUseCase implements CartProvider {
     public void checkoutCart(String userID) {
         CartRepository.getInstance().checkoutCart(userID);
     }
+
+    @Override
+    public Task<Boolean> checkItemInCart(String userID, String orderID) {
+        return CartRepository.getInstance().checkItemInCart(userID, orderID);
+    }
 }
