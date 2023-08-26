@@ -80,7 +80,7 @@
                     android:text="Welcome,"
                     android:textColor="@color/black"
                     android:fontFamily="@font/montserrat_semibold"
-                    android:textSize="40sp"
+                    android:textSize="45sp"
                     android:layout_marginBottom="5dp"/>
 
                 <TextView
@@ -107,7 +107,8 @@
                 app:queryHint="Search an album or artist!"
                 android:layout_marginHorizontal="40dp"
                 android:layout_alignParentBottom="true"
-                android:layout_marginBottom="60dp"/>
+                android:layout_marginBottom="60dp"
+                android:elevation="35dp"/>
 
 
         </RelativeLayout>
@@ -136,7 +137,6 @@
             android:layout_marginTop="24dp"
             android:layout_gravity="center"
             android:text="POPULAR"
-            android:fontFamily="@font/centrasone"
             style="@style/popularTitle"/>
 
         <androidx.recyclerview.widget.RecyclerView
