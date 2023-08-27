@@ -248,6 +248,7 @@ public class DiscographyAdapter extends RecyclerView.Adapter<DiscographyAdapter.
 
         public HipHopViewHolder(@NonNull View itemView, PopularRecylcerInterface discographyRecyclerInterface) {
             super(itemView, discographyRecyclerInterface);
+            // grab the tagText TextView
         }
 
         @Override
@@ -257,6 +258,9 @@ public class DiscographyAdapter extends RecyclerView.Adapter<DiscographyAdapter.
 
             // Handle KPop category-specific data binding
             // For example, setting text and images specific to KPop category
+
+            // You will use the explicit boolean from repository.
+            // If it is explicit then set the Textview's text to "Explicit", and set background colour to black and set text colour to white.
         }
 
     }
