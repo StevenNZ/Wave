@@ -73,6 +73,12 @@
                 android:layout_below="@id/userLayout"
                 style="@style/profilePurchaseTitle"/>
 
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:id="@+id/order_history"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/purchaseTitle"/>
+
         </RelativeLayout>
     </ScrollView>
     <com.google.android.material.bottomnavigation.BottomNavigationView

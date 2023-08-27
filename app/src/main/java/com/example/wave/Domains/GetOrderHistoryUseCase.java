@@ -1,5 +1,7 @@
 package com.example.wave.Domains;
 
+import android.util.Log;
+
 import com.example.wave.Dataproviders.OrderHistoryProvider;
 import com.example.wave.Entities.CartOrder;
 import com.example.wave.Repository.OrderHistoryRepository;

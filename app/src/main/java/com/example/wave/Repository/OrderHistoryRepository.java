@@ -107,6 +107,7 @@ public class OrderHistoryRepository implements OrderHistoryProvider {
                     }
                 }
             }
+            Log.d("DEBUG THIS SHIT PLEASE", orderHistory.toString());
             return orderHistory;
         });
     }
