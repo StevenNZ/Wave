@@ -134,7 +134,9 @@ public class DiscographyDetailActivity extends AppCompatActivity {
                 } else {
                     Discography discographyResult = task.getResult();
 
-                    albumTextView.setText(discographyResult.getReleaseName());
+                    String releaseName = discographyResult.getReleaseName();
+                    toolbar.setTitle(releaseName);
+                    albumTextView.setText(releaseName);
 
                     viewPagerItemArray = new ArrayList<>();
                     viewPagerItemArray.add(discographyResult.getCassetteImageUrl());
