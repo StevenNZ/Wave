@@ -25,6 +25,7 @@ import com.example.wave.Domains.GetWishlistUseCase;
 import com.example.wave.Entities.Artist;
 import com.example.wave.Entities.Discography;
 import com.example.wave.Entities.Order;
+import com.example.wave.Entities.WishlistOrder;
 import com.example.wave.R;
 import com.example.wave.ViewModel.WishlistViewModel;
 import com.google.android.gms.tasks.Task;
@@ -34,7 +35,7 @@ import java.util.List;
 
 public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.ViewHolder> {
 
-    private List<Order> wishlistItems;
+    private List<WishlistOrder> wishlistItems;
     private Context context;
     private int mLayoutId;
     private PopularRecylcerInterface popularRecylcerInterface;
@@ -65,61 +66,48 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
-        Order currentItem = wishlistItems.get(position);
+        WishlistOrder currentItem = wishlistItems.get(position);
 
         GetDiscographyUseCase getDiscographyUseCase = new GetDiscographyUseCase();
 
         String currentDiscographyID = currentItem.getDiscographyID();
 
-
-        getDiscographyUseCase.getDiscographyByDiscographyID(currentDiscographyID).addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-
-                Discography discography = task.getResult();
-                String name = discography.getReleaseName();
-                String image = discography.getImageURL();
-                String discographyId = discography.getDiscographyID();
-
-                GetArtistUseCase getArtistUseCase = new GetArtistUseCase();
-                getArtistUseCase.getArtistByID(discography.getArtistID()).addOnCompleteListener(task1 -> {
-                    if(task1.isSuccessful()) {
-                        Artist artist = task1.getResult();
-                        String artistName = artist.getArtistName();
-                        holder.discogArtist.setText(artistName);
-                    }
-                });
+        String name = currentItem.getReleaseName();
+        String image = currentItem.getReleaseImage();
+        String artistName = currentItem.getArtistName();
+        String discographyId = currentItem.getDiscographyID();
 
 
-                // Set the category name
-                holder.discogName.setText(name);
+        // Set the category name
+        holder.discogName.setText(name);
+        holder.discogArtist.setText(artistName);
 
 
-                // Set the category image
-                Glide.with(context).load(image).into(holder.discogImage);
+        // Set the category image
+        Glide.with(context).load(image).into(holder.discogImage);
 
-                holder.heartButton.setOnLikeListener(new OnLikeListener() {
-                    @Override
-                    public void liked(LikeButton likeButton) {
-                        Log.d("WISHLIST LIKE DEBUG", "THIS SHOULD NOT BE POSSIBLE");
-                    }
+        holder.heartButton.setOnLikeListener(new OnLikeListener() {
+            @Override
+            public void liked(LikeButton likeButton) {
+                Log.d("WISHLIST LIKE DEBUG", "THIS SHOULD NOT BE POSSIBLE");
+            }
 
-                    @Override
-                    public void unLiked(LikeButton likeButton) {
-                        AuthenticationUserUseCase authenticationUserUseCase = new AuthenticationUserUseCase();
-                        if (authenticationUserUseCase.isLogin()) {
-                            String userID = authenticationUserUseCase.getUserID();
-                            getWishlistUseCase.removeFromWishlistByOrderID(userID, discographyId);
-                            wishlistItems.remove(position);
-                            //model.updateWishlist(wishlistItems);
-                            notifyItemRemoved(position);
-                            notifyItemRangeChanged(position, wishlistItems.size());
+            @Override
+            public void unLiked(LikeButton likeButton) {
+                AuthenticationUserUseCase authenticationUserUseCase = new AuthenticationUserUseCase();
+                if (authenticationUserUseCase.isLogin()) {
+                    String userID = authenticationUserUseCase.getUserID();
+                    getWishlistUseCase.removeFromWishlistByOrderID(userID, discographyId);
+                    wishlistItems.remove(position);
+                    //model.updateWishlist(wishlistItems);
+                    notifyItemRemoved(position);
+                    notifyItemRangeChanged(position, wishlistItems.size());
 
-                        }
+                }
 
-                    }
-                });
             }
         });
+
     }
 
     @Override

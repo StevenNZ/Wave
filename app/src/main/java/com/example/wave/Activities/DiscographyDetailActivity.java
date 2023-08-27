@@ -36,6 +36,7 @@ import com.example.wave.Domains.GetWishlistUseCase;
 import com.example.wave.Entities.CartOrder;
 import com.example.wave.Entities.Discography;
 import com.example.wave.Entities.Order;
+import com.example.wave.Entities.WishlistOrder;
 import com.example.wave.R;
 import com.example.wave.ViewModel.DiscographyDetailViewModel;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -337,8 +338,18 @@ public class DiscographyDetailActivity extends AppCompatActivity {
                 AuthenticationUserUseCase authenticationUserUseCase = new AuthenticationUserUseCase();
                     if (authenticationUserUseCase.isLogin()) {
                         String userID = authenticationUserUseCase.getUserID();
-                        Order wishlistOrder = new Order(discographyId, "wishlist", userID, discographyId);
-                        getWishlistUseCase.appendWishlist(userID, wishlistOrder);
+                       model.getDiscographyDetail(discographyId).addOnCompleteListener(new OnCompleteListener<Discography>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Discography> task) {
+                                if (!task.isSuccessful()) {
+                                    Log.d(TAG, "onComplete: discography query not successful");
+                                } else {
+                                    Discography discographyResult = task.getResult();
+                                    WishlistOrder wishlistOrder = new WishlistOrder(discographyId, "wishlist", userID, discographyId, discographyResult.getReleaseName(), intent.getStringExtra("ArtistName"), discographyResult.getImageURL());
+                                    getWishlistUseCase.appendWishlist(userID, wishlistOrder);
+                                }
+                            }
+                        });
                     } else {
                         Intent intent = new Intent(getBaseContext(), LoginActivity.class);
                         startActivity(intent);

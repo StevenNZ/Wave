@@ -17,6 +17,7 @@ import com.example.wave.Adaptor.PopularAdaptor;
 import com.example.wave.Adaptor.WishlistAdapter;
 import com.example.wave.Domains.GetWishlistUseCase;
 import com.example.wave.Entities.Order;
+import com.example.wave.Entities.WishlistOrder;
 import com.example.wave.R;
 import com.example.wave.ViewModel.AuthenticationViewModel;
 import com.example.wave.ViewModel.WishlistViewModel;
@@ -29,7 +30,7 @@ public class WishlistActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private PopularAdaptor popularAdapter;
     private RelativeLayout relativeLayout;
-    private List<Order> wishlist;
+    private List<WishlistOrder> wishlist;
 
     private TextView artistName;
 
@@ -47,14 +48,14 @@ public class WishlistActivity extends AppCompatActivity {
 
         model = new ViewModelProvider(this).get(WishlistViewModel.class);
         fetchAndDisplayWishlist();
-        model.getWishlistLiveData().observe(this, new Observer<List<Order>>() {
+        /*model.getWishlistLiveData().observe(this, new Observer<List<WishlistOrder>>() {
             @Override
-            public void onChanged(List<Order> updatedWishlist) {
+            public void onChanged(List<WishlistOrder> updatedWishlist) {
                 // Update your UI with the new data
                 // This code will be executed whenever the LiveData changes
                 showWishList(updatedWishlist);
             }
-        });
+        });*/
     }
 
     private void setBottomNavBar() {
@@ -90,7 +91,7 @@ public class WishlistActivity extends AppCompatActivity {
         GetWishlistUseCase getWishlistUseCase = new GetWishlistUseCase();
         getWishlistUseCase.getWishlist(authenticationViewModel.getUserID()).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
-                List<Order> orders = task.getResult();
+                List<WishlistOrder> orders = task.getResult();
                 showWishList(orders);
 
             } else {
@@ -100,7 +101,7 @@ public class WishlistActivity extends AppCompatActivity {
         });
     }
 
-    private void showWishList(List<Order> resultList) {
+    private void showWishList(List<WishlistOrder> resultList) {
         WishlistAdapter wishlistAdapter = new WishlistAdapter(WishlistActivity.this, R.layout.wishlist_list_item, resultList, this::onItemClick, model);
         relativeLayout = findViewById(R.id.cart_details);
         wishlist = resultList;

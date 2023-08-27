@@ -4,7 +4,7 @@ import android.util.Log;
 
 import com.example.wave.Dataproviders.WishlistProvider;
 import com.example.wave.Entities.Discography;
-import com.example.wave.Entities.Order;
+import com.example.wave.Entities.WishlistOrder;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
@@ -82,7 +82,7 @@ public class WishlistRepository implements WishlistProvider {
      * @return a list of orders
      */
     @Override
-    public Task<List<Order>> getWishlist(String userID) {
+    public Task<List<WishlistOrder>> getWishlist(String userID) {
         checkUserWishList(userID);
         wishlistCollection = db.collection(userID);
         Task<QuerySnapshot> queryTask = wishlistCollection.document("wishlist").collection("orders").get();
@@ -91,9 +91,9 @@ public class WishlistRepository implements WishlistProvider {
             if (task.isSuccessful()) {
                 QuerySnapshot querySnapshot = task.getResult();
                 List<DocumentSnapshot> documents = querySnapshot.getDocuments();
-                List<Order> wishlistList = new ArrayList<>();
+                List<WishlistOrder> wishlistList = new ArrayList<>();
                 for (DocumentSnapshot document : documents) {
-                    wishlistList.add(document.toObject(Order.class));
+                    wishlistList.add(document.toObject(WishlistOrder.class));
                 }
                 return wishlistList;
             } else {
@@ -120,7 +120,7 @@ public class WishlistRepository implements WishlistProvider {
                 QuerySnapshot querySnapshot = task.getResult();
                 List<DocumentSnapshot> documents = querySnapshot.getDocuments();
                 for (DocumentSnapshot document : documents) {
-                    Order existingOrder = document.toObject(Order.class);
+                    WishlistOrder existingOrder = document.toObject(WishlistOrder.class);
                     if (existingOrder != null && existingOrder.getOrderID().equals(orderID)) {
                         return true;
                     }
@@ -139,7 +139,7 @@ public class WishlistRepository implements WishlistProvider {
      * @param wishlistOrder
      */
     @Override
-    public void appendWishlist(String userID, Order wishlistOrder) {
+    public void appendWishlist(String userID, WishlistOrder wishlistOrder) {
         checkUserWishList(userID);
         wishlistCollection = db.collection(userID);
 
@@ -153,7 +153,7 @@ public class WishlistRepository implements WishlistProvider {
                 // Check if the wishlist already contains the order
                 boolean orderExists = false;
                 for (DocumentSnapshot document : documents) {
-                    Order existingOrder = document.toObject(Order.class);
+                    WishlistOrder existingOrder = document.toObject(WishlistOrder.class);
                     if (existingOrder != null && existingOrder.equals(wishlistOrder)) {
                         orderExists = true;
                         break;
@@ -165,14 +165,14 @@ public class WishlistRepository implements WishlistProvider {
                     wishlistCollection.document("wishlist").collection("orders").document(wishlistOrder.getOrderID()).set(wishlistOrder)
                             .addOnCompleteListener(addTask -> {
                                 if (addTask.isSuccessful()) {
-                                    Log.d("wishlist", "Order added to wishlist");
+                                    Log.d("wishlist", "WishlistOrder added to wishlist");
 
                                 } else {
                                     Log.d("wishlist", "Error adding order to wishlist: " + addTask.getException());
                                 }
                             });
                 } else {
-                    Log.d("wishlist", "Order already exists in the wishlist");
+                    Log.d("wishlist", "WishlistOrder already exists in the wishlist");
                 }
             } else {
                 Log.d("wishlist", "Error getting wishlist orders: " + task.getException());
@@ -188,7 +188,7 @@ public class WishlistRepository implements WishlistProvider {
      * @return
      */
     @Override
-    public Task<List<Order>> removeFromWishlistByOrderID(String userID, String orderID) {
+    public Task<List<WishlistOrder>> removeFromWishlistByOrderID(String userID, String orderID) {
         checkUserWishList(userID);
         wishlistCollection = db.collection(userID);
 
@@ -205,9 +205,9 @@ public class WishlistRepository implements WishlistProvider {
                             if (task.isSuccessful()) {
                                 QuerySnapshot querySnapshot = task.getResult();
                                 List<DocumentSnapshot> documents = querySnapshot.getDocuments();
-                                List<Order> wishlistList = new ArrayList<>();
+                                List<WishlistOrder> wishlistList = new ArrayList<>();
                                 for (DocumentSnapshot document : documents) {
-                                    wishlistList.add(document.toObject(Order.class));
+                                    wishlistList.add(document.toObject(WishlistOrder.class));
                                 }
                                 return wishlistList;
                             } else {
