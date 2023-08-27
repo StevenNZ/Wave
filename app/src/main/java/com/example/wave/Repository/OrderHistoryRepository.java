@@ -4,12 +4,14 @@ import android.util.Log;
 
 import com.example.wave.Dataproviders.OrderHistoryProvider;
 import com.example.wave.Entities.CartOrder;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class OrderHistoryRepository implements OrderHistoryProvider {
@@ -71,8 +73,43 @@ public class OrderHistoryRepository implements OrderHistoryProvider {
     }
 
     @Override
-    public List<List<CartOrder>> getOrderHistory(String userID) {
-        return null;
+    public Task<List<List<CartOrder>>> getOrderHistory(String userID) {
+        checkUserOrderHistory(userID);
+        Task<QuerySnapshot> queryTask  = db.collection(userID).get();
+        return queryTask.continueWith(task -> {
+            List<List<CartOrder>> orderHistory = new ArrayList<>();
+            if (task.isSuccessful()) {
+                QuerySnapshot querySnapshot = task.getResult();
+                for (DocumentSnapshot documentSnapshot : querySnapshot.getDocuments()) {
+                    if (documentSnapshot.getId().equals("orderhistory")) {
+                        CollectionReference orderHistoryCollection = documentSnapshot.getReference().getParent();
+                        Task<QuerySnapshot> orderHistoryQueryTask = orderHistoryCollection.get();
+                        orderHistoryQueryTask.addOnCompleteListener(task1 -> {
+                            if (task1.isSuccessful()) {
+                                QuerySnapshot orderHistoryQuerySnapshot = task1.getResult();
+                                for (DocumentSnapshot orderHistoryDocumentSnapshot : orderHistoryQuerySnapshot.getDocuments()) {
+                                    List<CartOrder> cartOrderList = new ArrayList<>();
+                                    CollectionReference orderCollection = orderHistoryDocumentSnapshot.getReference().getParent();
+                                    Task<QuerySnapshot> orderQueryTask = orderCollection.get();
+                                    orderQueryTask.addOnCompleteListener(task2 -> {
+                                        if (task2.isSuccessful()) {
+                                            QuerySnapshot orderQuerySnapshot = task2.getResult();
+                                            for (DocumentSnapshot orderDocumentSnapshot : orderQuerySnapshot.getDocuments()) {
+                                                CartOrder cartOrder = orderDocumentSnapshot.toObject(CartOrder.class);
+                                                cartOrderList.add(cartOrder);
+                                            }
+                                            orderHistory.add(cartOrderList);
+                                        }
+                                    });
+                                }
+                            }
+                        });
+                    }
+                }
+            }
+            Log.d("DEBUG THIS SHIT PLEASE", orderHistory.toString());
+            return orderHistory;
+        });
     }
 
     @Override
