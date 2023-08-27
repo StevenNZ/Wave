@@ -9,7 +9,6 @@ public class Order {
     private String orderID;
     private String type;
     private String userID;
-
     private String discographyID;
 
 

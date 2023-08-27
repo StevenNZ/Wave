@@ -1,6 +1,6 @@
 package com.example.wave.Dataproviders;
 
-import com.example.wave.Entities.Order;
+import com.example.wave.Entities.CartOrder;
 import com.example.wave.Repository.CartRepository;
 import com.google.android.gms.tasks.Task;
 
@@ -12,12 +12,12 @@ public interface CartProvider {
     static CartRepository getInstance() {
         return null;
     }
-
-    void createCart(String userID);
-    Task<Order> getCart(String userID);
-    void addCartItems(String userID, String discographyFormID);
-    void removeCartItems(String userID, String discographyFormID);
+    Task<List<CartOrder>>  getCart(String userID);
+    void addCartItems(String userID, CartOrder cartOrder);
+    Task<List<CartOrder>> removeFromCartByOrderID(String userID, String orderID);
     void checkoutCart(String userID);
+    void updateQuantityByOrderID(String userID, String orderID, String quantity);
+    Task<Boolean> checkItemInCart(String userID, String orderID);
 }
 
 

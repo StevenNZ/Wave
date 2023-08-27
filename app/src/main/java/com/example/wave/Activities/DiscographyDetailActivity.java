@@ -30,8 +30,10 @@ import com.denzcoskun.imageslider.interfaces.ItemChangeListener;
 import com.denzcoskun.imageslider.models.SlideModel;
 import com.example.wave.Adaptor.ImageSliderAdapter;
 import com.example.wave.Domains.AuthenticationUserUseCase;
+import com.example.wave.Domains.GetCartUseCase;
 import com.example.wave.Domains.GetDiscographyUseCase;
 import com.example.wave.Domains.GetWishlistUseCase;
+import com.example.wave.Entities.CartOrder;
 import com.example.wave.Entities.Discography;
 import com.example.wave.Entities.Order;
 import com.example.wave.R;
@@ -51,17 +53,24 @@ import me.relex.circleindicator.CircleIndicator3;
 
 public class DiscographyDetailActivity extends AppCompatActivity {
 
-    private final String cassettePrice = "$15";
-    private final String cdPrice = "$20";
-    private final String vinylPrice = "$40";
-
+    private final String cassettePrice = "15";
+    private final String cdPrice = "20";
+    private final String vinylPrice = "40";
+    private String currentPrice = cassettePrice;
+    private String currentFormat = "cassette";
     private GetWishlistUseCase getWishlistUseCase = new GetWishlistUseCase();
+    private GetCartUseCase getCartUseCase = new GetCartUseCase();
+    private int position = 0;
+    private int slide = 0;
+    private boolean isSlide = true;
+    private ImageSlider imageSlider;
     private ViewPager2 viewPager2;
     private ArrayList<String> viewPagerItemArray;
     private ImageButton currentImageButton;
     private DiscographyDetailViewModel model;
     private List<String> trackLists;
     private int quantity = 1;
+    private boolean inCart = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,16 +110,35 @@ public class DiscographyDetailActivity extends AppCompatActivity {
 
         if (authenticationUserUseCase.isLogin()) {
             String userId = authenticationUserUseCase.getUserID();
-            getWishlistUseCase.checkItemOnWishlist(userId, discographyId) //check if item is on wishlist
+            getCartUseCase.checkItemInCart(userId, discographyId) //check if item is in cart
                     .addOnCompleteListener(new OnCompleteListener<Boolean>() {
                         @Override
                         public void onComplete(@NonNull Task<Boolean> task) {
                             if (!task.isSuccessful()) {
-                                Log.d(TAG, "onComplete: check item on wishlist query not successful");
+                                Log.d(TAG, "onComplete: check item in cart query not successful");
                             } else {
                                 Boolean result = task.getResult();
+                                inCart = result;
                                 if (result) {
-                                    wishlistButton.setLiked(true);
+                                    cartBtn.setText("Added to Cart");
+                                    cartBtn.setEnabled(false);
+                                    wishlistButton.setEnabled(false);
+                                }
+                                else {
+                                    getWishlistUseCase.checkItemOnWishlist(userId, discographyId) //check if item is on wishlist
+                                            .addOnCompleteListener(new OnCompleteListener<Boolean>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<Boolean> task) {
+                                                    if (!task.isSuccessful()) {
+                                                        Log.d(TAG, "onComplete: check item on wishlist query not successful");
+                                                    } else {
+                                                        Boolean result = task.getResult();
+                                                        if (result) {
+                                                            wishlistButton.setLiked(true);
+                                                        }
+                                                    }
+                                                }
+                                            });
                                 }
                             }
                         }
@@ -172,12 +200,19 @@ public class DiscographyDetailActivity extends AppCompatActivity {
                 if (position == 0) {
                     currentImageButton = cassette;
                     priceTextView.setText(cassettePrice);
+                    currentFormat = "cassette";
+                    currentPrice = cassettePrice;
                 } else if (position == 1) {
                     currentImageButton = vinyl;
                     priceTextView.setText(vinylPrice);
+                    currentFormat = "vinyl";
+                    currentPrice = vinylPrice;
                 } else {
                     currentImageButton = cd;
                     priceTextView.setText(cdPrice);
+                    currentFormat = "cd";
+                    currentPrice = cdPrice;
+
                 }
                 currentImageButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.gold,null)));
             }
@@ -216,6 +251,10 @@ public class DiscographyDetailActivity extends AppCompatActivity {
             public void onClick(View v) {
                 quantity++;
                 quantityField.setText(String.valueOf(quantity));
+                if (inCart){
+                    cartBtn.setText("Update Cart");
+                    cartBtn.setEnabled(true);
+                }
             }
         });
 
@@ -225,16 +264,73 @@ public class DiscographyDetailActivity extends AppCompatActivity {
                 if (quantity > 1) {
                     quantity--;
                     quantityField.setText(String.valueOf(quantity));
+                    if (inCart){
+                        cartBtn.setText("Update Cart");
+                        cartBtn.setEnabled(true);
+                    }
                 }
-            }
+                else if (quantity == 1 && inCart){
+                        quantity--;
+                        quantityField.setText(String.valueOf(quantity));
+                        cartBtn.setText("Remove from Cart");
+                        cartBtn.setEnabled(true);
+                    }
+                }
+
         });
 
         cartBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //does cart adding stuff
+
+                if (cartBtn.getText().equals("Add To Cart")) {
+                    AuthenticationUserUseCase authenticationUserUseCase = new AuthenticationUserUseCase();
+                    if (authenticationUserUseCase.isLogin()) {
+                        String userID = authenticationUserUseCase.getUserID();
+                        inCart = true;
+                        CartOrder cartOrder = new CartOrder(discographyId, "cart", userID, discographyId, currentFormat, String.valueOf(quantity), currentPrice);
+                        getCartUseCase.addCartItems(userID, cartOrder);
+                        getWishlistUseCase.removeFromWishlistByOrderID(userID, discographyId);
+                        wishlistButton.setEnabled(false);
+                        wishlistButton.setLiked(false);
+                        cartBtn.setText("Added to Cart");
+                        cartBtn.setEnabled(false);
+
+                    } else {
+                        Intent intent = new Intent(getBaseContext(), LoginActivity.class);
+                        startActivity(intent);
+                    }
+                } else if (cartBtn.getText().equals("Update Cart")) {
+                    AuthenticationUserUseCase authenticationUserUseCase = new AuthenticationUserUseCase();
+                    if (authenticationUserUseCase.isLogin()) {
+                        String userID = authenticationUserUseCase.getUserID();
+                        getCartUseCase.updateQuantityByOrderID(userID, discographyId, String.valueOf(quantity));
+                        cartBtn.setText("Updated Cart");
+                        cartBtn.setEnabled(false);
+                    } else {
+                        Intent intent = new Intent(getBaseContext(), LoginActivity.class);
+                        startActivity(intent);
+                    }
+                } else if (cartBtn.getText().equals("Remove from Cart")) {
+                    AuthenticationUserUseCase authenticationUserUseCase = new AuthenticationUserUseCase();
+                    if (authenticationUserUseCase.isLogin()) {
+                        String userID = authenticationUserUseCase.getUserID();
+                        getCartUseCase.removeFromCartByOrderID(userID, discographyId);
+                        cartBtn.setText("Add To Cart");
+                        cartBtn.setEnabled(true);
+                        wishlistButton.setEnabled(true);
+                        quantity++;
+                        quantityField.setText(String.valueOf(quantity));
+                        inCart = false;
+                    } else {
+                        Intent intent = new Intent(getBaseContext(), LoginActivity.class);
+                        startActivity(intent);
+                    }
+                }
+
             }
         });
+
         wishlistButton.setOnLikeListener(new OnLikeListener() {
             @Override
             public void liked(LikeButton likeButton) {
