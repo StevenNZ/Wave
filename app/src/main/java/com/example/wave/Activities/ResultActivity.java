@@ -58,12 +58,14 @@ public class ResultActivity extends AppCompatActivity {
     private MaterialToolbar topAppBar;
 
     private String[] filterItems = {"$10 - $19", "$20 - $29", "$30 - $39", "$40 - $49", "$50 - $59", "$60 - $69"};
+
+    private int[] filterMinPrices = {10, 20, 30, 40, 50, 60};
+    private int[] filterMaxPrices = {19, 29, 39, 49, 59, 69};
     private String[] sortItems = {"$ - $$$", "$$$ - $", "A - Z", "Z - A"};
     private String currentFilter;
     private String currentSort;
 
     private AutoCompleteTextView filterAutoCompleteText;
-    private AutoCompleteTextView sortAutoCompleteText;
     private ArrayAdapter<String> adapterItems;
 
 
@@ -100,6 +102,7 @@ public class ResultActivity extends AppCompatActivity {
             model.getDiscographyListBySearch(query).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     List<Discography> displayDiscographyList = task.getResult();
+                    model.setCurrentDiscographyList(displayDiscographyList);
                     results = displayDiscographyList;
                     resultsAdapter = new DiscographyAdapter(ResultActivity.this, layoutResourceId, displayDiscographyList, new PopularRecylcerInterface() {
                         @Override
@@ -136,6 +139,8 @@ public class ResultActivity extends AppCompatActivity {
        model.getDiscographyListByCategory(categoryID).addOnCompleteListener(task -> {
            if (task.isSuccessful()) {
                List<Discography> displayDiscographyList = task.getResult();
+               model.setCurrentDiscographyList(displayDiscographyList);
+
                recyclerView.setLayoutManager(layoutManager);
                Log.d("SearchDebug", "displayBasedCategory: displayDiscographyList = " + displayDiscographyList);
                resultsAdapter = new DiscographyAdapter(ResultActivity.this, layoutResourceId, displayDiscographyList, new PopularRecylcerInterface() {
@@ -177,12 +182,9 @@ public class ResultActivity extends AppCompatActivity {
         model = new ViewModelProvider(this).get(ResultViewModel.class);
 
         filterAutoCompleteText = findViewById(R.id.filterAutoCompleteText);
-        sortAutoCompleteText = findViewById(R.id.sortAutoCompleteText);
 
         adapterItems = new ArrayAdapter<>(this, R.layout.sort_list_item, filterItems);
         filterAutoCompleteText.setAdapter(adapterItems);
-        adapterItems = new ArrayAdapter<>(this, R.layout.sort_list_item, sortItems);
-        sortAutoCompleteText.setAdapter(adapterItems);
 
 
         recyclerView = findViewById(R.id.result_list_view);
@@ -193,19 +195,19 @@ public class ResultActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 currentFilter = parent.getItemAtPosition(position).toString();
+                model.setMinPrice(filterMinPrices[position]);
+                model.setMaxPrice(filterMaxPrices[position]);
 
+                model.getDiscographyList().addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        List<Discography> discographyList = task.getResult();
+                        List<Discography> newDiscographyList = model.getFilteredDiscography(discographyList);
 
+                        resultsAdapter.setFilteredList(newDiscographyList);
 
-
-            }
-        });
-
-        sortAutoCompleteText.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                currentSort = parent.getItemAtPosition(position).toString();
-
-
+                        resultsAdapter.setIsearchResults(true);
+                    }
+                });
             }
         });
 

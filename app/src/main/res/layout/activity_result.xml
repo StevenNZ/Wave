@@ -53,24 +53,6 @@
                     android:inputType="none"/>
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:paddingHorizontal="15dp"
-                android:paddingVertical="5dp"
-                android:hint="Sort"
-                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
-                app:boxBackgroundColor="@color/off_white">
-
-                <AutoCompleteTextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/sortAutoCompleteText"
-                    android:inputType="none"/>
-
-            </com.google.android.material.textfield.TextInputLayout>
-
 
         </LinearLayout>
 

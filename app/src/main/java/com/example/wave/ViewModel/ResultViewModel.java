@@ -1,5 +1,7 @@
 package com.example.wave.ViewModel;
 
+import android.util.Log;
+
 import androidx.lifecycle.ViewModel;
 
 import com.example.wave.Domains.GetDiscographyUseCase;
@@ -10,14 +12,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
-
-import javax.inject.Inject;
 
 public class ResultViewModel extends ViewModel {
     private AuthenticationViewModel authenticationViewModel;
 
     private GetDiscographyUseCase getDiscographyUseCase;
+
+    private List<Discography> currentDiscographyList = new ArrayList<>();
 
     private int minPrice = 0;
     private int maxPrice = 1000000;
@@ -35,18 +36,22 @@ public class ResultViewModel extends ViewModel {
         return authenticationViewModel.isLogin();
     }
 
+    public Task<List<Discography>> getDiscographyList()  {
+        return getDiscographyUseCase.getAllDiscography();
+    }
 
-    public Task<List<Discography>> getDiscographyListByCategory(String categoryID) throws Exception {
+    public Task<List<Discography>> getDiscographyListByCategory(String categoryID) {
         return getDiscographyUseCase.getDiscographyByCategoryID(categoryID);
     }
 
-    public Task<List<Discography>> getDiscographyListBySearch(String searchString) throws Exception {
+    public Task<List<Discography>> getDiscographyListBySearch(String searchString)  {
         return getDiscographyUseCase.getDiscographyBySearch(searchString);
     }
 
-    private List<Discography> getFilteredDiscography(List<Discography> unfilteredDiscographyList){
+    public List<Discography> getFilteredDiscography(List<Discography> unfilteredDiscographyList){
         List<Discography> discographyList = new ArrayList<>();
         for (Discography discography : unfilteredDiscographyList) {
+            Log.d("Price", "onQueryTextChange: discography = " + discography.getPrice());
             if (Integer.parseInt(discography.getPrice()) >= minPrice && Integer.parseInt(discography.getPrice()) <= maxPrice) {
                 discographyList.add(discography);
             }
@@ -68,6 +73,7 @@ public class ResultViewModel extends ViewModel {
                 Collections.sort(discographyList, Comparator.comparing(Discography::getReleaseDate).reversed());
                 break;
         }
+        currentDiscographyList = discographyList;
         return discographyList;
     }
 
@@ -122,5 +128,21 @@ public class ResultViewModel extends ViewModel {
      */
     public void setSortBy(String sortBy) {
         sortBy = sortBy;
+    }
+
+    /**
+     * Getter for currentDiscographyList
+     * @return currentDiscographyList
+     */
+    public List<Discography> getCurrentDiscographyList() {
+        return currentDiscographyList;
+    }
+
+    /**
+     * Setter for currentDiscographyList
+     * @param currentDiscographyList
+     */
+    public void setCurrentDiscographyList(List<Discography> currentDiscographyList) {
+        this.currentDiscographyList = currentDiscographyList;
     }
 }
