@@ -1,5 +1,7 @@
 package com.example.wave.Activities;
 
+import static android.content.ContentValues.TAG;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
@@ -15,6 +17,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
+import android.widget.EditText;
 import android.widget.GridLayout;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -50,6 +55,16 @@ public class ResultActivity extends AppCompatActivity {
     private ResultViewModel model;
 
     private MaterialToolbar topAppBar;
+
+    private String[] filterItems = {"$10 - $19", "$20 - $29", "$30 - $39", "$40 - $49", "$50 - $59", "$60 - $69"};
+    private String[] sortItems = {"Ascending Price", "Ascending Name", "A - Z", "Z - A"};
+    private String currentFilter;
+    private String currentSort;
+
+    private AutoCompleteTextView filterAutoCompleteText;
+    private AutoCompleteTextView sortAutoCompleteText;
+    private ArrayAdapter<String> adapterItems;
+
 
     //might have to put this into viewModel , ask Gurjot
     private void fetchAndDisplay(String query, String categoryId) {
@@ -122,6 +137,28 @@ public class ResultActivity extends AppCompatActivity {
         setContentView(R.layout.activity_result);
 
         model = new ViewModelProvider(this).get(ResultViewModel.class);
+
+        filterAutoCompleteText = findViewById(R.id.filterAutoCompleteText);
+        sortAutoCompleteText = findViewById(R.id.sortAutoCompleteText);
+
+        adapterItems = new ArrayAdapter<>(this, R.layout.sort_list_item, filterItems);
+        filterAutoCompleteText.setAdapter(adapterItems);
+        adapterItems = new ArrayAdapter<>(this, R.layout.sort_list_item, sortItems);
+        sortAutoCompleteText.setAdapter(adapterItems);
+
+        filterAutoCompleteText.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                currentFilter = parent.getItemAtPosition(position).toString();
+            }
+        });
+
+        sortAutoCompleteText.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                currentSort = parent.getItemAtPosition(position).toString();
+            }
+        });
 
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setSelectedItemId(R.id.bottom_search);
