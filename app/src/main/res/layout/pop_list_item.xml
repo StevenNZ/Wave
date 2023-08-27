@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="96dp"
+    android:layout_height="120dp"
     android:layout_marginHorizontal="20dp"
     android:maxWidth="360dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -43,6 +43,31 @@
                     android:textSize="14sp" />
 
                 <RelativeLayout
+                    android:id="@+id/tagLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp">
+
+                    <ImageView
+                        android:id="@+id/emotionIcon"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:background="@drawable/emotion_icon"
+                        android:layout_alignBottom="@+id/emotionText"
+                        android:layout_marginEnd="6dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Emotion"
+                        style="@style/itemArtist"
+                        android:id="@+id/emotionText"
+                        android:layout_toEndOf="@id/emotionIcon"
+                        android:layout_marginTop="0dp" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
 
@@ -76,8 +101,8 @@
 
             <!-- Bottom LinearLayout -->
             <androidx.cardview.widget.CardView
-                android:layout_width="96dp"
-                android:layout_height="96dp"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
                 android:layout_gravity="center_vertical"
                 app:cardCornerRadius="12dp">
 
