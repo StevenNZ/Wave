@@ -32,7 +32,7 @@
     <style name="categoryTitle">
         <item name="android:textColor">@color/white</item>
         <item name="android:textSize">40sp</item>
-        <item name="android:fontFamily">@font/montserrat_regular</item>
+        <item name="android:fontFamily">@font/montserrat_bold</item>
     </style>
     <style name="usernameGreeting">
         <item name="android:textColor">@color/black</item>
