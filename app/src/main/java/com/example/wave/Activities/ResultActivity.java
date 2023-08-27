@@ -27,6 +27,7 @@ import android.widget.Toast;
 import com.airbnb.lottie.LottieAnimationView;
 import com.example.wave.Adaptor.DiscographyAdapter;
 import com.example.wave.Dataproviders.DiscographyProvider;
+import com.example.wave.Domains.GetDiscographyUseCase;
 import com.example.wave.Entities.Discography;
 import com.example.wave.R;
 import com.example.wave.Adaptor.PopularAdaptor;
@@ -66,51 +67,17 @@ public class ResultActivity extends AppCompatActivity {
     private ArrayAdapter<String> adapterItems;
 
 
-    //might have to put this into viewModel , ask Gurjot
-    private void fetchAndDisplay(String query, String categoryId) {
-        if (!query.isEmpty() || !categoryId.isEmpty()) {
-            SearchUseCase.generateDiscographyResults(query, categoryId, new TempResultListener() {
-                @Override
-                public void onTempReady(List<Discography> resultList) {
-                    if (resultList.isEmpty()) {
-                        Toast.makeText(ResultActivity.this, "No results found", Toast.LENGTH_SHORT).show();
-                    } else {
-                        int layoutResourceId = getLayoutResource(categoryId);
-                        RecyclerView.LayoutManager layoutManager = getLayoutManager(categoryId);
 
-                        recyclerView = findViewById(R.id.result_list_view);
-                        recyclerView.setLayoutManager(layoutManager);
 
-                        resultsAdapter = new DiscographyAdapter(ResultActivity.this, layoutResourceId, resultList, new PopularRecylcerInterface() {
-                            @Override
-                            public void onItemClick(int position) {
-                                // Handle item click here if needed
-                                Discography selectedDiscography = resultList.get(position);
-                                String discographyId = selectedDiscography.getDiscographyID();
-                                String artistName = selectedDiscography.getArtistID();
 
-                                Intent intent = new Intent(ResultActivity.this, DiscographyDetailActivity.class);
-                                intent.putExtra("DiscographyId", discographyId);
-                                intent.putExtra("ArtistName", artistName);
-                                startActivity(intent);
-                            }
-                        });
 
-                        if(query.isEmpty()){
-                            resultsAdapter.setIsearchResults(false);
-                        }else{
-                            resultsAdapter.setIsearchResults(true);
-                        }
-
-                        recyclerView.setAdapter(resultsAdapter);
-                    }
-                }
-            });
+    private RecyclerView.LayoutManager getLayoutManager(String categoryId) {
+        if ("kpop".equals(categoryId)) {
+            return new GridLayoutManager(ResultActivity.this, 2);
         } else {
-            Toast.makeText(getBaseContext(), "Enter something boss", Toast.LENGTH_SHORT).show();
+            return new LinearLayoutManager(ResultActivity.this, LinearLayoutManager.VERTICAL, false);
         }
     }
-
 
     private int getLayoutResource(String categoryId) {
         switch (categoryId) {
@@ -125,13 +92,82 @@ public class ResultActivity extends AppCompatActivity {
         }
     }
 
-    private RecyclerView.LayoutManager getLayoutManager(String categoryId) {
-        if ("kpop".equals(categoryId)) {
-            return new GridLayoutManager(ResultActivity.this, 2);
-        } else {
-            return new LinearLayoutManager(ResultActivity.this, LinearLayoutManager.VERTICAL, false);
+    private void displayBasedQuery(String query) throws Exception {
+        if (!query.isEmpty()) {
+            int layoutResourceId = getLayoutResource("");
+            RecyclerView.LayoutManager layoutManager = getLayoutManager("");
+            recyclerView.setLayoutManager(layoutManager);
+            model.getDiscographyListBySearch(query).addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    List<Discography> displayDiscographyList = task.getResult();
+                    results = displayDiscographyList;
+                    resultsAdapter = new DiscographyAdapter(ResultActivity.this, layoutResourceId, displayDiscographyList, new PopularRecylcerInterface() {
+                        @Override
+                        public void onItemClick(int position) {
+
+                            // Handle item click here if needed
+                            Discography selectedDiscography = displayDiscographyList.get(position);
+                            String discographyId = selectedDiscography.getDiscographyID();
+                            String artistName = selectedDiscography.getArtistID();
+
+
+                            Intent intent = new Intent(ResultActivity.this, DiscographyDetailActivity.class);
+                            intent.putExtra("DiscographyId", discographyId);
+                            intent.putExtra("ArtistName", artistName);
+                            startActivity(intent);
+
+
+                        }
+                    });
+                    resultsAdapter.setIsearchResults(true);
+                    recyclerView.setAdapter(resultsAdapter);
+
+                }
+            });
+
         }
     }
+
+    private void displayBasedCategory(String categoryID) throws Exception {
+
+        int layoutResourceId = getLayoutResource(categoryID);
+        RecyclerView.LayoutManager layoutManager = getLayoutManager(categoryID);
+
+       model.getDiscographyListByCategory(categoryID).addOnCompleteListener(task -> {
+           if (task.isSuccessful()) {
+               List<Discography> displayDiscographyList = task.getResult();
+               recyclerView.setLayoutManager(layoutManager);
+               Log.d("SearchDebug", "displayBasedCategory: displayDiscographyList = " + displayDiscographyList);
+               resultsAdapter = new DiscographyAdapter(ResultActivity.this, layoutResourceId, displayDiscographyList, new PopularRecylcerInterface() {
+                   @Override
+                   public void onItemClick(int position) {
+
+                       // Handle item click here if needed
+                       Discography selectedDiscography = displayDiscographyList.get(position);
+                       String discographyId = selectedDiscography.getDiscographyID();
+                       String artistName = selectedDiscography.getArtistID();
+
+
+                       Intent intent = new Intent(ResultActivity.this, DiscographyDetailActivity.class);
+                       intent.putExtra("DiscographyId", discographyId);
+                       intent.putExtra("ArtistName", artistName);
+                       startActivity(intent);
+
+                   }
+               });
+               resultsAdapter.setIsearchResults(false);
+               recyclerView.setAdapter(resultsAdapter);
+           } else {
+               Exception exception = task.getException();
+               // Handle the exception
+           }
+       });
+    }
+
+
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -148,6 +184,11 @@ public class ResultActivity extends AppCompatActivity {
         adapterItems = new ArrayAdapter<>(this, R.layout.sort_list_item, sortItems);
         sortAutoCompleteText.setAdapter(adapterItems);
 
+
+        recyclerView = findViewById(R.id.result_list_view);
+        recyclerView.setAdapter(resultsAdapter);
+
+
         filterAutoCompleteText.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -162,13 +203,9 @@ public class ResultActivity extends AppCompatActivity {
         sortAutoCompleteText.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-
-
-
-
-
                 currentSort = parent.getItemAtPosition(position).toString();
+
+
             }
         });
 
@@ -187,11 +224,20 @@ public class ResultActivity extends AppCompatActivity {
         //entered valid search from main
         if(query != null && categoryId == null){
             // only if not null
-            fetchAndDisplay(query, "");
+            try {
+                displayBasedQuery(query);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
 
         } else if (query == null && categoryId != null) {
             //clicked a valid category
-            fetchAndDisplay("", categoryId);
+
+            try {
+                displayBasedCategory(categoryId);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
@@ -249,7 +295,13 @@ public class ResultActivity extends AppCompatActivity {
             public boolean onQueryTextSubmit(String query) {
                 Log.d("SearchDebug", "IS THIS BEING CALLED = " + query);
                 //when the user presses enter what happens.
-                fetchAndDisplay(query, "");
+
+                try {
+                    displayBasedQuery(query);
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+
                 return false;
             }
             @Override

@@ -20,17 +20,17 @@ public class GetDiscographyUseCase implements DiscographyProvider {
 
     @Override
     public Task<List<Discography>> getDiscographyBySearch(String searchString) {
-        return null;
+        return DiscographyRepository.getInstance().getDiscographyBySearch(searchString);
     }
 
     @Override
     public Task<List<Discography>> getDiscographyByCategoryID(String categoryID) {
-        return null;
+        return DiscographyRepository.getInstance().getDiscographyByCategoryID(categoryID);
     }
 
     @Override
     public Task<List<Discography>> getDiscographyByArtistID(String artistID) {
-        return null;
+        return DiscographyRepository.getInstance().getDiscographyByArtistID(artistID);
     }
 
     @Override
