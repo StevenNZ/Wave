@@ -202,16 +202,14 @@ public class CartRepository implements CartProvider {
                 orderHistoryRepository.addOrder(userID, cart);
 
                 // Delete the cart document after adding it to the order history
-                DocumentReference cartReference = cartCollection.document("cart");
-                cartReference.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.d(TAG, "Cart successfully checked out!");
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "Error checking out cart", e);
+                CollectionReference orderCollectionReference = cartCollection.document("cart").collection("orders");
+                orderCollectionReference.get().addOnCompleteListener(task1 -> {
+                    if (task1.isSuccessful()) {
+                        QuerySnapshot querySnapshot = task1.getResult();
+                        List<DocumentSnapshot> documents = querySnapshot.getDocuments();
+                        for (DocumentSnapshot document : documents) {
+                            orderCollectionReference.document(document.getId()).delete();
+                        }
                     }
                 });
 

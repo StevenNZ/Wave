@@ -26,6 +26,8 @@ import com.example.wave.Entities.KPopDiscography;
 import com.example.wave.Entities.PopDiscography;
 import com.example.wave.R;
 
+import org.w3c.dom.Text;
+
 import java.util.List;
 
 public class DiscographyAdapter extends RecyclerView.Adapter<DiscographyAdapter.ViewHolder> {
@@ -93,9 +95,16 @@ public class DiscographyAdapter extends RecyclerView.Adapter<DiscographyAdapter.
                 return new KPopViewHolder(view, discographyRecyclerInterface);
             case VIEW_TYPE_POP:
                 return new PopViewHolder(view, discographyRecyclerInterface);
+            case VIEW_TYPE_HIP_HOP:
+                return new HipHopViewHolder(view, discographyRecyclerInterface);
             default:
                 //search will be this one as well
-                return new HipHopViewHolder(view, discographyRecyclerInterface);
+                return new ViewHolder(view, discographyRecyclerInterface) {
+                    @Override
+                    protected void bindData(Discography discography) {
+
+                    }
+                };
         }
 
     }
@@ -152,13 +161,14 @@ public class DiscographyAdapter extends RecyclerView.Adapter<DiscographyAdapter.
      */
     public abstract class ViewHolder extends RecyclerView.ViewHolder {
         ImageView discogImage;
-        TextView discogName, discogArtist;
+        TextView discogName, discogArtist, priceText;
 
         public ViewHolder(View itemView, PopularRecylcerInterface popularRecylcerInterface) {
             super(itemView);
             discogImage = itemView.findViewById(R.id.popular_image);
             discogName = itemView.findViewById(R.id.popular_name);
             discogArtist = itemView.findViewById(R.id.popular_artist);
+            priceText = itemView.findViewById(R.id.pop_price);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -184,6 +194,7 @@ public class DiscographyAdapter extends RecyclerView.Adapter<DiscographyAdapter.
             //somehow get the name
             discogArtist.setText(discography.getArtistID());
             Glide.with(itemView.getContext()).load(discography.getImageURL()).into(discogImage);
+            priceText.setText("$" + discography.getPrice());
 
         }
 
@@ -246,9 +257,12 @@ public class DiscographyAdapter extends RecyclerView.Adapter<DiscographyAdapter.
      */
     public class HipHopViewHolder extends ViewHolder {
 
+        TextView explicit;
+
         public HipHopViewHolder(@NonNull View itemView, PopularRecylcerInterface discographyRecyclerInterface) {
             super(itemView, discographyRecyclerInterface);
             // grab the tagText TextView
+            explicit = itemView.findViewById(R.id.tagText);
         }
 
         @Override
@@ -256,11 +270,23 @@ public class DiscographyAdapter extends RecyclerView.Adapter<DiscographyAdapter.
             super.bindCommonData(discography);
 
 
+            HipHopDiscography hipHopDiscography = (HipHopDiscography) discography;
+
+
             // Handle KPop category-specific data binding
             // For example, setting text and images specific to KPop category
 
             // You will use the explicit boolean from repository.
             // If it is explicit then set the Textview's text to "Explicit", and set background colour to black and set text colour to white.
+
+            if(hipHopDiscography.getExplictContent()){
+                explicit.setText("Explicit");
+                explicit.setBackgroundColor(Color.parseColor("#000000"));
+            }else{
+                explicit.setText("NA G");
+            }
+
+
         }
 
     }

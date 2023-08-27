@@ -23,6 +23,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.denzcoskun.imageslider.ImageSlider;
@@ -54,10 +55,7 @@ import me.relex.circleindicator.CircleIndicator3;
 
 public class DiscographyDetailActivity extends AppCompatActivity {
 
-    private final String cassettePrice = "15";
-    private final String cdPrice = "20";
-    private final String vinylPrice = "40";
-    private String currentPrice = cassettePrice;
+    private String currentPrice = "0";
     private String currentFormat = "cassette";
     private GetWishlistUseCase getWishlistUseCase = new GetWishlistUseCase();
     private GetCartUseCase getCartUseCase = new GetCartUseCase();
@@ -79,7 +77,7 @@ public class DiscographyDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detail);
 
 
-        ConstraintLayout constraintLayout = findViewById(R.id.detailLayout);
+        RelativeLayout imageSliderLayout = findViewById(R.id.imageSliderLayout);
         MaterialToolbar toolbar = findViewById(R.id.topAppBar);
         viewPager2 = findViewById(R.id.imageSlider);
         ImageButton cassette = findViewById(R.id.cassetteBtn);
@@ -99,9 +97,9 @@ public class DiscographyDetailActivity extends AppCompatActivity {
 
 
 
-        AnimationDrawable animationDrawable = (AnimationDrawable) constraintLayout.getBackground();
-        animationDrawable.setEnterFadeDuration(1750);
-        animationDrawable.setExitFadeDuration(3500);
+        AnimationDrawable animationDrawable = (AnimationDrawable) imageSliderLayout.getBackground();
+        animationDrawable.setEnterFadeDuration(1250);
+        animationDrawable.setExitFadeDuration(2500);
         animationDrawable.start();
 
         Intent intent = getIntent();
@@ -155,6 +153,7 @@ public class DiscographyDetailActivity extends AppCompatActivity {
         artistTextView.setText(intent.getStringExtra("ArtistName"));
 
         model = new ViewModelProvider(this).get(DiscographyDetailViewModel.class);
+
         model.getDiscographyDetail(discographyId).addOnCompleteListener(new OnCompleteListener<Discography>() {
             @Override
             public void onComplete(@NonNull Task<Discography> task) {
@@ -190,36 +189,50 @@ public class DiscographyDetailActivity extends AppCompatActivity {
                         textView.setPadding(0, 0, 0, 20);
 
                         tracklistLayout.addView(textView);
+
                     }
+
+                    viewPager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+                        @Override
+                        public void onPageSelected(int position) {
+                            currentImageButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.white,null)));
+                            String currentDiscographyPrice = discographyResult.getPrice();
+
+                            Log.d(TAG, "currentDiscographyPrice: " + currentDiscographyPrice);
+
+                            if (position == 0) {
+                                currentImageButton = cassette;
+
+                                String cassettePrice = String.valueOf((int) Math.ceil(Integer.parseInt(currentDiscographyPrice) * 1.5));
+
+                                priceTextView.setText("$" + cassettePrice);
+                                currentPrice = cassettePrice;
+                                currentFormat = "cassette";
+                            } else if (position == 1) {
+                                currentImageButton = vinyl;
+
+                                String vinylPrice = String.valueOf((int) Math.ceil(Integer.parseInt(currentDiscographyPrice) * 2));
+                                priceTextView.setText("$" + vinylPrice);
+                                currentPrice = vinylPrice;
+                                currentFormat = "vinyl";
+
+                            } else {
+                                currentImageButton = cd;
+                                String cdPrice = String.valueOf((int) Math.ceil(Integer.parseInt(currentDiscographyPrice) * 1));
+                                priceTextView.setText("$" + cdPrice);
+                                currentPrice = cdPrice;
+                                currentFormat = "cd";
+
+                            }
+                            currentImageButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.gold,null)));
+                        }
+                    });
                 }
             }
         });
 
-        viewPager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
-            @Override
-            public void onPageSelected(int position) {
-                currentImageButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.white,null)));
 
-                if (position == 0) {
-                    currentImageButton = cassette;
-                    priceTextView.setText(cassettePrice);
-                    currentFormat = "cassette";
-                    currentPrice = cassettePrice;
-                } else if (position == 1) {
-                    currentImageButton = vinyl;
-                    priceTextView.setText(vinylPrice);
-                    currentFormat = "vinyl";
-                    currentPrice = vinylPrice;
-                } else {
-                    currentImageButton = cd;
-                    priceTextView.setText(cdPrice);
-                    currentFormat = "cd";
-                    currentPrice = cdPrice;
 
-                }
-                currentImageButton.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.gold,null)));
-            }
-        });
 
         cassette.setOnClickListener(new View.OnClickListener() {
             @Override
