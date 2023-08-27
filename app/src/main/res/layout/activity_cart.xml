@@ -21,6 +21,12 @@
             app:title="Cart"
             app:titleCentered="true"
             app:titleTextAppearance="@style/appBarText"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/cart_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="377dp"
+            android:visibility="visible" />
     </com.google.android.material.appbar.AppBarLayout>
 
     <ScrollView
@@ -40,7 +46,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="70dp">
+                android:layout_marginTop="70dp"
+                android:visibility="gone">
+
 
                 <ImageView
                     android:id="@+id/cartImage"
@@ -78,7 +86,7 @@
                         android:id="@+id/cartTotal"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="$00.00 NZD"
+                        android:text="$0"
                         android:textSize="20sp"
                         android:layout_alignParentEnd="true"/>
 

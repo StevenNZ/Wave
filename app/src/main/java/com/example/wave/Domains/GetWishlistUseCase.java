@@ -9,7 +9,6 @@ import java.util.List;
 
 public class GetWishlistUseCase implements WishlistProvider {
 
-
     @Override
     public Task<List<Order>> getWishlist(String userID) {
         return WishlistRepository.getInstance().getWishlist(userID);
@@ -23,14 +22,10 @@ public class GetWishlistUseCase implements WishlistProvider {
     @Override
     public void appendWishlist(String userID, Order wishlistOrder) {
         WishlistRepository.getInstance().appendWishlist(userID, wishlistOrder);
-
     }
 
     @Override
     public Task<List<Order>> removeFromWishlistByOrderID(String userID, String orderID) {
         return WishlistRepository.getInstance().removeFromWishlistByOrderID(userID, orderID);
     }
-
-
-
 }
