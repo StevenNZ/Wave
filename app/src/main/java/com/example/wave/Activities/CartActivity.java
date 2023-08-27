@@ -6,12 +6,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.wave.Adaptor.CartAdaptor;
+import com.example.wave.Domains.AuthenticationUserUseCase;
 import com.example.wave.Domains.GetCartUseCase;
+import com.example.wave.Domains.GetOrderHistoryUseCase;
 import com.example.wave.Entities.CartOrder;
 import com.example.wave.Entities.Order;
 import com.example.wave.R;
@@ -38,6 +42,17 @@ public class CartActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
         setBottomNavBar();
         showCart();
+
+        Button checkoutButton = findViewById(R.id.checkoutButton);
+        checkoutButton.setOnClickListener(v -> {
+            if (!cart.isEmpty()){
+                AuthenticationUserUseCase authenticationUserUseCase = new AuthenticationUserUseCase();
+                String userID = authenticationUserUseCase.getUserID();
+                GetCartUseCase getCartUseCase = new GetCartUseCase();
+                getCartUseCase.checkoutCart(userID);
+                this.showEmptyView();
+            }
+        });
     }
 
     private void setBottomNavBar() {
@@ -82,8 +97,7 @@ public class CartActivity extends AppCompatActivity {
                     CartAdaptor cartAdaptor = new CartAdaptor(this, R.layout.cart_list_item, cart, this::onItemClick, cartTotal, relativeLayout, recyclerView);
 
                     if(cart.isEmpty()){
-                        relativeLayout.setVisibility(View.VISIBLE);
-                        recyclerView.setVisibility(View.GONE);
+                        this.showEmptyView();
 
                     }else{
                         relativeLayout.setVisibility(View.GONE);
@@ -93,6 +107,11 @@ public class CartActivity extends AppCompatActivity {
                 });
 
 
+    }
+
+    private void showEmptyView() {
+        relativeLayout.setVisibility(View.VISIBLE);
+        recyclerView.setVisibility(View.GONE);
     }
 
 
