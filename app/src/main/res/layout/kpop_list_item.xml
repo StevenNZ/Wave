@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="154dp"
-    android:layout_height="200dp"
+    android:layout_height="210dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_marginStart="25dp"
     android:layout_marginTop="25dp"
@@ -19,7 +19,6 @@
             android:layout_height="100dp"
             android:layout_gravity="center_horizontal"
             app:cardCornerRadius="12dp"
-            android:layout_marginBottom="10dp"
             app:cardElevation="8dp">
 
             <ImageView
@@ -33,10 +32,10 @@
 
         <LinearLayout
             android:layout_width="130dp"
-            android:layout_height="71dp"
+            android:layout_height="match_parent"
             android:orientation="vertical"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="4dp">
+            android:layout_marginVertical="8dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -57,17 +56,31 @@
                 android:textSize="13sp"
                 android:fontFamily="@font/opensans_medium" />
 
-            <TextView
+            <androidx.cardview.widget.CardView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Fandom Name"
-                android:textSize="10dp"
-                android:layout_gravity="center"
-                android:id="@+id/kpop_fandom_name"/>
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="6dp"
+                app:cardCornerRadius="8dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Fandom Name"
+                    android:textSize="11sp"
+                    android:textColor="@color/black"
+                    android:id="@+id/fandomName"
+                    android:background="@color/off_white"
+                    android:paddingVertical="3dp"
+                    android:paddingHorizontal="5dp"/>
+
+            </androidx.cardview.widget.CardView>
+
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:layout_marginBottom="3dp">
 
                 <RelativeLayout
                     android:layout_width="wrap_content"
