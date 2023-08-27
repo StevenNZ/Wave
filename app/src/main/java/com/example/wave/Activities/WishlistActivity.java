@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.example.wave.Adaptor.PopularAdaptor;
 import com.example.wave.Adaptor.WishlistAdapter;
@@ -29,6 +30,8 @@ public class WishlistActivity extends AppCompatActivity {
     private PopularAdaptor popularAdapter;
     private RelativeLayout relativeLayout;
     private List<Order> wishlist;
+
+    private TextView artistName;
 
     private WishlistViewModel model;
 
@@ -117,13 +120,14 @@ public class WishlistActivity extends AppCompatActivity {
 
     private void onItemClick(int position) {
         Order currentItem = wishlist.get(position);
+        artistName = findViewById(R.id.popular_artist);
         openDiscographyDetail(currentItem);
     }
 
     private void openDiscographyDetail(Order order) {
         Intent intent = new Intent(WishlistActivity.this, DiscographyDetailActivity.class);
         intent.putExtra("DiscographyId", order.getDiscographyID());
-        intent.putExtra("ArtistName", order.getOrderID());
+        intent.putExtra("ArtistName", artistName.getText());
         startActivity(intent);
     }
 
