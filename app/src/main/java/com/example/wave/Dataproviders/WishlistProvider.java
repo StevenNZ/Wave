@@ -1,6 +1,7 @@
 package com.example.wave.Dataproviders;
 
 import com.example.wave.Entities.Order;
+import com.example.wave.Entities.WishlistOrder;
 import com.example.wave.Repository.WishlistRepository;
 import com.google.android.gms.tasks.Task;
 
@@ -11,8 +12,8 @@ public interface WishlistProvider {
         return null;
     }
 
-    Task<List<Order>> getWishlist(String userID);
+    Task<List<WishlistOrder>> getWishlist(String userID);
     Task<Boolean> checkItemOnWishlist(String userID, String orderID);
-    void appendWishlist(String userID, Order wishlistOrder);
-    Task<List<Order>> removeFromWishlistByOrderID(String userID, String orderID);
+    void appendWishlist(String userID, WishlistOrder wishlistOrder);
+    Task<List<WishlistOrder>> removeFromWishlistByOrderID(String userID, String orderID);
 }
