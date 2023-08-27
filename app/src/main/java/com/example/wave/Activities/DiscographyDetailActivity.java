@@ -4,31 +4,19 @@ import static android.content.ContentValues.TAG;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.widget.ViewPager2;
-
-import com.denzcoskun.imageslider.constants.AnimationTypes;
-import com.denzcoskun.imageslider.constants.ScaleTypes;
-
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
-import com.denzcoskun.imageslider.ImageSlider;
-import com.denzcoskun.imageslider.interfaces.ItemChangeListener;
-import com.denzcoskun.imageslider.models.SlideModel;
 import com.example.wave.Adaptor.ImageSliderAdapter;
 import com.example.wave.Domains.AuthenticationUserUseCase;
 import com.example.wave.Domains.GetCartUseCase;
@@ -36,7 +24,6 @@ import com.example.wave.Domains.GetDiscographyUseCase;
 import com.example.wave.Domains.GetWishlistUseCase;
 import com.example.wave.Entities.CartOrder;
 import com.example.wave.Entities.Discography;
-import com.example.wave.Entities.Order;
 import com.example.wave.Entities.WishlistOrder;
 import com.example.wave.R;
 import com.example.wave.ViewModel.DiscographyDetailViewModel;
@@ -45,12 +32,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.like.LikeButton;
 import com.like.OnLikeListener;
-
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import me.relex.circleindicator.CircleIndicator3;
 
 public class DiscographyDetailActivity extends AppCompatActivity {
@@ -59,10 +42,6 @@ public class DiscographyDetailActivity extends AppCompatActivity {
     private String currentFormat = "cassette";
     private GetWishlistUseCase getWishlistUseCase = new GetWishlistUseCase();
     private GetCartUseCase getCartUseCase = new GetCartUseCase();
-    private int position = 0;
-    private int slide = 0;
-    private boolean isSlide = true;
-    private ImageSlider imageSlider;
     private ViewPager2 viewPager2;
     private ArrayList<String> viewPagerItemArray;
     private ImageButton currentImageButton;
@@ -79,7 +58,6 @@ public class DiscographyDetailActivity extends AppCompatActivity {
 
         RelativeLayout imageSliderLayout = findViewById(R.id.imageSliderLayout);
         MaterialToolbar toolbar = findViewById(R.id.topAppBar);
-        viewPager2 = findViewById(R.id.imageSlider);
         ImageButton cassette = findViewById(R.id.cassetteBtn);
         ImageButton vinyl = findViewById(R.id.vinylBtn);
         ImageButton cd = findViewById(R.id.cdBtn);
@@ -92,11 +70,12 @@ public class DiscographyDetailActivity extends AppCompatActivity {
         ImageButton incrementBtn = findViewById(R.id.incrementBtn);
         TextView quantityField = findViewById(R.id.quantityField);
         Button cartBtn = findViewById(R.id.cartBtn);
-        currentImageButton = cassette;
         CircleIndicator3 indicator = findViewById(R.id.indicator);
 
+        currentImageButton = cassette;
+        viewPager2 = findViewById(R.id.imageSlider);
 
-
+        // start image slider gradient background animation
         AnimationDrawable animationDrawable = (AnimationDrawable) imageSliderLayout.getBackground();
         animationDrawable.setEnterFadeDuration(1250);
         animationDrawable.setExitFadeDuration(2500);
@@ -154,6 +133,7 @@ public class DiscographyDetailActivity extends AppCompatActivity {
 
         model = new ViewModelProvider(this).get(DiscographyDetailViewModel.class);
 
+        // get discography details from discography repository to update relevant detail information
         model.getDiscographyDetail(discographyId).addOnCompleteListener(new OnCompleteListener<Discography>() {
             @Override
             public void onComplete(@NonNull Task<Discography> task) {
@@ -162,10 +142,12 @@ public class DiscographyDetailActivity extends AppCompatActivity {
                 } else {
                     Discography discographyResult = task.getResult();
 
+                    // update tool bar and album textview with release name
                     String releaseName = discographyResult.getReleaseName();
                     toolbar.setTitle(releaseName);
                     albumTextView.setText(releaseName);
 
+                    // add physical media images to viewpager array and set adapter
                     viewPagerItemArray = new ArrayList<>();
                     viewPagerItemArray.add(discographyResult.getCassetteImageUrl());
                     viewPagerItemArray.add(discographyResult.getVinylImageUrl());
@@ -175,6 +157,7 @@ public class DiscographyDetailActivity extends AppCompatActivity {
                     viewPager2.setAdapter(imageSliderAdapter);
                     indicator.setViewPager(viewPager2);
 
+                    // displays tracklist
                     trackLists = discographyResult.getTracklist();
                     for (int i = 0; i < trackLists.size(); i++) {
                         // Create a new TextView for each item
@@ -192,6 +175,7 @@ public class DiscographyDetailActivity extends AppCompatActivity {
 
                     }
 
+                    // whenever viewpager scrolls to new page, update price and button colours
                     viewPager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
                         @Override
                         public void onPageSelected(int position) {

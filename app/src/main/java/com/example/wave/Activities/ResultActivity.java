@@ -214,7 +214,7 @@ public class ResultActivity extends AppCompatActivity {
         setBottomNavBar();
         topAppBar = findViewById(R.id.topAppBar);
         setSupportActionBar(topAppBar);
-
+        
 
 
         Intent intent = getIntent();
@@ -247,6 +247,9 @@ public class ResultActivity extends AppCompatActivity {
 
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setSelectedItemId(R.id.bottom_search);
+
+        // bottom navigation implementation
+
         bottomNavigationView.setOnItemSelectedListener(item -> {
             boolean isLoggedIn = model.isLogin();
             int itemID = item.getItemId();

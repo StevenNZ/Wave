@@ -8,7 +8,7 @@
     <string name="loginBtn">Log In</string>
     <string name="emailHint">Jane@example.com</string>
     <string name="signOutBtn">Sign Out</string>
-    <string name="purchasesTitle">Purchases</string>
+    <string name="purchasesTitle">Purchase History</string>
     <string name="UserGreet">Hi Someone!</string>
     <string name="registerBtn">Register</string>
     <string name="emailTitle">Email</string>

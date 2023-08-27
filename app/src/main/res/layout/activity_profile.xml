@@ -71,6 +71,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/purchasesTitle"
                 android:layout_below="@id/userLayout"
+                android:textAlignment="center"
                 style="@style/profilePurchaseTitle"/>
 
             <androidx.recyclerview.widget.RecyclerView
