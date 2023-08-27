@@ -23,6 +23,7 @@ import com.example.wave.Activities.PopularRecylcerInterface;
 import com.example.wave.Entities.Discography;
 import com.example.wave.Entities.HipHopDiscography;
 import com.example.wave.Entities.KPopDiscography;
+import com.example.wave.Entities.PopDiscography;
 import com.example.wave.R;
 
 import java.util.List;
@@ -221,8 +222,11 @@ public class DiscographyAdapter extends RecyclerView.Adapter<DiscographyAdapter.
      */
     public class PopViewHolder extends ViewHolder {
 
+        TextView emotionText;
+
         public PopViewHolder(@NonNull View itemView, PopularRecylcerInterface discographyRecyclerInterface) {
             super(itemView, discographyRecyclerInterface);
+            emotionText = itemView.findViewById(R.id.emotionText);
         }
 
         @Override
@@ -230,6 +234,9 @@ public class DiscographyAdapter extends RecyclerView.Adapter<DiscographyAdapter.
             super.bindCommonData(discography);
             // Handle KPop category-specific data binding
             // For example, setting text and images specific to KPop category
+
+            PopDiscography popDiscography = (PopDiscography) discography;
+            emotionText.setText(popDiscography.getEmotion());
         }
 
     }
