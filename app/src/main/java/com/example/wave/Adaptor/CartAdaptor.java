@@ -150,6 +150,7 @@ public class CartAdaptor extends RecyclerView.Adapter<CartAdaptor.ViewHolder> {
                             }
                         }
                         else if (quantity == 1){
+                            quantity--; //DO NOT REMOVE THIS LINE, IDE SAYS NOT USED IT IS USED, IT STOPS THE USER FROM REMOVING AN ITEM TWICE
                             if (authenticationUserUseCase.isLogin()) {
                                 getCartUseCase.removeFromCartByOrderID(authenticationUserUseCase.getUserID(), currentCartOrder.getOrderID());
                             }
