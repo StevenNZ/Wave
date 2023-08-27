@@ -103,6 +103,8 @@ public class ResultActivity extends AppCompatActivity {
                 return (R.layout.kpop_list_item);
             case "pop":
                 return (R.layout.pop_list_item);
+            case "hiphop":
+                return (R.layout.hiphop_list_item);
             default:
                 return (R.layout.popular_list_item);
         }
