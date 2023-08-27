@@ -21,6 +21,7 @@ public class Discography {
     private List<String> collaborators;
     private String primaryColour;
     private String secondaryColour;
+    private String price;
     private int views;
 
     /**
@@ -44,7 +45,7 @@ public class Discography {
     public Discography(String discographyID, String artistID, String categoryID, String releaseName,
                         String releaseDate, String releaseType, String imageURL, String cassetteImageUrl, String vinylImageUrl, String cdImageUrl,
                         String streamingFigures, List<String> tracklist, List<String> collaborators,
-                        String primaryColour, String secondaryColour, int views) {
+                        String primaryColour, String secondaryColour, String price, int views) {
         this.discographyID = discographyID;
         this.artistID = artistID;
         this.categoryID = categoryID;
@@ -60,6 +61,7 @@ public class Discography {
         this.collaborators = collaborators;
         this.primaryColour = primaryColour;
         this.secondaryColour = secondaryColour;
+        this.price = price;
         this.views = views;
     }
 
@@ -319,6 +321,22 @@ public class Discography {
     }
 
     /**
+     * Getter for price
+     * @return price
+     */
+    public String getPrice() {
+        return price;
+    }
+
+    /**
+     * Setter for price
+     * @param price
+     */
+    public void setPrice(String price) {
+        this.price = price;
+    }
+
+    /**
      * Setter for views
      * @param views
      */
@@ -367,6 +385,7 @@ public class Discography {
                 ", collaborators=" + collaborators +
                 ", primaryColour='" + primaryColour + '\'' +
                 ", secondaryColour='" + secondaryColour + '\'' +
+                ", price='" + price + '\'' +
                 ", views=" + views +
                 '}';
     }
