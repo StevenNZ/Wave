@@ -1,6 +1,7 @@
 package com.example.wave.Adaptor;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -197,7 +198,7 @@ public class DiscographyAdapter extends RecyclerView.Adapter<DiscographyAdapter.
 
         public KPopViewHolder(@NonNull View itemView, PopularRecylcerInterface discographyRecyclerInterface) {
             super(itemView, discographyRecyclerInterface);
-            fandomName = itemView.findViewById(R.id.kpop_fandom_name);
+            fandomName = itemView.findViewById(R.id.fandomName);
         }
 
         @Override
@@ -210,6 +211,7 @@ public class DiscographyAdapter extends RecyclerView.Adapter<DiscographyAdapter.
             fandomName.setText(kPopDiscography.getFandomName());
             Log.d("SEARCH DEBUG", "IS THIS KPOP?? " + discography.getClass());
 
+            fandomName.setBackgroundColor(Color.parseColor(kPopDiscography.getFandomColour()));
         }
 
     }

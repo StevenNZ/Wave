@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="154dp"
-    android:layout_height="210dp"
+    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_marginStart="25dp"
     android:layout_marginTop="25dp"
@@ -54,7 +54,9 @@
                 android:id="@+id/popular_artist"
                 android:text="Artist"
                 android:textSize="13sp"
-                android:fontFamily="@font/opensans_medium" />
+                android:fontFamily="@font/opensans_medium"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="3dp"/>
 
             <androidx.cardview.widget.CardView
                 android:layout_width="wrap_content"
@@ -68,7 +70,7 @@
                     android:layout_height="wrap_content"
                     android:text="Fandom Name"
                     android:textSize="11sp"
-                    android:textColor="@color/black"
+                    android:textColor="@color/white"
                     android:id="@+id/fandomName"
                     android:background="@color/off_white"
                     android:paddingVertical="3dp"
@@ -79,13 +81,14 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="3dp">
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="3dp"
+                android:layout_marginTop="8dp">
 
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
+                    android:gravity="bottom"
                     android:layout_centerHorizontal="true">
 
                     <TextView

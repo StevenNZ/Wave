@@ -87,7 +87,7 @@ public class PopularAdaptor extends RecyclerView.Adapter<PopularAdaptor.ViewHold
             discogImage = itemView.findViewById(R.id.popular_image);
             discogName = itemView.findViewById(R.id.popular_name);
             discogArtist = itemView.findViewById(R.id.popular_artist);
-            fandomName = itemView.findViewById(R.id.kpop_fandom_name);
+            fandomName = itemView.findViewById(R.id.fandomName);
 
 
             itemView.setOnClickListener(new View.OnClickListener() {
