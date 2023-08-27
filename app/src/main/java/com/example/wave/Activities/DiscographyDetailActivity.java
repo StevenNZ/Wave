@@ -292,6 +292,7 @@ public class DiscographyDetailActivity extends AppCompatActivity {
                         getCartUseCase.addCartItems(userID, cartOrder);
                         getWishlistUseCase.removeFromWishlistByOrderID(userID, discographyId);
                         wishlistButton.setEnabled(false);
+                        wishlistButton.setLiked(false);
                         cartBtn.setText("Added to Cart");
                         cartBtn.setEnabled(false);
 
