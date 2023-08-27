@@ -5,7 +5,6 @@
     android:id="@+id/detailLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bggradients"
     tools:context=".Activities.DiscographyDetailActivity">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -35,29 +34,42 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingHorizontal="25dp">
+        android:layout_height="wrap_content">
 
-        <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/imageSlider"
+        <RelativeLayout
+            android:id="@+id/imageSliderLayout"
             android:layout_width="match_parent"
-            android:layout_height="350dp"
-            android:layout_margin="10dp"/>
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="28dp"
+            android:background="@drawable/bggradients">
 
-        <me.relex.circleindicator.CircleIndicator3
-            android:id="@+id/indicator"
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/imageSlider"
+                android:layout_width="match_parent"
+                android:layout_height="350dp"
+                android:layout_marginHorizontal="10dp"/>
+
+            <me.relex.circleindicator.CircleIndicator3
+                android:id="@+id/indicator"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_below="@id/imageSlider"
+                android:layout_marginBottom="25dp"
+                app:ci_width="7dp"
+                app:ci_height="7dp"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_alignBottom="@id/imageSlider"
-            app:ci_width="7dp"
-            app:ci_height="7dp"/>
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="25dp"
+            android:layout_below="@id/imageSliderLayout">
 
         <LinearLayout
             android:id="@+id/artistDescLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/imageSlider"
-            android:layout_marginBottom="20dp"
             android:baselineAligned="false">
 
             <RelativeLayout
@@ -101,12 +113,50 @@
 
         </LinearLayout>
 
-        <LinearLayout
+            <LinearLayout
+                android:id="@+id/amountLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/artistDescLayout"
+                android:layout_marginTop="10dp">
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="$15"
+                        android:textColor="@color/black"
+                        android:textSize="26sp"
+                        android:fontFamily="@font/opensans_medium"
+                        android:id="@+id/priceText" />
+
+                    <TextView
+                        android:id="@+id/pop_cents"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toEndOf="@id/priceText"
+                        android:layout_alignTop="@id/priceText"
+                        android:text="00"
+                        android:textSize="17sp"
+                        android:fontFamily="@font/opensans_medium"
+                        android:textColor="@color/black"/>
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+
+            <LinearLayout
             android:id="@+id/mediaLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
             android:orientation="horizontal"
-            android:layout_below="@id/artistDescLayout">
+            android:layout_below="@id/amountLayout">
 
             <ImageButton
                 android:id="@+id/cassetteBtn"
@@ -148,59 +198,14 @@
 
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/amountLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/mediaLayout">
-
-            <TextView
-                android:id="@+id/priceTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Price:"
-                android:fontFamily="@font/opensans_medium"
-                android:textColor="@color/black"
-                android:textSize="26sp"
-                android:layout_marginTop="13dp"
-                android:layout_marginEnd="15dp"/>
-
-                <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="$15"
-                        android:textColor="@color/black"
-                        android:textSize="26sp"
-                        android:fontFamily="@font/opensans_medium"
-                        android:id="@+id/priceText" />
-
-                    <TextView
-                        android:id="@+id/pop_cents"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_toEndOf="@id/priceText"
-                        android:layout_alignTop="@id/priceText"
-                        android:text="00"
-                        android:textSize="17sp"
-                        android:fontFamily="@font/opensans_medium"
-                        android:textColor="@color/black"/>
-
-            </RelativeLayout>
-
-        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/quantityLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/amountLayout"
+            android:layout_below="@id/mediaLayout"
             android:orientation="horizontal"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="20dp"
             android:layout_marginBottom="5dp"
             android:background="@drawable/quantity_bg">
 
@@ -210,15 +215,18 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/minus_icon"
                 android:background="@drawable/quantity_btn"
+                android:padding="12dp"
                 android:contentDescription="Decrease quantity" />
 
             <TextView
                 android:id="@+id/quantityField"
-                android:layout_width="wrap_content"
+                android:layout_width="40dp"
                 android:layout_height="match_parent"
-                android:layout_marginHorizontal="10dp"
+                android:padding="10dp"
                 android:text="1"
-                style="@style/regularOpenSans16"/>
+                android:textSize="18sp"
+                android:textColor="@color/black"
+                android:gravity="center"/>
 
             <ImageButton
                 android:id="@+id/incrementBtn"
@@ -226,13 +234,14 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/add_icon"
                 android:background="@drawable/quantity_btn"
+                android:padding="12dp"
                 android:contentDescription="Increase quantity" />
 
         </LinearLayout>
 
         <Button
             android:id="@+id/cartBtn"
-            android:layout_width="wrap_content"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_below="@id/quantityLayout"
             android:layout_marginTop="15dp"
@@ -261,6 +270,7 @@
             android:layout_below="@id/tracklistTitle">
         </LinearLayout>
 
+    </RelativeLayout>
     </RelativeLayout>
 
     </ScrollView>
