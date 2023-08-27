@@ -5,7 +5,6 @@
     android:id="@+id/detailLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bggradients"
     tools:context=".Activities.DiscographyDetailActivity">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -35,28 +34,41 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingHorizontal="25dp">
+        android:layout_height="wrap_content">
 
-        <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/imageSlider"
+        <RelativeLayout
+            android:id="@+id/imageSliderLayout"
             android:layout_width="match_parent"
-            android:layout_height="350dp"
-            android:layout_margin="10dp"/>
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="28dp"
+            android:background="@drawable/bggradients">
 
-        <me.relex.circleindicator.CircleIndicator3
-            android:id="@+id/indicator"
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/imageSlider"
+                android:layout_width="match_parent"
+                android:layout_height="350dp"
+                android:layout_marginHorizontal="10dp"/>
+
+            <me.relex.circleindicator.CircleIndicator3
+                android:id="@+id/indicator"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_below="@id/imageSlider"
+                app:ci_width="7dp"
+                app:ci_height="7dp"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_alignBottom="@id/imageSlider"
-            app:ci_width="7dp"
-            app:ci_height="7dp"/>
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="25dp"
+            android:layout_below="@id/imageSliderLayout">
 
         <LinearLayout
             android:id="@+id/artistDescLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/imageSlider"
             android:layout_marginBottom="20dp"
             android:baselineAligned="false">
 
@@ -210,15 +222,19 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/minus_icon"
                 android:background="@drawable/quantity_btn"
+                android:padding="12dp"
                 android:contentDescription="Decrease quantity" />
 
             <TextView
                 android:id="@+id/quantityField"
-                android:layout_width="wrap_content"
+                android:layout_width="60dp"
                 android:layout_height="match_parent"
                 android:layout_marginHorizontal="10dp"
+                android:padding="12dp"
                 android:text="1"
-                style="@style/regularOpenSans16"/>
+                android:textSize="18sp"
+                android:textColor="@color/black"
+                android:textAlignment="center"/>
 
             <ImageButton
                 android:id="@+id/incrementBtn"
@@ -226,13 +242,14 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/add_icon"
                 android:background="@drawable/quantity_btn"
+                android:padding="12dp"
                 android:contentDescription="Increase quantity" />
 
         </LinearLayout>
 
         <Button
             android:id="@+id/cartBtn"
-            android:layout_width="wrap_content"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_below="@id/quantityLayout"
             android:layout_marginTop="15dp"
@@ -261,6 +278,7 @@
             android:layout_below="@id/tracklistTitle">
         </LinearLayout>
 
+    </RelativeLayout>
     </RelativeLayout>
 
     </ScrollView>

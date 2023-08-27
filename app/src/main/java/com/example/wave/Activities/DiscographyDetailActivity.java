@@ -23,6 +23,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.denzcoskun.imageslider.ImageSlider;
@@ -79,7 +80,7 @@ public class DiscographyDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detail);
 
 
-        ConstraintLayout constraintLayout = findViewById(R.id.detailLayout);
+        RelativeLayout imageSliderLayout = findViewById(R.id.imageSliderLayout);
         MaterialToolbar toolbar = findViewById(R.id.topAppBar);
         viewPager2 = findViewById(R.id.imageSlider);
         ImageButton cassette = findViewById(R.id.cassetteBtn);
@@ -99,9 +100,9 @@ public class DiscographyDetailActivity extends AppCompatActivity {
 
 
 
-        AnimationDrawable animationDrawable = (AnimationDrawable) constraintLayout.getBackground();
-        animationDrawable.setEnterFadeDuration(1750);
-        animationDrawable.setExitFadeDuration(3500);
+        AnimationDrawable animationDrawable = (AnimationDrawable) imageSliderLayout.getBackground();
+        animationDrawable.setEnterFadeDuration(1250);
+        animationDrawable.setExitFadeDuration(2500);
         animationDrawable.start();
 
         Intent intent = getIntent();
