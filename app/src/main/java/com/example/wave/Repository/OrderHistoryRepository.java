@@ -4,8 +4,6 @@ import android.util.Log;
 
 import com.example.wave.Dataproviders.OrderHistoryProvider;
 import com.example.wave.Entities.CartOrder;
-import com.example.wave.Entities.Order;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -83,8 +81,8 @@ public class OrderHistoryRepository implements OrderHistoryProvider {
         orderHistoryCollection = db.collection(userID);
         String randomCollectionName = String.valueOf(System.currentTimeMillis());
         CollectionReference currentOrderHistory = orderHistoryCollection.document("orderhistory").collection(randomCollectionName);
-        for (Order order : checkoutCart) {
-            currentOrderHistory.add(order).addOnCompleteListener(task -> {
+        for (CartOrder cartOrder : checkoutCart) {
+            currentOrderHistory.document(cartOrder.getOrderID()).set(cartOrder).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     Log.d("order history", "order added");
                 } else {
