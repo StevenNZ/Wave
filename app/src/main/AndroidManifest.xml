@@ -24,7 +24,8 @@
             android:exported="false"/>
         <activity
             android:name=".Activities.RegisterActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".Activities.ProfileActivity"
             android:exported="false" />
@@ -37,7 +38,7 @@
         <activity
             android:name=".Activities.LoginActivity"
             android:exported="false"
-            android:label="Login"/>
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".Activities.SearchActivity"
             android:exported="false"/>
