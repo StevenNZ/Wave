@@ -31,8 +31,8 @@ public class KPopDiscography extends Discography{
      * @param fandomColour
      * @param managementCompany
      */
-    public KPopDiscography(String discographyID, String artistID, String categoryID, String releaseName, String releaseDate, String releaseType, String imageURL, String cassetteImageUrl, String vinylImageUrl, String cdImageUrl, String streamingFigures, List<String> tracklist, List<String> collaborators, String primaryColour, String secondaryColour, String fandomName, String fandomColour, String managementCompany, int views) {
-        super(discographyID, artistID, categoryID, releaseName, releaseDate, releaseType, imageURL, cassetteImageUrl, vinylImageUrl, cdImageUrl, streamingFigures, tracklist, collaborators, primaryColour, secondaryColour, views);
+    public KPopDiscography(String discographyID, String artistID, String categoryID, String releaseName, String releaseDate, String releaseType, String imageURL, String cassetteImageUrl, String vinylImageUrl, String cdImageUrl, String streamingFigures, List<String> tracklist, List<String> collaborators, String primaryColour, String secondaryColour, String fandomName, String fandomColour, String managementCompany, String price, int views) {
+        super(discographyID, artistID, categoryID, releaseName, releaseDate, releaseType, imageURL, cassetteImageUrl, vinylImageUrl, cdImageUrl, streamingFigures, tracklist, collaborators, primaryColour, secondaryColour, price, views);
         this.fandomName = fandomName;
         this.fandomColour = fandomColour;
         this.managementCompany = managementCompany;
