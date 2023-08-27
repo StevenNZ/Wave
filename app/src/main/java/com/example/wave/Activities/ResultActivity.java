@@ -1,5 +1,7 @@
 package com.example.wave.Activities;
 
+import static android.content.ContentValues.TAG;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
@@ -15,6 +17,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
+import android.widget.EditText;
 import android.widget.GridLayout;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -22,6 +27,7 @@ import android.widget.Toast;
 import com.airbnb.lottie.LottieAnimationView;
 import com.example.wave.Adaptor.DiscographyAdapter;
 import com.example.wave.Dataproviders.DiscographyProvider;
+import com.example.wave.Domains.GetDiscographyUseCase;
 import com.example.wave.Entities.Discography;
 import com.example.wave.R;
 import com.example.wave.Adaptor.PopularAdaptor;
@@ -51,51 +57,29 @@ public class ResultActivity extends AppCompatActivity {
 
     private MaterialToolbar topAppBar;
 
-    //might have to put this into viewModel , ask Gurjot
-    private void fetchAndDisplay(String query, String categoryId) {
-        if (!query.isEmpty() || !categoryId.isEmpty()) {
-            SearchUseCase.generateDiscographyResults(query, categoryId, new TempResultListener() {
-                @Override
-                public void onTempReady(List<Discography> resultList) {
-                    if (resultList.isEmpty()) {
-                        Toast.makeText(ResultActivity.this, "No results found", Toast.LENGTH_SHORT).show();
-                    } else {
-                        int layoutResourceId = getLayoutResource(categoryId);
-                        RecyclerView.LayoutManager layoutManager = getLayoutManager(categoryId);
+    private String[] filterItems = {"$10 - $19", "$20 - $29", "$30 - $39", "$40 - $49", "$50 - $59", "$60 - $69"};
 
-                        recyclerView = findViewById(R.id.result_list_view);
-                        recyclerView.setLayoutManager(layoutManager);
+    private int[] filterMinPrices = {10, 20, 30, 40, 50, 60};
+    private int[] filterMaxPrices = {19, 29, 39, 49, 59, 69};
+    private String[] sortItems = {"$ - $$$", "$$$ - $", "A - Z", "Z - A"};
+    private String currentFilter;
+    private String currentSort;
 
-                        resultsAdapter = new DiscographyAdapter(ResultActivity.this, layoutResourceId, resultList, new PopularRecylcerInterface() {
-                            @Override
-                            public void onItemClick(int position) {
-                                // Handle item click here if needed
-                                Discography selectedDiscography = resultList.get(position);
-                                String discographyId = selectedDiscography.getDiscographyID();
-                                String artistName = selectedDiscography.getArtistID();
+    private AutoCompleteTextView filterAutoCompleteText;
+    private ArrayAdapter<String> adapterItems;
 
-                                Intent intent = new Intent(ResultActivity.this, DiscographyDetailActivity.class);
-                                intent.putExtra("DiscographyId", discographyId);
-                                intent.putExtra("ArtistName", artistName);
-                                startActivity(intent);
-                            }
-                        });
 
-                        if(query.isEmpty()){
-                            resultsAdapter.setIsearchResults(false);
-                        }else{
-                            resultsAdapter.setIsearchResults(true);
-                        }
 
-                        recyclerView.setAdapter(resultsAdapter);
-                    }
-                }
-            });
+
+
+
+    private RecyclerView.LayoutManager getLayoutManager(String categoryId) {
+        if ("kpop".equals(categoryId)) {
+            return new GridLayoutManager(ResultActivity.this, 2);
         } else {
-            Toast.makeText(getBaseContext(), "Enter something boss", Toast.LENGTH_SHORT).show();
+            return new LinearLayoutManager(ResultActivity.this, LinearLayoutManager.VERTICAL, false);
         }
     }
-
 
     private int getLayoutResource(String categoryId) {
         switch (categoryId) {
@@ -110,13 +94,85 @@ public class ResultActivity extends AppCompatActivity {
         }
     }
 
-    private RecyclerView.LayoutManager getLayoutManager(String categoryId) {
-        if ("kpop".equals(categoryId)) {
-            return new GridLayoutManager(ResultActivity.this, 2);
-        } else {
-            return new LinearLayoutManager(ResultActivity.this, LinearLayoutManager.VERTICAL, false);
+    private void displayBasedQuery(String query) throws Exception {
+        if (!query.isEmpty()) {
+            int layoutResourceId = getLayoutResource("");
+            RecyclerView.LayoutManager layoutManager = getLayoutManager("");
+            recyclerView.setLayoutManager(layoutManager);
+            model.getDiscographyListBySearch(query).addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    List<Discography> displayDiscographyList = task.getResult();
+                    model.setCurrentDiscographyList(displayDiscographyList);
+                    results = displayDiscographyList;
+                    resultsAdapter = new DiscographyAdapter(ResultActivity.this, layoutResourceId, displayDiscographyList, new PopularRecylcerInterface() {
+                        @Override
+                        public void onItemClick(int position) {
+
+                            // Handle item click here if needed
+                            Discography selectedDiscography = displayDiscographyList.get(position);
+                            String discographyId = selectedDiscography.getDiscographyID();
+                            String artistName = selectedDiscography.getArtistID();
+
+
+                            Intent intent = new Intent(ResultActivity.this, DiscographyDetailActivity.class);
+                            intent.putExtra("DiscographyId", discographyId);
+                            intent.putExtra("ArtistName", artistName);
+                            startActivity(intent);
+
+
+                        }
+                    });
+                    resultsAdapter.setIsearchResults(true);
+                    recyclerView.setAdapter(resultsAdapter);
+
+                }
+            });
+
         }
     }
+
+    private void displayBasedCategory(String categoryID) throws Exception {
+
+        int layoutResourceId = getLayoutResource(categoryID);
+        RecyclerView.LayoutManager layoutManager = getLayoutManager(categoryID);
+
+       model.getDiscographyListByCategory(categoryID).addOnCompleteListener(task -> {
+           if (task.isSuccessful()) {
+               List<Discography> displayDiscographyList = task.getResult();
+               model.setCurrentDiscographyList(displayDiscographyList);
+
+               recyclerView.setLayoutManager(layoutManager);
+               Log.d("SearchDebug", "displayBasedCategory: displayDiscographyList = " + displayDiscographyList);
+               resultsAdapter = new DiscographyAdapter(ResultActivity.this, layoutResourceId, displayDiscographyList, new PopularRecylcerInterface() {
+                   @Override
+                   public void onItemClick(int position) {
+
+                       // Handle item click here if needed
+                       Discography selectedDiscography = displayDiscographyList.get(position);
+                       String discographyId = selectedDiscography.getDiscographyID();
+                       String artistName = selectedDiscography.getArtistID();
+
+
+                       Intent intent = new Intent(ResultActivity.this, DiscographyDetailActivity.class);
+                       intent.putExtra("DiscographyId", discographyId);
+                       intent.putExtra("ArtistName", artistName);
+                       startActivity(intent);
+
+                   }
+               });
+               resultsAdapter.setIsearchResults(false);
+               recyclerView.setAdapter(resultsAdapter);
+           } else {
+               Exception exception = task.getException();
+               // Handle the exception
+           }
+       });
+    }
+
+
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,13 +181,75 @@ public class ResultActivity extends AppCompatActivity {
 
         model = new ViewModelProvider(this).get(ResultViewModel.class);
 
+        filterAutoCompleteText = findViewById(R.id.filterAutoCompleteText);
+
+        adapterItems = new ArrayAdapter<>(this, R.layout.sort_list_item, filterItems);
+        filterAutoCompleteText.setAdapter(adapterItems);
+
+
+        recyclerView = findViewById(R.id.result_list_view);
+        recyclerView.setAdapter(resultsAdapter);
+
+
+        filterAutoCompleteText.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                currentFilter = parent.getItemAtPosition(position).toString();
+                model.setMinPrice(filterMinPrices[position]);
+                model.setMaxPrice(filterMaxPrices[position]);
+
+                model.getDiscographyList().addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        List<Discography> discographyList = task.getResult();
+                        List<Discography> newDiscographyList = model.getFilteredDiscography(discographyList);
+
+                        resultsAdapter.setFilteredList(newDiscographyList);
+
+                        resultsAdapter.setIsearchResults(true);
+                    }
+                });
+            }
+        });
+
+        setBottomNavBar();
+        topAppBar = findViewById(R.id.topAppBar);
+        setSupportActionBar(topAppBar);
+        
+
+
+        Intent intent = getIntent();
+        String query = intent.getStringExtra("query");
+        String categoryId = intent.getStringExtra("categoryID");
+        Log.d("SearchDebug", "CategoryID = " + categoryId);
+        Log.d("SearchDebug", "query = " + query);
+
+        //entered valid search from main
+        if(query != null && categoryId == null){
+            // only if not null
+            try {
+                displayBasedQuery(query);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+
+        } else if (query == null && categoryId != null) {
+            //clicked a valid category
+
+            try {
+                displayBasedCategory(categoryId);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+    public void setBottomNavBar(){
+
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setSelectedItemId(R.id.bottom_search);
 
-        topAppBar = findViewById(R.id.topAppBar);
-        setSupportActionBar(topAppBar);
-
         // bottom navigation implementation
+
         bottomNavigationView.setOnItemSelectedListener(item -> {
             boolean isLoggedIn = model.isLogin();
             int itemID = item.getItemId();
@@ -158,22 +276,10 @@ public class ResultActivity extends AppCompatActivity {
             }
         });
 
-        Intent intent = getIntent();
-        String query = intent.getStringExtra("query");
-        String categoryId = intent.getStringExtra("categoryID");
-        Log.d("SearchDebug", "CategoryID = " + categoryId);
-        Log.d("SearchDebug", "query = " + query);
 
-        //entered valid search from main
-        if(query != null && categoryId == null){
-            // only if not null
-            fetchAndDisplay(query, "");
 
-        } else if (query == null && categoryId != null) {
-            //clicked a valid category
-            fetchAndDisplay("", categoryId);
-        }
     }
+
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.results_menu, menu);
 
@@ -194,7 +300,13 @@ public class ResultActivity extends AppCompatActivity {
             public boolean onQueryTextSubmit(String query) {
                 Log.d("SearchDebug", "IS THIS BEING CALLED = " + query);
                 //when the user presses enter what happens.
-                fetchAndDisplay(query, "");
+
+                try {
+                    displayBasedQuery(query);
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+
                 return false;
             }
             @Override
@@ -203,13 +315,7 @@ public class ResultActivity extends AppCompatActivity {
                 if (results == null || results.isEmpty()) {
                     return true; // Return early if the results list is not ready
                 }
-                //any changes (autocomplete)
 
-//                if(newText.length() >2){
-//                    fetchAndDisplay(newText, "");
-//                }else{
-//                    return true;
-//                }
                 List<Discography> filteredList = new ArrayList<>();
 
                 Log.d("SearchDebug", "onQueryTextChange: newText = " + newText);
