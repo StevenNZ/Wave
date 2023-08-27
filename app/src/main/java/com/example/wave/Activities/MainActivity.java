@@ -71,8 +71,8 @@ public class MainActivity extends AppCompatActivity {
         });
         LinearLayout categoryLayout = findViewById(R.id.categoryLayout);
         AnimationDrawable animationDrawable = (AnimationDrawable) categoryLayout.getBackground();
-        animationDrawable.setEnterFadeDuration(2000);
-        animationDrawable.setExitFadeDuration(4000);
+        animationDrawable.setEnterFadeDuration(1500);
+        animationDrawable.setExitFadeDuration(3000);
         animationDrawable.start();
         
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);

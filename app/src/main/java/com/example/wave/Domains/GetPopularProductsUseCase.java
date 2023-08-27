@@ -21,10 +21,10 @@ import java.util.List;
 
 public class GetPopularProductsUseCase implements DiscographyProvider {
 
-    private final DiscographyRepository discographyRepository = DiscographyRepository.getInstance();
+
 
     public void getPopularDiscography(DiscographyResultsListener listener){
-        Task<List<Discography>> popularList = discographyRepository.getPopularDiscography();
+        Task<List<Discography>> popularList = DiscographyRepository.getInstance().getPopularDiscography();
 
         popularList.addOnCompleteListener(task -> {
             if (task.isSuccessful()) {

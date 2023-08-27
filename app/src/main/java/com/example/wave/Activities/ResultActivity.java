@@ -20,6 +20,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.example.wave.Adaptor.DiscographyAdapter;
 import com.example.wave.Dataproviders.DiscographyProvider;
 import com.example.wave.Entities.Discography;
 import com.example.wave.R;
@@ -37,7 +38,7 @@ import java.util.List;
 public class ResultActivity extends AppCompatActivity {
 
     private SearchView searchView;
-    private PopularAdaptor resultsAdapter;
+    private DiscographyAdapter resultsAdapter;
 
     private BottomNavigationView bottomNavigationView;
 
@@ -45,63 +46,56 @@ public class ResultActivity extends AppCompatActivity {
 
     private MenuItem resultsMenu;
 
-    private List<Popular> results;
+    private List<Discography> results;
     private ResultViewModel model;
 
     private MaterialToolbar topAppBar;
 
     //might have to put this into viewModel , ask Gurjot
-    private void fetchAndDisplay(String query, String categoryId){
-
-        if(!query.isEmpty() || !categoryId.isEmpty()){
-            SearchUseCase.generateDiscographyResults(query, categoryId, new DiscographyResultsListener() {
+    private void fetchAndDisplay(String query, String categoryId) {
+        if (!query.isEmpty() || !categoryId.isEmpty()) {
+            SearchUseCase.generateDiscographyResults(query, categoryId, new TempResultListener() {
                 @Override
-                public void onDiscographyResultsReady(List<Popular> resultList) {
-                    if(resultList.isEmpty()){
-                        //display something empty
-                        Toast.makeText(ResultActivity.this, "Not working",Toast.LENGTH_SHORT).show();
-
-                    }else{
+                public void onTempReady(List<Discography> resultList) {
+                    if (resultList.isEmpty()) {
+                        Toast.makeText(ResultActivity.this, "No results found", Toast.LENGTH_SHORT).show();
+                    } else {
                         int layoutResourceId = getLayoutResource(categoryId);
-
                         RecyclerView.LayoutManager layoutManager = getLayoutManager(categoryId);
 
                         recyclerView = findViewById(R.id.result_list_view);
-                        results = resultList;
-
-                        //LinearLayoutManager layoutManager = new LinearLayoutManager(ResultActivity.this, LinearLayoutManager.VERTICAL, false);
                         recyclerView.setLayoutManager(layoutManager);
 
-                        resultsAdapter = new PopularAdaptor(ResultActivity.this, layoutResourceId, resultList, new PopularRecylcerInterface() {
+                        resultsAdapter = new DiscographyAdapter(ResultActivity.this, layoutResourceId, resultList, new PopularRecylcerInterface() {
                             @Override
                             public void onItemClick(int position) {
-                                Popular currentDiscography = results.get(position);
-
-                                Log.d("SearchDebug", "CURRENT ONE BRO = " + currentDiscography);
-                                Log.d("SearchDebug", "CURRENT ONE BRO = " + currentDiscography.getAlbumName());
-                                Log.d("SearchDebug", "CURRENT ONE BRO = " + currentDiscography.getDiscographyId());
-
+                                // Handle item click here if needed
+                                Discography selectedDiscography = resultList.get(position);
+                                String discographyId = selectedDiscography.getDiscographyID();
+                                String artistName = selectedDiscography.getArtistID();
 
                                 Intent intent = new Intent(ResultActivity.this, DiscographyDetailActivity.class);
-                                intent.putExtra("DiscographyId", currentDiscography.getDiscographyId());
-                                intent.putExtra("ArtistName", currentDiscography.getAlbumArtist());
+                                intent.putExtra("DiscographyId", discographyId);
+                                intent.putExtra("ArtistName", artistName);
                                 startActivity(intent);
                             }
                         });
 
+                        if(query.isEmpty()){
+                            resultsAdapter.setIsearchResults(false);
+                        }else{
+                            resultsAdapter.setIsearchResults(true);
+                        }
+
                         recyclerView.setAdapter(resultsAdapter);
-
-
-//
-
                     }
                 }
             });
-
-        }else {
+        } else {
             Toast.makeText(getBaseContext(), "Enter something boss", Toast.LENGTH_SHORT).show();
         }
     }
+
 
     private int getLayoutResource(String categoryId) {
         switch (categoryId) {
@@ -171,6 +165,7 @@ public class ResultActivity extends AppCompatActivity {
         if(query != null && categoryId == null){
             // only if not null
             fetchAndDisplay(query, "");
+
         } else if (query == null && categoryId != null) {
             //clicked a valid category
             fetchAndDisplay("", categoryId);
@@ -212,17 +207,17 @@ public class ResultActivity extends AppCompatActivity {
 //                }else{
 //                    return true;
 //                }
-                List<Popular> filteredList = new ArrayList<>();
+                List<Discography> filteredList = new ArrayList<>();
 
                 Log.d("SearchDebug", "onQueryTextChange: newText = " + newText);
                 Log.d("SearchDebug", "onQueryTextChange: OnTextChange = " + results);
 
 
-                for (Popular popular: results){
+                for (Discography discography: results){
                     //if album name in newText or artist name in new text
-                    if(popular.getAlbumName().toLowerCase().contains(newText.toLowerCase())
-                    || popular.getAlbumArtist().toLowerCase().contains(newText.toLowerCase())){
-                        filteredList.add(popular);
+                    if(discography.getReleaseName().toLowerCase().contains(newText.toLowerCase())
+                    || discography.getArtistID().toLowerCase().contains(newText.toLowerCase())){
+                        filteredList.add(discography);
                     }
                 }
                 if(!filteredList.isEmpty()){

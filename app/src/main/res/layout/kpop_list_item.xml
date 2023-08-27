@@ -5,7 +5,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_marginStart="25dp"
     android:layout_marginTop="25dp"
-    app:cardCornerRadius="12dp">
+    android:layout_marginBottom="20dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="8dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -13,12 +15,12 @@
         android:orientation="vertical">
 
         <androidx.cardview.widget.CardView
-            android:layout_width="130dp"
+            android:layout_width="match_parent"
             android:layout_height="100dp"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="12dp"
             app:cardCornerRadius="12dp"
-           >
+            android:layout_marginBottom="10dp"
+            app:cardElevation="8dp">
 
             <ImageView
                 android:layout_width="match_parent"
@@ -54,6 +56,14 @@
                 android:text="Artist"
                 android:textSize="13sp"
                 android:fontFamily="@font/opensans_medium" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Fandom Name"
+                android:textSize="10dp"
+                android:layout_gravity="center"
+                android:id="@+id/kpop_fandom_name"/>
 
             <RelativeLayout
                 android:layout_width="match_parent"
