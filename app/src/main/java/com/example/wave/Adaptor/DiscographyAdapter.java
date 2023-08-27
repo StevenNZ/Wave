@@ -161,13 +161,14 @@ public class DiscographyAdapter extends RecyclerView.Adapter<DiscographyAdapter.
      */
     public abstract class ViewHolder extends RecyclerView.ViewHolder {
         ImageView discogImage;
-        TextView discogName, discogArtist;
+        TextView discogName, discogArtist, priceText;
 
         public ViewHolder(View itemView, PopularRecylcerInterface popularRecylcerInterface) {
             super(itemView);
             discogImage = itemView.findViewById(R.id.popular_image);
             discogName = itemView.findViewById(R.id.popular_name);
             discogArtist = itemView.findViewById(R.id.popular_artist);
+            priceText = itemView.findViewById(R.id.pop_price);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -193,6 +194,7 @@ public class DiscographyAdapter extends RecyclerView.Adapter<DiscographyAdapter.
             //somehow get the name
             discogArtist.setText(discography.getArtistID());
             Glide.with(itemView.getContext()).load(discography.getImageURL()).into(discogImage);
+            priceText.setText("$" + discography.getPrice());
 
         }
 
