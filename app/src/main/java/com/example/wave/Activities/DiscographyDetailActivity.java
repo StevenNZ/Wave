@@ -289,13 +289,21 @@ public class DiscographyDetailActivity extends AppCompatActivity {
                     if (authenticationUserUseCase.isLogin()) {
                         String userID = authenticationUserUseCase.getUserID();
                         inCart = true;
-                        CartOrder cartOrder = new CartOrder(discographyId, "cart", userID, discographyId, currentFormat, String.valueOf(quantity), currentPrice);
-                        getCartUseCase.addCartItems(userID, cartOrder);
-                        getWishlistUseCase.removeFromWishlistByOrderID(userID, discographyId);
-                        wishlistButton.setEnabled(false);
-                        wishlistButton.setLiked(false);
-                        cartBtn.setText("Added to Cart");
-                        cartBtn.setEnabled(false);
+                        model.getDiscographyDetail(discographyId).addOnCompleteListener(new OnCompleteListener<Discography>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Discography> task) {
+                                if (!task.isSuccessful()) {
+                                    Log.d(TAG, "onComplete: discography query not successful");
+                                } else {
+                                    Discography discography = task.getResult();
+                                    CartOrder cartOrder = new CartOrder(discographyId, "cart", userID, discographyId, discography.getReleaseName(), intent.getStringExtra("ArtistName"), discography.getImageURL(), currentFormat, String.valueOf(quantity), currentPrice);
+                                    getCartUseCase.addCartItems(userID, cartOrder);
+                                    cartBtn.setText("Added to Cart");
+                                    cartBtn.setEnabled(false);
+                                    wishlistButton.setEnabled(false);
+                                }
+                            }
+                        });
 
                     } else {
                         Intent intent = new Intent(getBaseContext(), LoginActivity.class);

@@ -1,10 +1,11 @@
 package com.example.wave.Entities;
 
 public class CartOrder extends Order{
+    private String releaseName;
+    private String artistName;
+    private String releaseImage;
     private String quantity;
-
     private String hardMediaFormat;
-
     private String price;
 
     /**
@@ -17,8 +18,11 @@ public class CartOrder extends Order{
      * @param quantity
      * @param price
      */
-    public CartOrder(String orderID, String type, String userID, String discographyID, String hardMediaFormat, String quantity, String price) {
+    public CartOrder(String orderID, String type, String userID, String discographyID, String releaseName, String artistName, String releaseImage, String hardMediaFormat, String quantity, String price) {
         super(orderID, type, userID, discographyID);
+        this.releaseName = releaseName;
+        this.artistName = artistName;
+        this.releaseImage = releaseImage;
         this.quantity = quantity;
         this.price = price;
         this.hardMediaFormat = hardMediaFormat;
@@ -78,9 +82,64 @@ public class CartOrder extends Order{
         this.hardMediaFormat = hardMediaFormat;
     }
 
+    /**
+     * Getter for releaseName
+     * @return releaseName
+     */
+    public String getReleaseName() {
+        return releaseName;
+    }
+
+    /**
+     * Setter for releaseName
+     * @param releaseName
+     */
+    public void setReleaseName(String releaseName) {
+        this.releaseName = releaseName;
+    }
+
+    /**
+     * Getter for artistName
+     * @return artistName
+     */
+    public String getArtistName() {
+        return artistName;
+    }
+
+    /**
+     * Setter for artistName
+     * @param artistName
+     */
+    public void setArtistName(String artistName) {
+        this.artistName = artistName;
+    }
+
+    /**
+     * Getter for releaseImage
+     * @return releaseImage
+     */
+    public String getReleaseImage() {
+        return releaseImage;
+    }
+
+    /**
+     * Setter for releaseImage
+     * @param releaseImage
+     */
+    public void setReleaseImage(String releaseImage) {
+        this.releaseImage = releaseImage;
+    }
+
+    /**
+     * toString method for CartOrder
+     * @return String
+     */
     @Override
     public String toString() {
         return super.toString() + "CartOrder{" +
+                "releaseName='" + releaseName + '\'' +
+                ", artistName='" + artistName + '\'' +
+                ", releaseImage='" + releaseImage + '\'' +
                 "hardMediaFormat='" + hardMediaFormat + '\'' +
                 "quantity='" + quantity + '\'' +
                 ", price='" + price + '\'' +
