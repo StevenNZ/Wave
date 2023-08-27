@@ -57,7 +57,7 @@ public class ResultActivity extends AppCompatActivity {
     private MaterialToolbar topAppBar;
 
     private String[] filterItems = {"$10 - $19", "$20 - $29", "$30 - $39", "$40 - $49", "$50 - $59", "$60 - $69"};
-    private String[] sortItems = {"Ascending Price", "Ascending Name", "A - Z", "Z - A"};
+    private String[] sortItems = {"$ - $$$", "$$$ - $", "A - Z", "Z - A"};
     private String currentFilter;
     private String currentSort;
 
@@ -152,22 +152,53 @@ public class ResultActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 currentFilter = parent.getItemAtPosition(position).toString();
+
+
+
+
             }
         });
 
         sortAutoCompleteText.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+
+
+
+
+
                 currentSort = parent.getItemAtPosition(position).toString();
             }
         });
 
-        bottomNavigationView = findViewById(R.id.bottomNavigationView);
-        bottomNavigationView.setSelectedItemId(R.id.bottom_search);
-
+        setBottomNavBar();
         topAppBar = findViewById(R.id.topAppBar);
         setSupportActionBar(topAppBar);
 
+
+
+        Intent intent = getIntent();
+        String query = intent.getStringExtra("query");
+        String categoryId = intent.getStringExtra("categoryID");
+        Log.d("SearchDebug", "CategoryID = " + categoryId);
+        Log.d("SearchDebug", "query = " + query);
+
+        //entered valid search from main
+        if(query != null && categoryId == null){
+            // only if not null
+            fetchAndDisplay(query, "");
+
+        } else if (query == null && categoryId != null) {
+            //clicked a valid category
+            fetchAndDisplay("", categoryId);
+        }
+    }
+
+    public void setBottomNavBar(){
+
+        bottomNavigationView = findViewById(R.id.bottomNavigationView);
+        bottomNavigationView.setSelectedItemId(R.id.bottom_search);
         bottomNavigationView.setOnItemSelectedListener(item -> {
             boolean isLoggedIn = model.isLogin();
             int itemID = item.getItemId();
@@ -194,22 +225,10 @@ public class ResultActivity extends AppCompatActivity {
             }
         });
 
-        Intent intent = getIntent();
-        String query = intent.getStringExtra("query");
-        String categoryId = intent.getStringExtra("categoryID");
-        Log.d("SearchDebug", "CategoryID = " + categoryId);
-        Log.d("SearchDebug", "query = " + query);
 
-        //entered valid search from main
-        if(query != null && categoryId == null){
-            // only if not null
-            fetchAndDisplay(query, "");
 
-        } else if (query == null && categoryId != null) {
-            //clicked a valid category
-            fetchAndDisplay("", categoryId);
-        }
     }
+
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.results_menu, menu);
 
@@ -239,13 +258,7 @@ public class ResultActivity extends AppCompatActivity {
                 if (results == null || results.isEmpty()) {
                     return true; // Return early if the results list is not ready
                 }
-                //any changes (autocomplete)
 
-//                if(newText.length() >2){
-//                    fetchAndDisplay(newText, "");
-//                }else{
-//                    return true;
-//                }
                 List<Discography> filteredList = new ArrayList<>();
 
                 Log.d("SearchDebug", "onQueryTextChange: newText = " + newText);
