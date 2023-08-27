@@ -58,6 +58,7 @@ public class LoginActivity extends AppCompatActivity {
                 String email = emailField.getText().toString();
                 String password = passwordField.getText().toString();
 
+                // check for invalid entry
                 if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
                     Toast.makeText(getBaseContext(), "Make sure fields are not empty", Toast.LENGTH_SHORT).show();
                 } else {
@@ -66,6 +67,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
         });
 
+        // observe for if user signs in successfully
         model.getAuthenticatedUser().observe(this, user -> {
             if (user != null) {
                 Toast.makeText(getBaseContext(), "Login successful", Toast.LENGTH_SHORT).show();

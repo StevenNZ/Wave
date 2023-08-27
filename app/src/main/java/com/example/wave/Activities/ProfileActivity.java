@@ -59,6 +59,9 @@ public class ProfileActivity extends AppCompatActivity {
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setSelectedItemId(R.id.bottom_profile);
 
+
+        // bottom navigation implementation
+
         fetchAndDisplayUserHistory(user.getUid());
 
         bottomNavigationView.setOnItemSelectedListener(item -> {
