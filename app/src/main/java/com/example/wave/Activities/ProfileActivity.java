@@ -49,6 +49,7 @@ public class ProfileActivity extends AppCompatActivity {
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setSelectedItemId(R.id.bottom_profile);
 
+        // bottom navigation implementation
         bottomNavigationView.setOnItemSelectedListener(item -> {
             int itemID = item.getItemId();
 

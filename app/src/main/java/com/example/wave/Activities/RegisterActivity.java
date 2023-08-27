@@ -78,11 +78,23 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
 
-
+    /**
+     * checks if edit fields are empty upon submitting
+     * @param emailAddress - email string
+     * @param username - username - string
+     * @param password - password - string
+     * @return - if any of the parameters are empty - boolean
+     */
     private boolean checkIfEmpty(String emailAddress, String username, String password) {
         return TextUtils.isEmpty(emailAddress) || TextUtils.isEmpty(username) || TextUtils.isEmpty(password);
     }
 
+    /**
+     * check if both password edit fields are matching
+     * @param password - first password field - string
+     * @param passwordTwo - confirm password field - string
+     * @return - if it matches or not - boolean
+     */
     private boolean checkIfMatch(String password, String passwordTwo) {
         return password.equals(passwordTwo);
     }
