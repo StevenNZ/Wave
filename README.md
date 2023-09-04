@@ -1,4 +1,4 @@
-![wavesearch](https://github.com/StevenNZ/Wave/assets/98078641/13d849ae-d125-4bfd-a00c-bf9597c46e4d)# Wave
+# Wave
 
 ## About
 Wave is your one-stop shop for discovering and purchasing a range of physical media formats like cassettes, vinyl records, and CDs. Whether you're a music enthusiast, a vinyl collector, or simply appreciate the nostalgia of cassettes, our app offers an extensive collection to satisfy your cravings. It is designed to provide you with a seamless shopping experience, access to an extensive catalog, and the convenience of ordering your favorite physical media from the palm of your hand.
